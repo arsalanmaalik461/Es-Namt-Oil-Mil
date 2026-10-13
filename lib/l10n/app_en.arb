@@ -1,0 +1,1091 @@
+{
+  "@@locale": "en",
+  "@about_appName": {
+    "description": "About screen: app name"
+  },
+  "@about_offline": {
+    "description": "About screen: offline guarantee note"
+  },
+  "@about_version": {
+    "description": "About screen: version line",
+    "placeholders": {
+      "version": {
+        "example": "1.0.0",
+        "type": "String"
+      }
+    }
+  },
+  "@appTagline": {
+    "description": "Short tagline under the app name"
+  },
+  "@appTitle": {
+    "description": "App name shown in app bar and OS task switcher"
+  },
+  "@common_add": {
+    "description": "Generic add button"
+  },
+  "@common_amount": {
+    "description": "Generic amount label"
+  },
+  "@common_back": {
+    "description": "Generic back button"
+  },
+  "@common_balance": {
+    "description": "Generic balance label"
+  },
+  "@common_cancel": {
+    "description": "Generic cancel button"
+  },
+  "@common_close": {
+    "description": "Generic close button"
+  },
+  "@common_date": {
+    "description": "Generic date label"
+  },
+  "@common_delete": {
+    "description": "Generic delete button"
+  },
+  "@common_edit": {
+    "description": "Generic edit button"
+  },
+  "@common_no": {
+    "description": "Generic no button"
+  },
+  "@common_notes": {
+    "description": "Generic notes label"
+  },
+  "@common_ok": {
+    "description": "Generic OK button"
+  },
+  "@common_retry": {
+    "description": "Retry button after an error"
+  },
+  "@common_save": {
+    "description": "Generic save button"
+  },
+  "@common_search": {
+    "description": "Generic search hint / button"
+  },
+  "@common_total": {
+    "description": "Generic total label"
+  },
+  "@common_yes": {
+    "description": "Generic yes button"
+  },
+  "@confirmDelete_message": {
+    "description": "Delete confirmation dialog message"
+  },
+  "@confirmDelete_title": {
+    "description": "Delete confirmation dialog title"
+  },
+  "@dateFilter_all": {
+    "description": "Date filter chip: all dates"
+  },
+  "@dateFilter_month": {
+    "description": "Date filter chip: this month"
+  },
+  "@dateFilter_today": {
+    "description": "Date filter chip: today"
+  },
+  "@dateFilter_week": {
+    "description": "Date filter chip: this week"
+  },
+  "@empty_default": {
+    "description": "Default empty-state message"
+  },
+  "@error_generic": {
+    "description": "Generic error message"
+  },
+  "@langEnglish": {
+    "description": "Language option: English"
+  },
+  "@langUrdu": {
+    "description": "Language option: Urdu"
+  },
+  "@more_about": {
+    "description": "More hub: about"
+  },
+  "@more_backup": {
+    "description": "More hub: backup and restore"
+  },
+  "@more_cashbook": {
+    "description": "More hub: cashbook"
+  },
+  "@more_expensesIncome": {
+    "description": "More hub: expenses and income"
+  },
+  "@more_inventory": {
+    "description": "More hub: inventory"
+  },
+  "@more_production": {
+    "description": "More hub: production"
+  },
+  "@more_purchases": {
+    "description": "More hub: purchases"
+  },
+  "@more_sales": {
+    "description": "More hub: sales"
+  },
+  "@more_settings": {
+    "description": "More hub: settings"
+  },
+  "@nav_home": {
+    "description": "Bottom nav: home tab"
+  },
+  "@nav_khata": {
+    "description": "Bottom nav: khata (ledgers) tab"
+  },
+  "@nav_more": {
+    "description": "Bottom nav: more tab"
+  },
+  "@nav_reports": {
+    "description": "Bottom nav: reports tab"
+  },
+  "@nav_transactions": {
+    "description": "Bottom nav: transactions tab"
+  },
+  "@settings_about": {
+    "description": "Settings: about section"
+  },
+  "@settings_address": {
+    "description": "Business profile: address field"
+  },
+  "@settings_businessName": {
+    "description": "Business profile: name field"
+  },
+  "@settings_businessProfile": {
+    "description": "Settings: business profile section"
+  },
+  "@settings_language": {
+    "description": "Settings: language section"
+  },
+  "@settings_phone": {
+    "description": "Business profile: phone field"
+  },
+  "@settings_saved": {
+    "description": "Snackbar after settings are saved"
+  },
+  "@settings_theme": {
+    "description": "Settings: theme section"
+  },
+  "@settings_title": {
+    "description": "Settings screen title"
+  },
+  "@themeDark": {
+    "description": "Theme option: dark"
+  },
+  "@themeLight": {
+    "description": "Theme option: light"
+  },
+  "@themeSystem": {
+    "description": "Theme option: follow system"
+  },
+  "@val_invalidAmount": {
+    "description": "Validation: amount not a positive number"
+  },
+  "@val_invalidPhone": {
+    "description": "Validation: phone number format"
+  },
+  "@val_required": {
+    "description": "Validation: empty required field"
+  },
+  "about_appName": "Namt Oil Mil",
+  "about_offline": "100% offline — all your data stays on this device only.",
+  "about_version": "Version {version}",
+  "appTagline": "Your Digital Khata",
+  "appTitle": "Namt Oil Mil",
+  "common_add": "Add",
+  "common_amount": "Amount",
+  "common_back": "Back",
+  "common_balance": "Balance",
+  "common_cancel": "Cancel",
+  "common_close": "Close",
+  "common_date": "Date",
+  "common_delete": "Delete",
+  "common_edit": "Edit",
+  "common_no": "No",
+  "common_notes": "Notes",
+  "common_ok": "OK",
+  "common_retry": "Try again",
+  "common_save": "Save",
+  "common_search": "Search",
+  "common_total": "Total",
+  "common_yes": "Yes",
+  "confirmDelete_message": "Are you sure you want to delete this? This cannot be undone.",
+  "confirmDelete_title": "Confirm delete",
+  "dateFilter_all": "All",
+  "dateFilter_month": "This month",
+  "dateFilter_today": "Today",
+  "dateFilter_week": "This week",
+  "empty_default": "No records yet",
+  "error_generic": "Something went wrong. Please try again.",
+  "langEnglish": "English",
+  "langUrdu": "Urdu",
+  "more_about": "About",
+  "more_backup": "Backup & Restore",
+  "more_cashbook": "Cashbook",
+  "more_expensesIncome": "Expenses & Income",
+  "more_inventory": "Inventory",
+  "more_production": "Production",
+  "more_purchases": "Purchases",
+  "more_sales": "Sales",
+  "more_settings": "Settings",
+  "nav_home": "Dashboard",
+  "nav_khata": "Khata",
+  "nav_more": "More",
+  "nav_reports": "Reports",
+  "nav_transactions": "Transactions",
+  "settings_about": "About the app",
+  "settings_address": "Address",
+  "settings_businessName": "Business name",
+  "settings_businessProfile": "Business profile",
+  "settings_language": "Language",
+  "settings_phone": "Phone number",
+  "settings_saved": "Settings saved",
+  "settings_theme": "Theme",
+  "settings_title": "Settings",
+  "themeDark": "Dark",
+  "themeLight": "Light",
+  "themeSystem": "System default",
+  "val_invalidAmount": "Enter a valid amount",
+  "val_invalidPhone": "Enter a valid phone number",
+  "val_required": "This field is required",
+  "backup_title": "Backup & Restore",
+  "backup_intro": "Keep a safe copy of all your data. Backups are a single JSON file stored on this device only — nothing is uploaded.",
+  "backup_create": "Create Backup",
+  "backup_creating": "Creating backup…",
+  "backup_created": "Backup created — {count} records in {tables} tables.",
+  "@backup_created": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      },
+      "tables": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_savedTo": "Saved to {path}",
+  "@backup_savedTo": {
+    "placeholders": {
+      "path": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_restore": "Restore Backup",
+  "backup_chooseFile": "Choose backup file",
+  "backup_reading": "Reading backup…",
+  "backup_summaryTitle": "Backup summary",
+  "backup_exportedAt": "Exported {date}",
+  "@backup_exportedAt": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_tablesCount": "{count} tables",
+  "@backup_tablesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_recordsCount": "{count} records",
+  "@backup_recordsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_confirmTitle": "Restore this backup?",
+  "backup_confirmMessage": "All current data will be REPLACED by the backup. This cannot be undone.",
+  "backup_confirmRestore": "Restore",
+  "backup_restoring": "Restoring…",
+  "backup_restored": "Restore complete — {count} records restored.",
+  "@backup_restored": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_errorInvalidFile": "This file is not a valid Namt Oil Mil backup.",
+  "backup_errorUnsupportedVersion": "Unsupported backup version: {version}.",
+  "@backup_errorUnsupportedVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_errorMissingTables": "Backup is missing tables: {tables}.",
+  "@backup_errorMissingTables": {
+    "placeholders": {
+      "tables": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_errorChecksum": "Backup data is corrupted (checksum mismatch in {table}).",
+  "@backup_errorChecksum": {
+    "placeholders": {
+      "table": {
+        "type": "String"
+      }
+    }
+  },
+  "cashbook_accountName": "Account name",
+  "cashbook_accountType": "Account type",
+  "cashbook_accounts": "Accounts",
+  "cashbook_addAccount": "Add account",
+  "cashbook_addPayment": "Add payment",
+  "cashbook_addReceipt": "Add receipt",
+  "cashbook_amount": "Amount",
+  "cashbook_balance": "Balance",
+  "cashbook_customer": "Customer",
+  "cashbook_date": "Date",
+  "cashbook_editAccount": "Edit account",
+  "cashbook_entries": "Entries",
+  "cashbook_errAccountNotFound": "Account not found",
+  "cashbook_errInvalidAmount": "Enter a valid amount",
+  "cashbook_errTransferSame": "The From and To accounts must be different",
+  "cashbook_from": "From",
+  "cashbook_in": "In",
+  "cashbook_method": "Method",
+  "cashbook_methodBank": "Bank",
+  "cashbook_methodCash": "Cash",
+  "cashbook_newTransfer": "New transfer",
+  "cashbook_noAccounts": "No accounts yet",
+  "cashbook_noEntries": "No entries in this period",
+  "cashbook_notes": "Notes",
+  "cashbook_openingBalance": "Opening balance",
+  "cashbook_out": "Out",
+  "cashbook_payment": "Payment",
+  "cashbook_pickAccount": "Select account",
+  "cashbook_receipt": "Receipt",
+  "cashbook_reference": "Reference",
+  "cashbook_selectCustomer": "Select customer",
+  "cashbook_selectSupplier": "Select supplier",
+  "cashbook_supplier": "Supplier",
+  "cashbook_title": "Cashbook",
+  "cashbook_to": "To",
+  "cashbook_totalIn": "Total in",
+  "cashbook_totalOut": "Total out",
+  "cashbook_transfer": "Transfer",
+  "cashbook_transferInfo": "A transfer moves money between two accounts. It is never income or expense.",
+  "cashbook_typeBank": "Bank",
+  "cashbook_typeCash": "Cash",
+  "@customers_archiveTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "customers_account": "Account",
+  "customers_addCustomer": "New customer",
+  "customers_addFirstHint": "Add your first customer to track udhaar",
+  "customers_addFirstSupplierHint": "Add your first supplier to track purchases",
+  "customers_addSupplier": "New supplier",
+  "customers_address": "Address",
+  "customers_amount": "Amount (PKR)",
+  "customers_archive": "Archive",
+  "customers_archiveMessage": "They will be hidden from lists, but their history is kept.",
+  "customers_archiveTitle": "Archive {name}?",
+  "customers_bank": "Bank",
+  "customers_businessName": "Business name",
+  "customers_cash": "Cash",
+  "customers_code": "Code",
+  "customers_copied": "Copied to clipboard",
+  "customers_copyText": "Copy text",
+  "customers_customRange": "Custom range",
+  "customers_customerArchived": "Customer archived",
+  "customers_customerRestored": "Customer restored",
+  "customers_date": "Date",
+  "customers_editCustomer": "Edit customer",
+  "customers_editSupplier": "Edit supplier",
+  "customers_englishVersion": "English",
+  "customers_filterAdvance": "Advance",
+  "customers_filterAdvancePaid": "Advance paid",
+  "customers_filterAll": "All",
+  "customers_filterPayable": "To pay",
+  "customers_filterReceivable": "To receive",
+  "customers_giveUdhaar": "Give udhaar",
+  "customers_ledgerTitle": "Ledger",
+  "customers_makePayment": "Make payment",
+  "customers_method": "Method",
+  "customers_name": "Name",
+  "customers_newCustomer": "New customer",
+  "customers_newSupplier": "New supplier",
+  "customers_noCustomers": "No customers yet",
+  "customers_noEntries": "No entries in this period",
+  "customers_noMatch": "No matches found",
+  "customers_noSuppliers": "No suppliers yet",
+  "customers_notFound": "Record not found",
+  "customers_note": "Note",
+  "customers_notes": "Notes",
+  "customers_openingBalance": "Opening balance",
+  "customers_openingBalanceHint": "Optional. Amount in PKR.",
+  "customers_openingBalanceLabel": "Opening balance",
+  "customers_openingHelpCustomer": "Positive: the customer owes you. Negative: you owe the customer.",
+  "customers_openingHelpSupplier": "Positive: you owe the supplier. Negative: the supplier owes you.",
+  "customers_paymentSaved": "Payment recorded",
+  "customers_paymentTitlePay": "Make payment",
+  "customers_paymentTitleReceive": "Receive payment",
+  "customers_phone": "Phone",
+  "customers_receivePayment": "Receive payment",
+  "customers_recordPurchase": "Record purchase",
+  "customers_reminder": "Reminder",
+  "customers_reminderTitle": "Payment reminder",
+  "customers_saved": "Saved",
+  "customers_searchHint": "Search name, phone, code",
+  "customers_searchLedgerHint": "Search description",
+  "customers_selectAccount": "Select account",
+  "customers_statement": "Statement",
+  "customers_supplierArchived": "Supplier archived",
+  "customers_supplierRestored": "Supplier restored",
+  "customers_supplierTitle": "Suppliers",
+  "customers_title": "Customers",
+  "customers_totalCredit": "Total credit given",
+  "customers_totalPaid": "Total paid",
+  "customers_totalPurchases": "Total purchases",
+  "customers_totalReceived": "Total received",
+  "customers_unarchive": "Unarchive",
+  "customers_urduVersion": "Urdu",
+  "customers_viewLedger": "View ledger",
+  "@dashboard_activityPurchase": {
+    "placeholders": {
+      "no": {
+        "type": "String"
+      }
+    }
+  },
+  "@dashboard_activitySale": {
+    "placeholders": {
+      "no": {
+        "type": "String"
+      }
+    }
+  },
+  "@dashboard_stockLeft": {
+    "placeholders": {
+      "qty": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "dashboard_activityExpense": "Expense",
+  "dashboard_activityIncome": "Income",
+  "dashboard_activityPaymentIn": "Payment received",
+  "dashboard_activityPaymentOut": "Payment made",
+  "dashboard_activityPurchase": "Purchase {no}",
+  "dashboard_activitySale": "Sale {no}",
+  "dashboard_bankBalance": "Bank balance",
+  "dashboard_cashInHand": "Cash in hand",
+  "dashboard_lowStock": "Low stock alerts",
+  "dashboard_lowStockOk": "Stock levels are healthy",
+  "dashboard_monthExpense": "Expenses this month",
+  "dashboard_monthIncome": "Income this month",
+  "dashboard_noActivity": "No recent activity",
+  "dashboard_noActivityHint": "Sales, purchases and payments will appear here",
+  "dashboard_paidToday": "Paid today",
+  "dashboard_pickCustomer": "Choose customer",
+  "dashboard_pickSupplier": "Choose supplier",
+  "dashboard_qaAddCustomer": "Add customer",
+  "dashboard_qaAddExpense": "Add expense",
+  "dashboard_qaAddPurchase": "Add purchase",
+  "dashboard_qaAddSale": "Add sale",
+  "dashboard_qaAddSupplier": "Add supplier",
+  "dashboard_qaGiveUdhaar": "Give udhaar",
+  "dashboard_qaMakePayment": "Make payment",
+  "dashboard_qaReceivePayment": "Receive payment",
+  "dashboard_qaRecordProduction": "Record production",
+  "dashboard_qaViewReports": "View reports",
+  "dashboard_quickActions": "Quick actions",
+  "dashboard_receivedToday": "Received today",
+  "dashboard_recentActivity": "Recent activity",
+  "dashboard_stockLeft": "{qty} {unit} left",
+  "dashboard_thisMonth": "This month",
+  "dashboard_title": "Dashboard",
+  "dashboard_today": "Today",
+  "dashboard_todayPurchases": "Today's purchases",
+  "dashboard_todaySales": "Today's sales",
+  "dashboard_totalBalance": "Total balance",
+  "dashboard_totalPayable": "To pay",
+  "dashboard_totalReceivable": "To receive",
+  "dashboard_viewAll": "View all",
+  "expenses_account": "Account",
+  "expenses_addCategory": "New category",
+  "expenses_addExpense": "Add expense",
+  "expenses_addIncome": "Add income",
+  "expenses_amount": "Amount",
+  "expenses_category": "Category",
+  "expenses_categoryName": "Category name",
+  "expenses_categorySaved": "Category saved",
+  "expenses_date": "Date",
+  "expenses_description": "Description",
+  "expenses_errAccountNotFound": "Account not found",
+  "expenses_errCategoryNotFound": "Category not found",
+  "expenses_errInvalidAmount": "Enter a valid amount",
+  "expenses_expenseSaved": "Expense saved",
+  "expenses_incomeCategory": "Income type (optional)",
+  "expenses_incomeSaved": "Income saved",
+  "expenses_noEntries": "No entries yet",
+  "expenses_reference": "Reference",
+  "expenses_tabExpenses": "Expenses",
+  "expenses_tabIncome": "Income",
+  "expenses_thisMonth": "This month",
+  "expenses_thisYear": "This year",
+  "expenses_title": "Expenses & income",
+  "expenses_today": "Today",
+  "expenses_totalExpenses": "Total expenses",
+  "expenses_totalIncome": "Total income",
+  "@inventory_errInsufficientStock": {
+    "placeholders": {
+      "available": {
+        "type": "String"
+      },
+      "needed": {
+        "type": "String"
+      },
+      "product": {
+        "type": "String"
+      }
+    }
+  },
+  "@inventory_factorHint": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "inventory_addConversion": "Add conversion",
+  "inventory_addProduct": "Add product",
+  "inventory_adjust": "Adjust stock",
+  "inventory_adjustment": "Adjustment",
+  "inventory_all": "All",
+  "inventory_available": "Available",
+  "inventory_avgCost": "Average cost",
+  "inventory_catConsumable": "Consumables",
+  "inventory_catContainer": "Containers",
+  "inventory_catFinishedOil": "Finished oil",
+  "inventory_catOilCake": "Oil cake",
+  "inventory_catPackaging": "Packaging",
+  "inventory_catRawMaterial": "Raw material",
+  "inventory_catSpare": "Spares",
+  "inventory_category": "Category",
+  "inventory_conversionExists": "A conversion for this pair already exists",
+  "inventory_conversionsTitle": "Conversions",
+  "inventory_editConversion": "Edit conversion",
+  "inventory_editProduct": "Edit product",
+  "inventory_errDatabase": "Something went wrong. Please try again.",
+  "inventory_errInsufficientStock": "Insufficient stock of {product} (available {available}, needed {needed})",
+  "inventory_errInvalidAmount": "Enter a valid amount",
+  "inventory_errInvalidQty": "Enter a valid quantity greater than zero",
+  "inventory_errNoConversion": "No conversion defined between these units",
+  "inventory_errProductNotFound": "Product not found",
+  "inventory_factor": "Factor",
+  "inventory_factorHint": "How many {to} in 1 {from}?",
+  "inventory_factorPositive": "Factor must be greater than zero",
+  "inventory_from": "From",
+  "inventory_in": "In",
+  "inventory_lowStock": "Low stock",
+  "inventory_movements": "Movement history",
+  "inventory_name": "Product name",
+  "inventory_noConversions": "No conversions defined yet",
+  "inventory_noMovements": "No movements recorded yet",
+  "inventory_noProducts": "No products found",
+  "inventory_noProductsHint": "Add your first product to start tracking stock.",
+  "inventory_openingStock": "Opening stock",
+  "inventory_openingStockReason": "Opening stock",
+  "inventory_out": "Out",
+  "inventory_productSaved": "Product saved",
+  "inventory_qty": "Quantity",
+  "inventory_reason": "Reason",
+  "inventory_reasonRequired": "Please enter a reason",
+  "inventory_reorderLevel": "Reorder level",
+  "inventory_salePrice": "Default sale price (optional)",
+  "inventory_searchHint": "Search products",
+  "inventory_sku": "SKU (optional)",
+  "inventory_stock": "Stock",
+  "inventory_stockIn": "Stock in",
+  "inventory_stockInReason": "Stock receipt",
+  "inventory_stockOut": "Stock out",
+  "inventory_stockOutReason": "Stock dispatch",
+  "inventory_stockUpdated": "Stock updated",
+  "inventory_stockValue": "Stock value",
+  "inventory_title": "Inventory",
+  "inventory_to": "To",
+  "inventory_typeAdjustment": "Adjustment",
+  "inventory_typeProduction": "Production",
+  "inventory_typePurchase": "Purchase",
+  "inventory_typeReturn": "Return",
+  "inventory_typeSale": "Sale",
+  "inventory_unit": "Unit",
+  "inventory_units": "Units & conversions",
+  "inventory_unitsTitle": "Units",
+  "@khata_errorInsufficientStock": {
+    "placeholders": {
+      "product": {
+        "type": "String"
+      }
+    }
+  },
+  "khata_customers": "Customers",
+  "khata_errorAccountInactive": "This account is inactive.",
+  "khata_errorAccountNotFound": "Account not found.",
+  "khata_errorAlreadyReversed": "This entry has already been reversed.",
+  "khata_errorCategoryInactive": "This category is inactive.",
+  "khata_errorCategoryNotFound": "Category not found.",
+  "khata_errorCustomerArchived": "This customer is archived.",
+  "khata_errorCustomerNotFound": "Customer not found.",
+  "khata_errorDatabase": "Database error. Please try again.",
+  "khata_errorEmptyBatchInputs": "A batch needs at least one input.",
+  "khata_errorEmptyBatchOutputs": "A batch needs at least one output.",
+  "khata_errorEmptyInvoice": "The invoice has no items.",
+  "khata_errorEmptyJournal": "The journal has no entries.",
+  "khata_errorEmptyReturn": "The return has no items.",
+  "khata_errorEntryNotFound": "Ledger entry not found.",
+  "khata_errorInsufficientStock": "Not enough stock of {product}.",
+  "khata_errorInvalidAmount": "Invalid amount.",
+  "khata_errorInvalidJournalLine": "Invalid journal entry.",
+  "khata_errorInvalidQty": "Invalid quantity.",
+  "khata_errorInvoiceNotFound": "Invoice not found.",
+  "khata_errorMethodAccountMismatch": "The payment method does not match the account.",
+  "khata_errorNegativeCost": "Cost cannot be negative.",
+  "khata_errorNegativePrice": "Price cannot be negative.",
+  "khata_errorNegativeTax": "Tax cannot be negative.",
+  "khata_errorNegativeTotal": "The total cannot be negative.",
+  "khata_errorNoConversion": "Unit conversion is not available.",
+  "khata_errorNotADraft": "Only drafts can be changed like this.",
+  "khata_errorOilCostAllocation": "Could not allocate the oil cost.",
+  "khata_errorOverAllocated": "The payment is more than the outstanding amount.",
+  "khata_errorOverAllocatedInvoice": "The payment is more than the invoice balance.",
+  "khata_errorProductArchived": "This product is archived.",
+  "khata_errorProductNotFound": "Product not found.",
+  "khata_errorReasonRequired": "A reason is required.",
+  "khata_errorReturnExceedsBought": "The return is more than what was bought.",
+  "khata_errorReturnExceedsSold": "The return is more than what was sold.",
+  "khata_errorSupplierArchived": "This supplier is archived.",
+  "khata_errorSupplierNotFound": "Supplier not found.",
+  "khata_errorTransferSameAccount": "Cannot transfer to the same account.",
+  "khata_errorUnbalancedJournal": "The journal is not balanced.",
+  "khata_errorUnitNotFound": "Unit not found.",
+  "khata_noDues": "All settled up",
+  "khata_noDuesHint": "No outstanding balances",
+  "khata_suppliers": "Suppliers",
+  "khata_title": "Khata",
+  "khata_toPay": "To pay",
+  "khata_toReceive": "To receive",
+  "khata_viewAllCustomers": "View customers",
+  "khata_viewAllSuppliers": "View suppliers",
+  "@production_available": {
+    "placeholders": {
+      "qty": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "@production_inputsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "@production_resultYield": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    }
+  },
+  "production_addInput": "Add input",
+  "production_addOutput": "Add output",
+  "production_available": "Available: {qty} {unit}",
+  "production_batchAuto": "Auto-generated when the batch is posted",
+  "production_batchNo": "Batch no.",
+  "production_costBreakdown": "Cost breakdown",
+  "production_costsCashHint": "When selected, labour, electricity and other costs are posted as expenses from this account.",
+  "production_date": "Date",
+  "production_electricityCost": "Electricity cost",
+  "production_emptyInputs": "Add at least one input",
+  "production_emptyOutputs": "Add at least one output",
+  "production_errNegativeCost": "Costs cannot be negative",
+  "production_expectedYield": "Expected yield % (optional)",
+  "production_inputs": "Inputs (raw material)",
+  "production_inputsCount": "{count} inputs",
+  "production_labourCost": "Labour cost",
+  "production_materialCost": "Material cost",
+  "production_newBatch": "New batch",
+  "production_noBatches": "No batches yet",
+  "production_noBatchesHint": "Start your first production batch.",
+  "production_notes": "Notes",
+  "production_otherCost": "Other cost",
+  "production_outOfStock": "No raw-material products yet",
+  "production_outputType": "Output type",
+  "production_outputs": "Outputs",
+  "production_payCostsFrom": "Pay costs from",
+  "production_payCostsNone": "None (record separately)",
+  "production_postBatch": "Post batch",
+  "production_qtyGtZero": "Quantity must be greater than zero",
+  "production_rawOnly": "Only raw-material products can be inputs",
+  "production_removeLine": "Remove line",
+  "production_resultNoYield": "Yield could not be computed — add a kg conversion for the units used.",
+  "production_resultTitle": "Batch posted",
+  "production_resultYield": "Yield: {pct}%",
+  "production_selectProduct": "Select product",
+  "production_statusCostsPosted": "Costs in cashbook",
+  "production_statusPosted": "Posted",
+  "production_title": "Production",
+  "production_totalCost": "Total cost",
+  "production_typeByProduct": "By-product",
+  "production_typeFinishedOil": "Finished oil",
+  "production_typeOilCake": "Oil cake",
+  "production_wastage": "Wastage / loss",
+  "production_yield": "Yield",
+  "@purchases_draftSaved": {
+    "placeholders": {
+      "invoiceNo": {
+        "type": "String"
+      }
+    }
+  },
+  "@purchases_purchasePosted": {
+    "placeholders": {
+      "invoiceNo": {
+        "type": "String"
+      }
+    }
+  },
+  "purchases_confirmPost": "Post this purchase? Stock will increase.",
+  "purchases_deleteDraft": "Delete draft",
+  "purchases_detailTitle": "Purchase detail",
+  "purchases_draftDeleted": "Draft deleted",
+  "purchases_draftSaved": "Draft {invoiceNo} saved",
+  "purchases_emptyTitle": "No purchases yet",
+  "purchases_formTitle": "New purchase",
+  "purchases_lineItems": "Items",
+  "purchases_newPurchase": "New purchase",
+  "purchases_noItems": "Add at least one item",
+  "purchases_noSupplierSelected": "Select a supplier first",
+  "purchases_payments": "Payments",
+  "purchases_postDraft": "Post draft",
+  "purchases_postPurchase": "Post purchase",
+  "purchases_purchasePosted": "Purchase {invoiceNo} posted",
+  "purchases_recordPayment": "Record payment",
+  "purchases_returnTitle": "Purchase return",
+  "purchases_searchHint": "Search voucher no. or supplier…",
+  "purchases_searchSupplier": "Search suppliers…",
+  "purchases_selectSupplier": "Select supplier",
+  "purchases_statusCancelled": "Cancelled",
+  "purchases_statusDraft": "Draft",
+  "purchases_statusPaid": "Paid",
+  "purchases_statusPartial": "Partial",
+  "purchases_statusReturned": "Returned",
+  "purchases_statusUnpaid": "Unpaid",
+  "purchases_supplier": "Supplier",
+  "purchases_title": "Purchases",
+  "purchases_voucherPdf": "Purchase voucher PDF",
+  "reports_title": "Reports",
+  "reports_dailySummary": "Daily Summary",
+  "reports_monthlySummary": "Monthly Summary",
+  "reports_customerLedger": "Customer Ledger",
+  "reports_supplierLedger": "Supplier Ledger",
+  "reports_receivables": "Receivables",
+  "reports_payables": "Payables",
+  "reports_sales": "Sales",
+  "reports_purchase": "Purchases",
+  "reports_paymentsReceived": "Payments Received",
+  "reports_paymentsMade": "Payments Made",
+  "reports_expense": "Expenses",
+  "reports_income": "Income",
+  "reports_cashbook": "Cashbook",
+  "reports_cashBankBalances": "Cash & Bank Balances",
+  "reports_inventoryValuation": "Inventory Valuation",
+  "reports_stockMovement": "Stock Movement",
+  "reports_lowStock": "Low Stock",
+  "reports_production": "Production",
+  "reports_yield": "Yield",
+  "reports_salesReturns": "Sales Returns",
+  "reports_purchaseReturns": "Purchase Returns",
+  "reports_outstandingInvoices": "Outstanding Invoices",
+  "reports_profitLoss": "Profit & Loss",
+  "reports_trialBalance": "Trial Balance",
+  "reports_daybook": "Daybook",
+  "reports_selectCustomer": "Select customer",
+  "reports_selectSupplier": "Select supplier",
+  "reports_selectProduct": "Select product",
+  "reports_selectAccount": "Select account",
+  "reports_change": "Change",
+  "reports_customRange": "Custom range",
+  "reports_pickDate": "Pick date",
+  "reports_pickMonth": "Pick month",
+  "reports_all": "All",
+  "reports_totalSales": "Total sales",
+  "reports_totalPurchases": "Total purchases",
+  "reports_totalReceived": "Total received",
+  "reports_totalPaid": "Total paid",
+  "reports_totalExpenses": "Total expenses",
+  "reports_totalIncome": "Total income",
+  "reports_netProfit": "Net profit",
+  "reports_netLoss": "Net loss",
+  "reports_estimatedNote": "Estimated — cost data is incomplete for this period.",
+  "reports_openingBalance": "Opening balance",
+  "reports_closingBalance": "Closing balance",
+  "reports_recordsCount": "{count} records",
+  "@reports_recordsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "reports_due": "Due",
+  "reports_paid": "Paid",
+  "reports_unpaid": "Unpaid",
+  "reports_partial": "Partially paid",
+  "reports_invoices": "Invoices",
+  "reports_stockValue": "Stock value",
+  "reports_avgYield": "Average yield",
+  "reports_batches": "Batches",
+  "reports_quantity": "Quantity",
+  "reports_avgCost": "Avg. cost",
+  "reports_reorderLevel": "Reorder level",
+  "reports_onHand": "On hand",
+  "reports_copyReminder": "Copy reminder",
+  "reports_copied": "Copied to clipboard",
+  "reports_noData": "No data for this period.",
+  "reports_saleInvoices": "Sale invoices",
+  "reports_purchaseInvoices": "Purchase invoices",
+  "reports_value": "Value",
+  "reports_expensesByCategory": "Expenses by category",
+  "reports_customers": "Customers",
+  "reports_suppliers": "Suppliers",
+  "reports_accounts": "Accounts",
+  "reports_grandTotal": "Grand total",
+  "reports_doc_saleInvoice": "Sale Invoice",
+  "reports_doc_purchaseVoucher": "Purchase Voucher",
+  "reports_doc_paymentReceipt": "Payment Receipt",
+  "reports_doc_supplierPaymentVoucher": "Supplier Payment Voucher",
+  "reports_doc_customerStatement": "Customer Statement",
+  "reports_doc_supplierStatement": "Supplier Statement",
+  "reports_doc_cashReceipt": "Cash Receipt",
+  "reports_doc_expenseVoucher": "Expense Voucher",
+  "reports_doc_productionReport": "Production Report",
+  "reports_doc_savePdf": "Save PDF",
+  "reports_doc_share": "Share",
+  "reports_doc_print": "Print",
+  "reports_doc_pdfSaved": "PDF saved.",
+  "reports_doc_billTo": "Bill to",
+  "reports_doc_supplier": "Supplier",
+  "reports_doc_customer": "Customer",
+  "reports_doc_invoiceNo": "Invoice no.",
+  "reports_doc_date": "Date",
+  "reports_doc_status": "Status",
+  "reports_doc_items": "Items",
+  "reports_doc_item": "Item",
+  "reports_doc_qty": "Qty",
+  "reports_doc_price": "Price",
+  "reports_doc_amount": "Amount",
+  "reports_doc_subtotal": "Subtotal",
+  "reports_doc_discount": "Discount",
+  "reports_doc_tax": "Tax",
+  "reports_doc_total": "Total",
+  "reports_doc_paid": "Paid",
+  "reports_doc_due": "Balance due",
+  "reports_doc_notes": "Notes",
+  "reports_doc_receivedFrom": "Received from",
+  "reports_doc_paidTo": "Paid to",
+  "reports_doc_account": "Account",
+  "reports_doc_method": "Method",
+  "reports_doc_reference": "Reference",
+  "reports_doc_category": "Category",
+  "reports_doc_description": "Description",
+  "reports_doc_openingBalance": "Opening balance",
+  "reports_doc_closingBalance": "Closing balance",
+  "reports_doc_debit": "Debit",
+  "reports_doc_credit": "Credit",
+  "reports_doc_balance": "Balance",
+  "reports_doc_inputs": "Inputs (raw material)",
+  "reports_doc_outputs": "Outputs",
+  "reports_doc_yield": "Yield",
+  "reports_doc_batchNo": "Batch no.",
+  "reports_doc_generatedOn": "Generated on {date}",
+  "@reports_doc_generatedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "reports_doc_cash": "Cash",
+  "reports_doc_bank": "Bank",
+  "reports_doc_from": "From",
+  "reports_doc_to": "To",
+  "reports_doc_period": "Period",
+  "reports_doc_oilCake": "Oil cake",
+  "reports_doc_byProduct": "By-product",
+  "reports_doc_labour": "Labour",
+  "reports_doc_electricity": "Electricity",
+  "reports_doc_other": "Other",
+  "@sales_draftSaved": {
+    "placeholders": {
+      "invoiceNo": {
+        "type": "String"
+      }
+    }
+  },
+  "@sales_salePosted": {
+    "placeholders": {
+      "invoiceNo": {
+        "type": "String"
+      }
+    }
+  },
+  "sales_confirmPost": "Post this sale? Stock will be reduced.",
+  "sales_customer": "Customer",
+  "sales_deleteDraft": "Delete draft",
+  "sales_detailTitle": "Sale detail",
+  "sales_draftDeleted": "Draft deleted",
+  "sales_draftSaved": "Draft {invoiceNo} saved",
+  "sales_emptyTitle": "No sales yet",
+  "sales_formTitle": "New sale",
+  "sales_invoicePdf": "Invoice PDF",
+  "sales_lineItems": "Items",
+  "sales_newSale": "New sale",
+  "sales_noCustomerSelected": "Select a customer first",
+  "sales_noItems": "Add at least one item",
+  "sales_payments": "Payments",
+  "sales_postDraft": "Post draft",
+  "sales_postSale": "Post sale",
+  "sales_recordPayment": "Record payment",
+  "sales_returnTitle": "Sales return",
+  "sales_salePosted": "Sale {invoiceNo} posted",
+  "sales_searchCustomer": "Search customers…",
+  "sales_searchHint": "Search invoice no. or customer…",
+  "sales_selectCustomer": "Select customer",
+  "sales_share": "Share",
+  "sales_statusCancelled": "Cancelled",
+  "sales_statusDraft": "Draft",
+  "sales_statusPaid": "Paid",
+  "sales_statusPartial": "Partial",
+  "sales_statusReturned": "Returned",
+  "sales_statusUnpaid": "Unpaid",
+  "sales_title": "Sales",
+  "transactions_account": "Account",
+  "transactions_addItem": "Add item",
+  "transactions_adjustment": "Adjustment",
+  "transactions_bank": "Bank",
+  "transactions_cash": "Cash",
+  "transactions_category": "Category",
+  "transactions_credit": "Credit",
+  "transactions_customRange": "Custom range",
+  "transactions_customRangeHint": "{from} – {to}",
+  "@transactions_customRangeHint": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "transactions_customRangeTitle": "Select date range",
+  "transactions_date": "Date",
+  "transactions_debit": "Debit",
+  "transactions_description": "Description",
+  "transactions_detailTitle": "Transaction detail",
+  "transactions_discount": "Discount",
+  "transactions_discountPct": "Discount %",
+  "transactions_due": "Due",
+  "transactions_emptyTitle": "No transactions",
+  "transactions_entriesCount": "{count} entries",
+  "@transactions_entriesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "transactions_entryNo": "Entry no.",
+  "transactions_expense": "Expense",
+  "transactions_filterAll": "All",
+  "transactions_filterPaymentPaid": "Payment paid",
+  "transactions_filterPaymentReceived": "Payment received",
+  "transactions_income": "Income",
+  "transactions_invalidPrice": "Enter a valid price",
+  "transactions_invalidQty": "Enter a valid quantity",
+  "transactions_invoiceDiscount": "Invoice discount %",
+  "transactions_lineTotal": "Line total",
+  "transactions_maxQty": "Max {qty}",
+  "@transactions_maxQty": {
+    "placeholders": {
+      "qty": {
+        "type": "String"
+      }
+    }
+  },
+  "transactions_noDescription": "—",
+  "transactions_notes": "Notes",
+  "transactions_paidAmount": "Paid now",
+  "transactions_paymentAccount": "Account",
+  "transactions_paymentAmount": "Amount",
+  "transactions_paymentMethod": "Method",
+  "transactions_paymentReference": "Reference",
+  "transactions_paymentSaved": "Payment saved",
+  "transactions_paymentTitle": "Record payment",
+  "transactions_production": "Production",
+  "transactions_purchase": "Purchase",
+  "transactions_qty": "Qty",
+  "transactions_reference": "Reference",
+  "transactions_removeLine": "Remove line",
+  "transactions_return": "Return",
+  "transactions_returnPosted": "Return posted",
+  "transactions_returnReason": "Reason (optional)",
+  "transactions_returnTitle": "Return items",
+  "transactions_reversal": "Reversal",
+  "transactions_reversalOf": "Reversal of {entryNo}",
+  "@transactions_reversalOf": {
+    "placeholders": {
+      "entryNo": {
+        "type": "String"
+      }
+    }
+  },
+  "transactions_reversed": "Reversed",
+  "transactions_sale": "Sale",
+  "transactions_saveDraft": "Save as draft",
+  "transactions_searchHint": "Search description, entry no…",
+  "transactions_searchProduct": "Search products…",
+  "transactions_selectProduct": "Select product",
+  "transactions_sortNewest": "Newest",
+  "transactions_sortOldest": "Oldest",
+  "transactions_submitPayment": "Save payment",
+  "transactions_submitReturn": "Post return",
+  "transactions_subtotal": "Subtotal",
+  "transactions_tax": "Tax",
+  "transactions_taxPct": "Tax %",
+  "transactions_title": "Transactions",
+  "transactions_total": "Journal total",
+  "transactions_transfer": "Transfer",
+  "transactions_unit": "Unit",
+  "transactions_unitPrice": "Unit price",
+  "udhaar_saved": "Udhaar recorded",
+  "udhaar_title": "Give udhaar"
+}

@@ -1,0 +1,101 @@
+{
+  "transactions_account": "Account",
+  "transactions_addItem": "Add item",
+  "transactions_adjustment": "Adjustment",
+  "transactions_bank": "Bank",
+  "transactions_cash": "Cash",
+  "transactions_category": "Category",
+  "transactions_credit": "Credit",
+  "transactions_customRange": "Custom range",
+  "transactions_customRangeHint": "{from} – {to}",
+  "@transactions_customRangeHint": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "transactions_customRangeTitle": "Select date range",
+  "transactions_date": "Date",
+  "transactions_debit": "Debit",
+  "transactions_description": "Description",
+  "transactions_detailTitle": "Transaction detail",
+  "transactions_discount": "Discount",
+  "transactions_discountPct": "Discount %",
+  "transactions_due": "Due",
+  "transactions_emptyTitle": "No transactions",
+  "transactions_entriesCount": "{count} entries",
+  "@transactions_entriesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "transactions_entryNo": "Entry no.",
+  "transactions_expense": "Expense",
+  "transactions_filterAll": "All",
+  "transactions_filterPaymentPaid": "Payment paid",
+  "transactions_filterPaymentReceived": "Payment received",
+  "transactions_income": "Income",
+  "transactions_invalidPrice": "Enter a valid price",
+  "transactions_invalidQty": "Enter a valid quantity",
+  "transactions_invoiceDiscount": "Invoice discount %",
+  "transactions_lineTotal": "Line total",
+  "transactions_maxQty": "Max {qty}",
+  "@transactions_maxQty": {
+    "placeholders": {
+      "qty": {
+        "type": "String"
+      }
+    }
+  },
+  "transactions_noDescription": "—",
+  "transactions_notes": "Notes",
+  "transactions_paidAmount": "Paid now",
+  "transactions_paymentAccount": "Account",
+  "transactions_paymentAmount": "Amount",
+  "transactions_paymentMethod": "Method",
+  "transactions_paymentReference": "Reference",
+  "transactions_paymentSaved": "Payment saved",
+  "transactions_paymentTitle": "Record payment",
+  "transactions_production": "Production",
+  "transactions_purchase": "Purchase",
+  "transactions_qty": "Qty",
+  "transactions_reference": "Reference",
+  "transactions_removeLine": "Remove line",
+  "transactions_return": "Return",
+  "transactions_returnPosted": "Return posted",
+  "transactions_returnReason": "Reason (optional)",
+  "transactions_returnTitle": "Return items",
+  "transactions_reversal": "Reversal",
+  "transactions_reversalOf": "Reversal of {entryNo}",
+  "@transactions_reversalOf": {
+    "placeholders": {
+      "entryNo": {
+        "type": "String"
+      }
+    }
+  },
+  "transactions_reversed": "Reversed",
+  "transactions_sale": "Sale",
+  "transactions_saveDraft": "Save as draft",
+  "transactions_searchHint": "Search description, entry no…",
+  "transactions_searchProduct": "Search products…",
+  "transactions_selectProduct": "Select product",
+  "transactions_sortNewest": "Newest",
+  "transactions_sortOldest": "Oldest",
+  "transactions_submitPayment": "Save payment",
+  "transactions_submitReturn": "Post return",
+  "transactions_subtotal": "Subtotal",
+  "transactions_tax": "Tax",
+  "transactions_taxPct": "Tax %",
+  "transactions_title": "Transactions",
+  "transactions_total": "Journal total",
+  "transactions_transfer": "Transfer",
+  "transactions_unit": "Unit",
+  "transactions_unitPrice": "Unit price"
+}

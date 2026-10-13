@@ -1,0 +1,90 @@
+{
+  "backup_title": "بیک اپ و بحالی",
+  "backup_intro": "اپنے تمام ڈیٹا کی محفوظ نقل رکھیں۔ بیک اپ ایک JSON فائل ہے جو صرف اس ڈیوائس پر محفوظ ہوتی ہے — کچھ بھی اپ لوڈ نہیں ہوتا۔",
+  "backup_create": "بیک اپ بنائیں",
+  "backup_creating": "بیک اپ بنایا جا رہا ہے…",
+  "backup_created": "بیک اپ تیار — {tables} ٹیبلز میں {count} ریکارڈ۔",
+  "@backup_created": {
+    "placeholders": {
+      "tables": {
+        "type": "String"
+      },
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_savedTo": "{path} میں محفوظ ہو گیا",
+  "@backup_savedTo": {
+    "placeholders": {
+      "path": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_restore": "بیک اپ بحال کریں",
+  "backup_chooseFile": "بیک اپ فائل منتخب کریں",
+  "backup_reading": "بیک اپ پڑھا جا رہا ہے…",
+  "backup_summaryTitle": "بیک اپ کا خلاصہ",
+  "backup_exportedAt": "برآمد شدہ: {date}",
+  "@backup_exportedAt": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_tablesCount": "{count} ٹیبلز",
+  "@backup_tablesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_recordsCount": "{count} ریکارڈ",
+  "@backup_recordsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_confirmTitle": "کیا یہ بیک اپ بحال کریں؟",
+  "backup_confirmMessage": "موجودہ تمام ڈیٹا بیک اپ سے بدل دیا جائے گا۔ یہ عمل واپس نہیں ہو سکتا۔",
+  "backup_confirmRestore": "بحال کریں",
+  "backup_restoring": "بحال کیا جا رہا ہے…",
+  "backup_restored": "بحالی مکمل — {count} ریکارڈ بحال ہوئے۔",
+  "@backup_restored": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_errorInvalidFile": "یہ فائل نمت آئل مل کا درست بیک اپ نہیں ہے۔",
+  "backup_errorUnsupportedVersion": "غیر تعاون یافتہ بیک اپ ورژن: {version}۔",
+  "@backup_errorUnsupportedVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_errorMissingTables": "بیک اپ میں یہ ٹیبلز غائب ہیں: {tables}۔",
+  "@backup_errorMissingTables": {
+    "placeholders": {
+      "tables": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_errorChecksum": "بیک اپ ڈیٹا خراب ہے ({table} میں چیک سم مماثل نہیں)۔",
+  "@backup_errorChecksum": {
+    "placeholders": {
+      "table": {
+        "type": "String"
+      }
+    }
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "@production_available": {
+    "placeholders": {
+      "qty": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "@production_inputsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "@production_resultYield": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    }
+  },
+  "production_addInput": "ان پٹ شامل کریں",
+  "production_addOutput": "آؤٹ پٹ شامل کریں",
+  "production_available": "دستیاب: {qty} {unit}",
+  "production_batchAuto": "بیچ پوسٹ کرتے وقت خود بن جائے گا",
+  "production_batchNo": "بیچ نمبر",
+  "production_costBreakdown": "لاگت کی تفصیل",
+  "production_costsCashHint": "منتخب کرنے کی صورت میں مزدوری، بجلی اور دیگر اخراجات اس کھاتے سے پوسٹ ہوں گے۔",
+  "production_date": "تاریخ",
+  "production_electricityCost": "بجلی کی لاگت",
+  "production_emptyInputs": "کم از کم ایک ان پٹ شامل کریں",
+  "production_emptyOutputs": "کم از کم ایک آؤٹ پٹ شامل کریں",
+  "production_errNegativeCost": "لاگت منفی نہیں ہو سکتی",
+  "production_expectedYield": "متوقع پیداوار ٪ (اختیاری)",
+  "production_inputs": "خام مال (ان پٹ)",
+  "production_inputsCount": "{count} ان پٹ",
+  "production_labourCost": "مزدوری کی لاگت",
+  "production_materialCost": "خام مال کی لاگت",
+  "production_newBatch": "نیا بیچ",
+  "production_noBatches": "ابھی کوئی بیچ نہیں بنا",
+  "production_noBatchesHint": "پہلا پیداواری بیچ شروع کریں۔",
+  "production_notes": "نوٹس",
+  "production_otherCost": "دیگر لاگت",
+  "production_outOfStock": "ابھی خام مال کی کوئی مصنوعات نہیں",
+  "production_outputType": "آؤٹ پٹ کی قسم",
+  "production_outputs": "آؤٹ پٹ",
+  "production_payCostsFrom": "اخراجات کی ادائیگی",
+  "production_payCostsNone": "کوئی نہیں (الگ سے درج کریں)",
+  "production_postBatch": "بیچ پوسٹ کریں",
+  "production_qtyGtZero": "مقدار صفر سے بڑی ہونی چاہیے",
+  "production_rawOnly": "ان پٹ کے لیے صرف خام مال کی مصنوعات",
+  "production_removeLine": "لائن ہٹائیں",
+  "production_resultNoYield": "پیداوار معلوم نہیں ہو سکی — استعمال شدہ اکائیوں کے لیے کلوگرام کا تبادلہ شامل کریں۔",
+  "production_resultTitle": "بیچ پوسٹ ہو گیا",
+  "production_resultYield": "پیداوار: {pct}٪",
+  "production_selectProduct": "مصنوعات منتخب کریں",
+  "production_statusCostsPosted": "اخراجات کیش بک میں",
+  "production_statusPosted": "پوسٹ شدہ",
+  "production_title": "پیداوار",
+  "production_totalCost": "کل لاگت",
+  "production_typeByProduct": "ضمنی پیداوار",
+  "production_typeFinishedOil": "تیار تیل",
+  "production_typeOilCake": "کھل",
+  "production_wastage": "ضیاع / نقصان",
+  "production_yield": "پیداوار کی شرح"
+}

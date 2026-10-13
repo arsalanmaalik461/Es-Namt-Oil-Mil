@@ -1,0 +1,90 @@
+{
+  "@inventory_errInsufficientStock": {
+    "placeholders": {
+      "available": {
+        "type": "String"
+      },
+      "needed": {
+        "type": "String"
+      },
+      "product": {
+        "type": "String"
+      }
+    }
+  },
+  "@inventory_factorHint": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "inventory_addConversion": "Add conversion",
+  "inventory_addProduct": "Add product",
+  "inventory_adjust": "Adjust stock",
+  "inventory_adjustment": "Adjustment",
+  "inventory_all": "All",
+  "inventory_available": "Available",
+  "inventory_avgCost": "Average cost",
+  "inventory_catConsumable": "Consumables",
+  "inventory_catContainer": "Containers",
+  "inventory_catFinishedOil": "Finished oil",
+  "inventory_catOilCake": "Oil cake",
+  "inventory_catPackaging": "Packaging",
+  "inventory_catRawMaterial": "Raw material",
+  "inventory_catSpare": "Spares",
+  "inventory_category": "Category",
+  "inventory_conversionExists": "A conversion for this pair already exists",
+  "inventory_conversionsTitle": "Conversions",
+  "inventory_editConversion": "Edit conversion",
+  "inventory_editProduct": "Edit product",
+  "inventory_errDatabase": "Something went wrong. Please try again.",
+  "inventory_errInsufficientStock": "Insufficient stock of {product} (available {available}, needed {needed})",
+  "inventory_errInvalidAmount": "Enter a valid amount",
+  "inventory_errInvalidQty": "Enter a valid quantity greater than zero",
+  "inventory_errNoConversion": "No conversion defined between these units",
+  "inventory_errProductNotFound": "Product not found",
+  "inventory_factor": "Factor",
+  "inventory_factorHint": "How many {to} in 1 {from}?",
+  "inventory_factorPositive": "Factor must be greater than zero",
+  "inventory_from": "From",
+  "inventory_in": "In",
+  "inventory_lowStock": "Low stock",
+  "inventory_movements": "Movement history",
+  "inventory_name": "Product name",
+  "inventory_noConversions": "No conversions defined yet",
+  "inventory_noMovements": "No movements recorded yet",
+  "inventory_noProducts": "No products found",
+  "inventory_noProductsHint": "Add your first product to start tracking stock.",
+  "inventory_openingStock": "Opening stock",
+  "inventory_openingStockReason": "Opening stock",
+  "inventory_out": "Out",
+  "inventory_productSaved": "Product saved",
+  "inventory_qty": "Quantity",
+  "inventory_reason": "Reason",
+  "inventory_reasonRequired": "Please enter a reason",
+  "inventory_reorderLevel": "Reorder level",
+  "inventory_salePrice": "Default sale price (optional)",
+  "inventory_searchHint": "Search products",
+  "inventory_sku": "SKU (optional)",
+  "inventory_stock": "Stock",
+  "inventory_stockIn": "Stock in",
+  "inventory_stockInReason": "Stock receipt",
+  "inventory_stockOut": "Stock out",
+  "inventory_stockOutReason": "Stock dispatch",
+  "inventory_stockUpdated": "Stock updated",
+  "inventory_stockValue": "Stock value",
+  "inventory_title": "Inventory",
+  "inventory_to": "To",
+  "inventory_typeAdjustment": "Adjustment",
+  "inventory_typeProduction": "Production",
+  "inventory_typePurchase": "Purchase",
+  "inventory_typeReturn": "Return",
+  "inventory_typeSale": "Sale",
+  "inventory_unit": "Unit",
+  "inventory_units": "Units & conversions",
+  "inventory_unitsTitle": "Units"
+}

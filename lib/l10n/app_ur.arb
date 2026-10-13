@@ -1,0 +1,902 @@
+{
+  "@@locale": "ur",
+  "about_appName": "نعمت آئل مل",
+  "about_offline": "100% آف لائن — آپ کا تمام ڈیٹا صرف اسی ڈیوائس پر محفوظ رہتا ہے۔",
+  "about_version": "ورژن {version}",
+  "appTagline": "آپ کا ڈیجیٹل کھاتہ",
+  "appTitle": "نعمت آئل مل",
+  "common_add": "شامل کریں",
+  "common_amount": "رقم",
+  "common_back": "واپس",
+  "common_balance": "بیلنس",
+  "common_cancel": "منسوخ کریں",
+  "common_close": "بند کریں",
+  "common_date": "تاریخ",
+  "common_delete": "حذف کریں",
+  "common_edit": "ترمیم کریں",
+  "common_no": "نہیں",
+  "common_notes": "نوٹس",
+  "common_ok": "ٹھیک ہے",
+  "common_retry": "دوبارہ کوشش کریں",
+  "common_save": "محفوظ کریں",
+  "common_search": "تلاش کریں",
+  "common_total": "کل",
+  "common_yes": "جی ہاں",
+  "confirmDelete_message": "کیا آپ واقعی اسے حذف کرنا چاہتے ہیں؟ یہ عمل واپس نہیں ہو سکتا۔",
+  "confirmDelete_title": "حذف کی تصدیق",
+  "dateFilter_all": "تمام",
+  "dateFilter_month": "اس ماہ",
+  "dateFilter_today": "آج",
+  "dateFilter_week": "اس ہفتے",
+  "empty_default": "ابھی کوئی ریکارڈ نہیں ہے",
+  "error_generic": "کچھ غلط ہو گیا۔ دوبارہ کوشش کریں۔",
+  "langEnglish": "English",
+  "langUrdu": "اردو",
+  "more_about": "ایپ کے بارے میں",
+  "more_backup": "بیک اپ و بحالی",
+  "more_cashbook": "کیش بک",
+  "more_expensesIncome": "اخراجات و آمدنی",
+  "more_inventory": "اسٹاک",
+  "more_production": "پیداوار",
+  "more_purchases": "خریداری",
+  "more_sales": "فروخت",
+  "more_settings": "ترتیبات",
+  "nav_home": "ڈیش بورڈ",
+  "nav_khata": "کھاتہ",
+  "nav_more": "مزید",
+  "nav_reports": "رپورٹس",
+  "nav_transactions": "لین دین",
+  "settings_about": "ایپ کے بارے میں",
+  "settings_address": "پتہ",
+  "settings_businessName": "کاروبار کا نام",
+  "settings_businessProfile": "کاروباری پروفائل",
+  "settings_language": "زبان",
+  "settings_phone": "فون نمبر",
+  "settings_saved": "ترتیبات محفوظ ہو گئیں",
+  "settings_theme": "تھیم",
+  "settings_title": "ترتیبات",
+  "themeDark": "تاریک",
+  "themeLight": "روشن",
+  "themeSystem": "سسٹم کے مطابق",
+  "val_invalidAmount": "درست رقم درج کریں",
+  "val_invalidPhone": "درست فون نمبر درج کریں",
+  "val_required": "یہ خانہ ضروری ہے",
+  "backup_title": "بیک اپ و بحالی",
+  "backup_intro": "اپنے تمام ڈیٹا کی محفوظ نقل رکھیں۔ بیک اپ ایک JSON فائل ہے جو صرف اس ڈیوائس پر محفوظ ہوتی ہے — کچھ بھی اپ لوڈ نہیں ہوتا۔",
+  "backup_create": "بیک اپ بنائیں",
+  "backup_creating": "بیک اپ بنایا جا رہا ہے…",
+  "backup_created": "بیک اپ تیار — {tables} ٹیبلز میں {count} ریکارڈ۔",
+  "@backup_created": {
+    "placeholders": {
+      "tables": {
+        "type": "String"
+      },
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_savedTo": "{path} میں محفوظ ہو گیا",
+  "@backup_savedTo": {
+    "placeholders": {
+      "path": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_restore": "بیک اپ بحال کریں",
+  "backup_chooseFile": "بیک اپ فائل منتخب کریں",
+  "backup_reading": "بیک اپ پڑھا جا رہا ہے…",
+  "backup_summaryTitle": "بیک اپ کا خلاصہ",
+  "backup_exportedAt": "برآمد شدہ: {date}",
+  "@backup_exportedAt": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_tablesCount": "{count} ٹیبلز",
+  "@backup_tablesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_recordsCount": "{count} ریکارڈ",
+  "@backup_recordsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_confirmTitle": "کیا یہ بیک اپ بحال کریں؟",
+  "backup_confirmMessage": "موجودہ تمام ڈیٹا بیک اپ سے بدل دیا جائے گا۔ یہ عمل واپس نہیں ہو سکتا۔",
+  "backup_confirmRestore": "بحال کریں",
+  "backup_restoring": "بحال کیا جا رہا ہے…",
+  "backup_restored": "بحالی مکمل — {count} ریکارڈ بحال ہوئے۔",
+  "@backup_restored": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_errorInvalidFile": "یہ فائل نمت آئل مل کا درست بیک اپ نہیں ہے۔",
+  "backup_errorUnsupportedVersion": "غیر تعاون یافتہ بیک اپ ورژن: {version}۔",
+  "@backup_errorUnsupportedVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_errorMissingTables": "بیک اپ میں یہ ٹیبلز غائب ہیں: {tables}۔",
+  "@backup_errorMissingTables": {
+    "placeholders": {
+      "tables": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_errorChecksum": "بیک اپ ڈیٹا خراب ہے ({table} میں چیک سم مماثل نہیں)۔",
+  "@backup_errorChecksum": {
+    "placeholders": {
+      "table": {
+        "type": "String"
+      }
+    }
+  },
+  "cashbook_accountName": "کھاتے کا نام",
+  "cashbook_accountType": "کھاتے کی قسم",
+  "cashbook_accounts": "کھاتے",
+  "cashbook_addAccount": "کھاتہ شامل کریں",
+  "cashbook_addPayment": "ادائیگی شامل کریں",
+  "cashbook_addReceipt": "رسید شامل کریں",
+  "cashbook_amount": "رقم",
+  "cashbook_balance": "بیلنس",
+  "cashbook_customer": "گاہک",
+  "cashbook_date": "تاریخ",
+  "cashbook_editAccount": "کھاتے میں ترمیم کریں",
+  "cashbook_entries": "اندراجات",
+  "cashbook_errAccountNotFound": "کھاتہ نہیں ملا",
+  "cashbook_errInvalidAmount": "درست رقم درج کریں",
+  "cashbook_errTransferSame": "از اور تک کے کھاتے مختلف ہونے چاہئیں",
+  "cashbook_from": "از",
+  "cashbook_in": "آمد",
+  "cashbook_method": "طریقہ",
+  "cashbook_methodBank": "بینک",
+  "cashbook_methodCash": "نقد",
+  "cashbook_newTransfer": "نئی منتقلی",
+  "cashbook_noAccounts": "ابھی کوئی کھاتہ نہیں",
+  "cashbook_noEntries": "اس مدت میں کوئی اندراج نہیں",
+  "cashbook_notes": "نوٹس",
+  "cashbook_openingBalance": "ابتدائی بیلنس",
+  "cashbook_out": "خرچ",
+  "cashbook_payment": "ادائیگی",
+  "cashbook_pickAccount": "کھاتہ منتخب کریں",
+  "cashbook_receipt": "رسید",
+  "cashbook_reference": "حوالہ",
+  "cashbook_selectCustomer": "گاہک منتخب کریں",
+  "cashbook_selectSupplier": "سپلائر منتخب کریں",
+  "cashbook_supplier": "سپلائر",
+  "cashbook_title": "کیش بک",
+  "cashbook_to": "تک",
+  "cashbook_totalIn": "کل آمد",
+  "cashbook_totalOut": "کل خرچ",
+  "cashbook_transfer": "منتقلی",
+  "cashbook_transferInfo": "منتقلی دو کھاتوں کے درمیان رقم منتقل کرتی ہے۔ یہ کبھی آمدنی یا خرچ نہیں ہوتی۔",
+  "cashbook_typeBank": "بینک",
+  "cashbook_typeCash": "نقد",
+  "@customers_archiveTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "customers_account": "اکاؤنٹ",
+  "customers_addCustomer": "نیا گاہک",
+  "customers_addFirstHint": "ادھار کا حساب رکھنے کے لیے پہلا گاہک شامل کریں",
+  "customers_addFirstSupplierHint": "خریداری کا حساب رکھنے کے لیے پہلا سپلائر شامل کریں",
+  "customers_addSupplier": "نیا سپلائر",
+  "customers_address": "پتہ",
+  "customers_amount": "رقم (روپے)",
+  "customers_archive": "آرکائیو",
+  "customers_archiveMessage": "وہ فہرستوں سے چھپ جائیں گے، لیکن ان کا ریکارڈ محفوظ رہے گا۔",
+  "customers_archiveTitle": "{name} کو آرکائیو کریں؟",
+  "customers_bank": "بینک",
+  "customers_businessName": "کاروبار کا نام",
+  "customers_cash": "نقد",
+  "customers_code": "کوڈ",
+  "customers_copied": "کلپ بورڈ میں کاپی ہو گیا",
+  "customers_copyText": "متن کاپی کریں",
+  "customers_customRange": "اپنی مدت",
+  "customers_customerArchived": "گاہک آرکائیو ہو گیا",
+  "customers_customerRestored": "گاہک بحال ہو گیا",
+  "customers_date": "تاریخ",
+  "customers_editCustomer": "گاہک کی تدوین",
+  "customers_editSupplier": "سپلائر کی تدوین",
+  "customers_englishVersion": "انگریزی",
+  "customers_filterAdvance": "ایڈوانس",
+  "customers_filterAdvancePaid": "ایڈوانس دیا گیا",
+  "customers_filterAll": "سب",
+  "customers_filterPayable": "ادا کرنا ہے",
+  "customers_filterReceivable": "وصول کرنا ہے",
+  "customers_giveUdhaar": "ادھار دیں",
+  "customers_ledgerTitle": "لیجر",
+  "customers_makePayment": "ادائیگی کریں",
+  "customers_method": "طریقہ",
+  "customers_name": "نام",
+  "customers_newCustomer": "نیا گاہک",
+  "customers_newSupplier": "نیا سپلائر",
+  "customers_noCustomers": "ابھی کوئی گاہک نہیں",
+  "customers_noEntries": "اس مدت میں کوئی اندراج نہیں",
+  "customers_noMatch": "کوئی نتیجہ نہیں ملا",
+  "customers_noSuppliers": "ابھی کوئی سپلائر نہیں",
+  "customers_notFound": "ریکارڈ نہیں ملا",
+  "customers_note": "نوٹ",
+  "customers_notes": "نوٹس",
+  "customers_openingBalance": "ابتدائی بیلنس",
+  "customers_openingBalanceHint": "اختیاری۔ رقم روپے میں۔",
+  "customers_openingBalanceLabel": "ابتدائی بیلنس",
+  "customers_openingHelpCustomer": "مثبت: گاہک آپ کا مقروض ہے۔ منفی: آپ گاہک کے مقروض ہیں۔",
+  "customers_openingHelpSupplier": "مثبت: آپ سپلائر کے مقروض ہیں۔ منفی: سپلائر آپ کا مقروض ہے۔",
+  "customers_paymentSaved": "ادائیگی درج ہو گئی",
+  "customers_paymentTitlePay": "ادائیگی کریں",
+  "customers_paymentTitleReceive": "ادائیگی وصول کریں",
+  "customers_phone": "فون",
+  "customers_receivePayment": "ادائیگی وصول کریں",
+  "customers_recordPurchase": "خریداری درج کریں",
+  "customers_reminder": "یاد دہانی",
+  "customers_reminderTitle": "ادائیگی کی یاددہانی",
+  "customers_saved": "محفوظ ہو گیا",
+  "customers_searchHint": "نام، فون یا کوڈ تلاش کریں",
+  "customers_searchLedgerHint": "تفصیل تلاش کریں",
+  "customers_selectAccount": "اکاؤنٹ منتخب کریں",
+  "customers_statement": "اسٹیٹمنٹ",
+  "customers_supplierArchived": "سپلائر آرکائیو ہو گیا",
+  "customers_supplierRestored": "سپلائر بحال ہو گیا",
+  "customers_supplierTitle": "سپلائرز",
+  "customers_title": "گاہک",
+  "customers_totalCredit": "کل ادھار دیا گیا",
+  "customers_totalPaid": "کل ادا شدہ",
+  "customers_totalPurchases": "کل خریداری",
+  "customers_totalReceived": "کل وصول شدہ",
+  "customers_unarchive": "بحال کریں",
+  "customers_urduVersion": "اردو",
+  "customers_viewLedger": "لیجر دیکھیں",
+  "@dashboard_activityPurchase": {
+    "placeholders": {
+      "no": {
+        "type": "String"
+      }
+    }
+  },
+  "@dashboard_activitySale": {
+    "placeholders": {
+      "no": {
+        "type": "String"
+      }
+    }
+  },
+  "@dashboard_stockLeft": {
+    "placeholders": {
+      "qty": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "dashboard_activityExpense": "خرچ",
+  "dashboard_activityIncome": "آمدنی",
+  "dashboard_activityPaymentIn": "ادائیگی موصول",
+  "dashboard_activityPaymentOut": "ادائیگی کی گئی",
+  "dashboard_activityPurchase": "خریداری {no}",
+  "dashboard_activitySale": "فروخت {no}",
+  "dashboard_bankBalance": "بینک بیلنس",
+  "dashboard_cashInHand": "نقد رقم",
+  "dashboard_lowStock": "کم اسٹاک الرٹس",
+  "dashboard_lowStockOk": "اسٹاک کی سطح بہتر ہے",
+  "dashboard_monthExpense": "اس ماہ اخراجات",
+  "dashboard_monthIncome": "اس ماہ آمدنی",
+  "dashboard_noActivity": "کوئی حالیہ سرگرمی نہیں",
+  "dashboard_noActivityHint": "فروخت، خریداری اور ادائیگیاں یہاں نظر آئیں گی",
+  "dashboard_paidToday": "آج ادا شدہ",
+  "dashboard_pickCustomer": "گاہک منتخب کریں",
+  "dashboard_pickSupplier": "سپلائر منتخب کریں",
+  "dashboard_qaAddCustomer": "گاہک شامل کریں",
+  "dashboard_qaAddExpense": "خرچ درج کریں",
+  "dashboard_qaAddPurchase": "خریداری درج کریں",
+  "dashboard_qaAddSale": "فروخت درج کریں",
+  "dashboard_qaAddSupplier": "سپلائر شامل کریں",
+  "dashboard_qaGiveUdhaar": "ادھار دیں",
+  "dashboard_qaMakePayment": "ادائیگی کریں",
+  "dashboard_qaReceivePayment": "ادائیگی وصول کریں",
+  "dashboard_qaRecordProduction": "پیداوار درج کریں",
+  "dashboard_qaViewReports": "رپورٹس دیکھیں",
+  "dashboard_quickActions": "فوری اقدامات",
+  "dashboard_receivedToday": "آج وصول شدہ",
+  "dashboard_recentActivity": "حالیہ سرگرمی",
+  "dashboard_stockLeft": "{qty} {unit} باقی",
+  "dashboard_thisMonth": "اس ماہ",
+  "dashboard_title": "ڈیش بورڈ",
+  "dashboard_today": "آج",
+  "dashboard_todayPurchases": "آج کی خریداری",
+  "dashboard_todaySales": "آج کی فروخت",
+  "dashboard_totalBalance": "کل بیلنس",
+  "dashboard_totalPayable": "ادا کرنا ہے",
+  "dashboard_totalReceivable": "وصول کرنا ہے",
+  "dashboard_viewAll": "سب دیکھیں",
+  "expenses_account": "کھاتہ",
+  "expenses_addCategory": "نئی مد شامل کریں",
+  "expenses_addExpense": "خرچ شامل کریں",
+  "expenses_addIncome": "آمدنی شامل کریں",
+  "expenses_amount": "رقم",
+  "expenses_category": "مد",
+  "expenses_categoryName": "مد کا نام",
+  "expenses_categorySaved": "مد محفوظ ہو گئی",
+  "expenses_date": "تاریخ",
+  "expenses_description": "تفصیل",
+  "expenses_errAccountNotFound": "کھاتہ نہیں ملا",
+  "expenses_errCategoryNotFound": "مد نہیں ملی",
+  "expenses_errInvalidAmount": "درست رقم درج کریں",
+  "expenses_expenseSaved": "خرچ محفوظ ہو گیا",
+  "expenses_incomeCategory": "آمدنی کی قسم (اختیاری)",
+  "expenses_incomeSaved": "آمدنی محفوظ ہو گئی",
+  "expenses_noEntries": "ابھی کوئی اندراج نہیں",
+  "expenses_reference": "حوالہ",
+  "expenses_tabExpenses": "اخراجات",
+  "expenses_tabIncome": "آمدنی",
+  "expenses_thisMonth": "اس ماہ",
+  "expenses_thisYear": "اس سال",
+  "expenses_title": "اخراجات و آمدنی",
+  "expenses_today": "آج",
+  "expenses_totalExpenses": "کل اخراجات",
+  "expenses_totalIncome": "کل آمدنی",
+  "@inventory_errInsufficientStock": {
+    "placeholders": {
+      "available": {
+        "type": "String"
+      },
+      "needed": {
+        "type": "String"
+      },
+      "product": {
+        "type": "String"
+      }
+    }
+  },
+  "@inventory_factorHint": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "inventory_addConversion": "تبادلہ شامل کریں",
+  "inventory_addProduct": "مصنوعات شامل کریں",
+  "inventory_adjust": "اسٹاک درست کریں",
+  "inventory_adjustment": "درستگی",
+  "inventory_all": "تمام",
+  "inventory_available": "دستیاب",
+  "inventory_avgCost": "اوسط لاگت",
+  "inventory_catConsumable": "استعمال کی اشیاء",
+  "inventory_catContainer": "ڈبے",
+  "inventory_catFinishedOil": "تیار تیل",
+  "inventory_catOilCake": "کھل",
+  "inventory_catPackaging": "پیکنگ",
+  "inventory_catRawMaterial": "خام مال",
+  "inventory_catSpare": "اسپیئر پارٹس",
+  "inventory_category": "قسم",
+  "inventory_conversionExists": "اس جوڑے کے لیے تبادلہ پہلے سے موجود ہے",
+  "inventory_conversionsTitle": "تبادلے",
+  "inventory_editConversion": "تبادلے میں ترمیم کریں",
+  "inventory_editProduct": "مصنوعات میں ترمیم کریں",
+  "inventory_errDatabase": "کچھ غلط ہو گیا۔ براہ کرم دوبارہ کوشش کریں۔",
+  "inventory_errInsufficientStock": "{product} کا اسٹاک ناکافی ہے (دستیاب {available}، درکار {needed})",
+  "inventory_errInvalidAmount": "درست رقم درج کریں",
+  "inventory_errInvalidQty": "صفر سے بڑی درست مقدار درج کریں",
+  "inventory_errNoConversion": "ان اکائیوں کے درمیان کوئی تبادلہ مقرر نہیں",
+  "inventory_errProductNotFound": "مصنوعات نہیں ملی",
+  "inventory_factor": "تناسب",
+  "inventory_factorHint": "1 {from} میں کتنے {to}؟",
+  "inventory_factorPositive": "تناسب صفر سے بڑا ہونا چاہیے",
+  "inventory_from": "از",
+  "inventory_in": "آمد",
+  "inventory_lowStock": "کم اسٹاک",
+  "inventory_movements": "اسٹاک کا ریکارڈ",
+  "inventory_name": "مصنوعات کا نام",
+  "inventory_noConversions": "ابھی کوئی تبادلہ مقرر نہیں",
+  "inventory_noMovements": "ابھی کوئی ریکارڈ درج نہیں",
+  "inventory_noProducts": "کوئی مصنوعات نہیں ملی",
+  "inventory_noProductsHint": "اسٹاک کا ریکارڈ رکھنے کے لیے پہلی مصنوعات شامل کریں۔",
+  "inventory_openingStock": "ابتدائی اسٹاک",
+  "inventory_openingStockReason": "ابتدائی اسٹاک",
+  "inventory_out": "خرچ",
+  "inventory_productSaved": "مصنوعات محفوظ ہو گئی",
+  "inventory_qty": "مقدار",
+  "inventory_reason": "وجہ",
+  "inventory_reasonRequired": "براہ کرم وجہ درج کریں",
+  "inventory_reorderLevel": "دوبارہ آرڈر کی حد",
+  "inventory_salePrice": "طے شدہ فروخت قیمت (اختیاری)",
+  "inventory_searchHint": "مصنوعات تلاش کریں",
+  "inventory_sku": "SKU (اختیاری)",
+  "inventory_stock": "اسٹاک",
+  "inventory_stockIn": "اسٹاک وصول کریں",
+  "inventory_stockInReason": "اسٹاک وصولی",
+  "inventory_stockOut": "اسٹاک جاری کریں",
+  "inventory_stockOutReason": "اسٹاک اجراء",
+  "inventory_stockUpdated": "اسٹاک اپ ڈیٹ ہو گیا",
+  "inventory_stockValue": "اسٹاک کی مالیت",
+  "inventory_title": "انوینٹری",
+  "inventory_to": "تک",
+  "inventory_typeAdjustment": "درستگی",
+  "inventory_typeProduction": "پیداوار",
+  "inventory_typePurchase": "خریداری",
+  "inventory_typeReturn": "واپسی",
+  "inventory_typeSale": "فروخت",
+  "inventory_unit": "اکائی",
+  "inventory_units": "اکائیاں اور تبادلے",
+  "inventory_unitsTitle": "اکائیاں",
+  "@khata_errorInsufficientStock": {
+    "placeholders": {
+      "product": {
+        "type": "String"
+      }
+    }
+  },
+  "khata_customers": "گاہک",
+  "khata_errorAccountInactive": "یہ اکاؤنٹ غیر فعال ہے۔",
+  "khata_errorAccountNotFound": "اکاؤنٹ نہیں ملا۔",
+  "khata_errorAlreadyReversed": "اس اندراج کو پہلے ہی کالعدم کیا جا چکا ہے۔",
+  "khata_errorCategoryInactive": "یہ کیٹیگری غیر فعال ہے۔",
+  "khata_errorCategoryNotFound": "کیٹیگری نہیں ملی۔",
+  "khata_errorCustomerArchived": "یہ گاہک آرکائیو شدہ ہے۔",
+  "khata_errorCustomerNotFound": "گاہک نہیں ملا۔",
+  "khata_errorDatabase": "ڈیٹا بیس میں خرابی۔ دوبارہ کوشش کریں۔",
+  "khata_errorEmptyBatchInputs": "بیچ کے لیے کم از کم ایک ان پٹ ضروری ہے۔",
+  "khata_errorEmptyBatchOutputs": "بیچ کے لیے کم از کم ایک آؤٹ پٹ ضروری ہے۔",
+  "khata_errorEmptyInvoice": "انوائس میں کوئی آئٹم نہیں۔",
+  "khata_errorEmptyJournal": "جرنل میں کوئی اندراج نہیں۔",
+  "khata_errorEmptyReturn": "واپسی میں کوئی آئٹم نہیں۔",
+  "khata_errorEntryNotFound": "لیجر اندراج نہیں ملا۔",
+  "khata_errorInsufficientStock": "{product} کا اسٹاک ناکافی ہے۔",
+  "khata_errorInvalidAmount": "غلط رقم۔",
+  "khata_errorInvalidJournalLine": "غلط جرنل اندراج۔",
+  "khata_errorInvalidQty": "غلط مقدار۔",
+  "khata_errorInvoiceNotFound": "انوائس نہیں ملی۔",
+  "khata_errorMethodAccountMismatch": "ادائیگی کا طریقہ اکاؤنٹ سے مطابقت نہیں رکھتا۔",
+  "khata_errorNegativeCost": "لاگت منفی نہیں ہو سکتی۔",
+  "khata_errorNegativePrice": "قیمت منفی نہیں ہو سکتی۔",
+  "khata_errorNegativeTax": "ٹیکس منفی نہیں ہو سکتا۔",
+  "khata_errorNegativeTotal": "کل رقم منفی نہیں ہو سکتی۔",
+  "khata_errorNoConversion": "یونٹ کی تبدیلی دستیاب نہیں۔",
+  "khata_errorNotADraft": "اس طرح صرف ڈرافٹ تبدیل ہو سکتا ہے۔",
+  "khata_errorOilCostAllocation": "تیل کی لاگت تقسیم نہیں ہو سکی۔",
+  "khata_errorOverAllocated": "ادائیگی بقایا رقم سے زیادہ ہے۔",
+  "khata_errorOverAllocatedInvoice": "ادائیگی انوائس کے بقایا سے زیادہ ہے۔",
+  "khata_errorProductArchived": "یہ پراڈکٹ آرکائیو شدہ ہے۔",
+  "khata_errorProductNotFound": "پراڈکٹ نہیں ملا۔",
+  "khata_errorReasonRequired": "وجہ بتانا ضروری ہے۔",
+  "khata_errorReturnExceedsBought": "واپسی خریداری سے زیادہ ہے۔",
+  "khata_errorReturnExceedsSold": "واپسی فروخت سے زیادہ ہے۔",
+  "khata_errorSupplierArchived": "یہ سپلائر آرکائیو شدہ ہے۔",
+  "khata_errorSupplierNotFound": "سپلائر نہیں ملا۔",
+  "khata_errorTransferSameAccount": "ایک ہی اکاؤنٹ میں منتقلی نہیں ہو سکتی۔",
+  "khata_errorUnbalancedJournal": "جرنل متوازن نہیں ہے۔",
+  "khata_errorUnitNotFound": "یونٹ نہیں ملا۔",
+  "khata_noDues": "سب حساب برابر ہے",
+  "khata_noDuesHint": "کوئی بقایا رقم نہیں",
+  "khata_suppliers": "سپلائرز",
+  "khata_title": "کھاتہ",
+  "khata_toPay": "ادا کرنا ہے",
+  "khata_toReceive": "وصول کرنا ہے",
+  "khata_viewAllCustomers": "گاہک دیکھیں",
+  "khata_viewAllSuppliers": "سپلائرز دیکھیں",
+  "@production_available": {
+    "placeholders": {
+      "qty": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "@production_inputsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "@production_resultYield": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    }
+  },
+  "production_addInput": "ان پٹ شامل کریں",
+  "production_addOutput": "آؤٹ پٹ شامل کریں",
+  "production_available": "دستیاب: {qty} {unit}",
+  "production_batchAuto": "بیچ پوسٹ کرتے وقت خود بن جائے گا",
+  "production_batchNo": "بیچ نمبر",
+  "production_costBreakdown": "لاگت کی تفصیل",
+  "production_costsCashHint": "منتخب کرنے کی صورت میں مزدوری، بجلی اور دیگر اخراجات اس کھاتے سے پوسٹ ہوں گے۔",
+  "production_date": "تاریخ",
+  "production_electricityCost": "بجلی کی لاگت",
+  "production_emptyInputs": "کم از کم ایک ان پٹ شامل کریں",
+  "production_emptyOutputs": "کم از کم ایک آؤٹ پٹ شامل کریں",
+  "production_errNegativeCost": "لاگت منفی نہیں ہو سکتی",
+  "production_expectedYield": "متوقع پیداوار ٪ (اختیاری)",
+  "production_inputs": "خام مال (ان پٹ)",
+  "production_inputsCount": "{count} ان پٹ",
+  "production_labourCost": "مزدوری کی لاگت",
+  "production_materialCost": "خام مال کی لاگت",
+  "production_newBatch": "نیا بیچ",
+  "production_noBatches": "ابھی کوئی بیچ نہیں بنا",
+  "production_noBatchesHint": "پہلا پیداواری بیچ شروع کریں۔",
+  "production_notes": "نوٹس",
+  "production_otherCost": "دیگر لاگت",
+  "production_outOfStock": "ابھی خام مال کی کوئی مصنوعات نہیں",
+  "production_outputType": "آؤٹ پٹ کی قسم",
+  "production_outputs": "آؤٹ پٹ",
+  "production_payCostsFrom": "اخراجات کی ادائیگی",
+  "production_payCostsNone": "کوئی نہیں (الگ سے درج کریں)",
+  "production_postBatch": "بیچ پوسٹ کریں",
+  "production_qtyGtZero": "مقدار صفر سے بڑی ہونی چاہیے",
+  "production_rawOnly": "ان پٹ کے لیے صرف خام مال کی مصنوعات",
+  "production_removeLine": "لائن ہٹائیں",
+  "production_resultNoYield": "پیداوار معلوم نہیں ہو سکی — استعمال شدہ اکائیوں کے لیے کلوگرام کا تبادلہ شامل کریں۔",
+  "production_resultTitle": "بیچ پوسٹ ہو گیا",
+  "production_resultYield": "پیداوار: {pct}٪",
+  "production_selectProduct": "مصنوعات منتخب کریں",
+  "production_statusCostsPosted": "اخراجات کیش بک میں",
+  "production_statusPosted": "پوسٹ شدہ",
+  "production_title": "پیداوار",
+  "production_totalCost": "کل لاگت",
+  "production_typeByProduct": "ضمنی پیداوار",
+  "production_typeFinishedOil": "تیار تیل",
+  "production_typeOilCake": "کھل",
+  "production_wastage": "ضیاع / نقصان",
+  "production_yield": "پیداوار کی شرح",
+  "@purchases_draftSaved": {
+    "placeholders": {
+      "invoiceNo": {
+        "type": "String"
+      }
+    }
+  },
+  "@purchases_purchasePosted": {
+    "placeholders": {
+      "invoiceNo": {
+        "type": "String"
+      }
+    }
+  },
+  "purchases_confirmPost": "کیا یہ خریداری درج کریں؟ اسٹاک بڑھ جائے گا۔",
+  "purchases_deleteDraft": "مسودہ حذف کریں",
+  "purchases_detailTitle": "خریداری کی تفصیل",
+  "purchases_draftDeleted": "مسودہ حذف ہو گیا",
+  "purchases_draftSaved": "مسودہ {invoiceNo} محفوظ ہو گیا",
+  "purchases_emptyTitle": "ابھی کوئی خریداری نہیں",
+  "purchases_formTitle": "نئی خریداری",
+  "purchases_lineItems": "آئٹمز",
+  "purchases_newPurchase": "نئی خریداری",
+  "purchases_noItems": "کم از کم ایک آئٹم شامل کریں",
+  "purchases_noSupplierSelected": "پہلے سپلائر منتخب کریں",
+  "purchases_payments": "ادائیگیاں",
+  "purchases_postDraft": "مسودہ درج کریں",
+  "purchases_postPurchase": "خریداری درج کریں",
+  "purchases_purchasePosted": "خریداری {invoiceNo} درج ہو گئی",
+  "purchases_recordPayment": "ادائیگی درج کریں",
+  "purchases_returnTitle": "خریداری واپسی",
+  "purchases_searchHint": "واؤچر نمبر یا سپلائر تلاش کریں…",
+  "purchases_searchSupplier": "سپلائر تلاش کریں…",
+  "purchases_selectSupplier": "سپلائر منتخب کریں",
+  "purchases_statusCancelled": "منسوخ شدہ",
+  "purchases_statusDraft": "مسودہ",
+  "purchases_statusPaid": "ادا شدہ",
+  "purchases_statusPartial": "جزوی ادا شدہ",
+  "purchases_statusReturned": "واپس شدہ",
+  "purchases_statusUnpaid": "غیر ادا شدہ",
+  "purchases_supplier": "سپلائر",
+  "purchases_title": "خریداری",
+  "purchases_voucherPdf": "خریداری واؤچر PDF",
+  "reports_title": "رپورٹس",
+  "reports_dailySummary": "یومیہ خلاصہ",
+  "reports_monthlySummary": "ماہانہ خلاصہ",
+  "reports_customerLedger": "گاہک کھاتہ",
+  "reports_supplierLedger": "سپلائر کھاتہ",
+  "reports_receivables": "قابلِ وصول رقوم",
+  "reports_payables": "قابلِ ادائیگی رقوم",
+  "reports_sales": "فروخت",
+  "reports_purchase": "خریداری",
+  "reports_paymentsReceived": "موصولہ ادائیگیاں",
+  "reports_paymentsMade": "ادا شدہ ادائیگیاں",
+  "reports_expense": "اخراجات",
+  "reports_income": "آمدنی",
+  "reports_cashbook": "کیش بک",
+  "reports_cashBankBalances": "نقد و بینک بیلنس",
+  "reports_inventoryValuation": "اسٹاک کی مالیت",
+  "reports_stockMovement": "اسٹاک کی نقل و حرکت",
+  "reports_lowStock": "کم اسٹاک",
+  "reports_production": "پیداوار",
+  "reports_yield": "پیداواری شرح",
+  "reports_salesReturns": "فروخت واپسی",
+  "reports_purchaseReturns": "خریداری واپسی",
+  "reports_outstandingInvoices": "بقایا انوائسز",
+  "reports_profitLoss": "نفع و نقصان",
+  "reports_trialBalance": "ٹرائل بیلنس",
+  "reports_daybook": "روزنامچہ",
+  "reports_selectCustomer": "گاہک منتخب کریں",
+  "reports_selectSupplier": "سپلائر منتخب کریں",
+  "reports_selectProduct": "پراڈکٹ منتخب کریں",
+  "reports_selectAccount": "اکاؤنٹ منتخب کریں",
+  "reports_change": "تبدیل کریں",
+  "reports_customRange": "اپنی مدت",
+  "reports_pickDate": "تاریخ منتخب کریں",
+  "reports_pickMonth": "مہینہ منتخب کریں",
+  "reports_all": "تمام",
+  "reports_totalSales": "کل فروخت",
+  "reports_totalPurchases": "کل خریداری",
+  "reports_totalReceived": "کل موصول",
+  "reports_totalPaid": "کل ادائیگی",
+  "reports_totalExpenses": "کل اخراجات",
+  "reports_totalIncome": "کل آمدنی",
+  "reports_netProfit": "خالص نفع",
+  "reports_netLoss": "خالص نقصان",
+  "reports_estimatedNote": "تخمینہ — اس مدت کے لاگت کے اعداد و شمار نامکمل ہیں۔",
+  "reports_openingBalance": "ابتدائی بیلنس",
+  "reports_closingBalance": "اختتامی بیلنس",
+  "reports_recordsCount": "{count} ریکارڈ",
+  "@reports_recordsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "reports_due": "بقایا",
+  "reports_paid": "ادا شدہ",
+  "reports_unpaid": "غیر ادا شدہ",
+  "reports_partial": "جزوی ادائیگی",
+  "reports_invoices": "انوائسز",
+  "reports_stockValue": "اسٹاک کی مالیت",
+  "reports_avgYield": "اوسط پیداواری شرح",
+  "reports_batches": "بیچز",
+  "reports_quantity": "مقدار",
+  "reports_avgCost": "اوسط لاگت",
+  "reports_reorderLevel": "دوبارہ آرڈر کی حد",
+  "reports_onHand": "موجودہ اسٹاک",
+  "reports_copyReminder": "یاددہانی نقل کریں",
+  "reports_copied": "کلپ بورڈ میں نقل ہو گیا",
+  "reports_noData": "اس مدت کے لیے کوئی ڈیٹا نہیں ہے۔",
+  "reports_saleInvoices": "فروخت کی انوائسز",
+  "reports_purchaseInvoices": "خریداری کی انوائسز",
+  "reports_value": "مالیت",
+  "reports_expensesByCategory": "زمرہ کے حساب سے اخراجات",
+  "reports_customers": "گاہک",
+  "reports_suppliers": "سپلائرز",
+  "reports_accounts": "اکاؤنٹس",
+  "reports_grandTotal": "مجموعی میزان",
+  "reports_doc_saleInvoice": "فروخت انوائس",
+  "reports_doc_purchaseVoucher": "خریداری واؤچر",
+  "reports_doc_paymentReceipt": "ادائیگی کی رسید",
+  "reports_doc_supplierPaymentVoucher": "سپلائر ادائیگی واؤچر",
+  "reports_doc_customerStatement": "گاہک کھاتہ اسٹیٹمنٹ",
+  "reports_doc_supplierStatement": "سپلائر کھاتہ اسٹیٹمنٹ",
+  "reports_doc_cashReceipt": "نقد رسید",
+  "reports_doc_expenseVoucher": "اخراجات کا واؤچر",
+  "reports_doc_productionReport": "پیداوار کی رپورٹ",
+  "reports_doc_savePdf": "پی ڈی ایف محفوظ کریں",
+  "reports_doc_share": "شیئر کریں",
+  "reports_doc_print": "پرنٹ کریں",
+  "reports_doc_pdfSaved": "پی ڈی ایف محفوظ ہو گئی۔",
+  "reports_doc_billTo": "بل برائے",
+  "reports_doc_supplier": "سپلائر",
+  "reports_doc_customer": "گاہک",
+  "reports_doc_invoiceNo": "انوائس نمبر",
+  "reports_doc_date": "تاریخ",
+  "reports_doc_status": "حالت",
+  "reports_doc_items": "آئٹمز",
+  "reports_doc_item": "آئٹم",
+  "reports_doc_qty": "مقدار",
+  "reports_doc_price": "قیمت",
+  "reports_doc_amount": "رقم",
+  "reports_doc_subtotal": "ذیلی میزان",
+  "reports_doc_discount": "رعایت",
+  "reports_doc_tax": "ٹیکس",
+  "reports_doc_total": "کل میزان",
+  "reports_doc_paid": "ادا شدہ",
+  "reports_doc_due": "بقایا رقم",
+  "reports_doc_notes": "نوٹس",
+  "reports_doc_receivedFrom": "موصول از",
+  "reports_doc_paidTo": "ادا شدہ بہ",
+  "reports_doc_account": "اکاؤنٹ",
+  "reports_doc_method": "طریقہ",
+  "reports_doc_reference": "حوالہ",
+  "reports_doc_category": "زمرہ",
+  "reports_doc_description": "تفصیل",
+  "reports_doc_openingBalance": "ابتدائی بیلنس",
+  "reports_doc_closingBalance": "اختتامی بیلنس",
+  "reports_doc_debit": "ڈیبٹ",
+  "reports_doc_credit": "کریڈٹ",
+  "reports_doc_balance": "بیلنس",
+  "reports_doc_inputs": "استعمال شدہ خام مال",
+  "reports_doc_outputs": "حاصل شدہ پیداوار",
+  "reports_doc_yield": "پیداواری شرح",
+  "reports_doc_batchNo": "بیچ نمبر",
+  "reports_doc_generatedOn": "{date} کو تیار کردہ",
+  "@reports_doc_generatedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "reports_doc_cash": "نقد",
+  "reports_doc_bank": "بینک",
+  "reports_doc_from": "از",
+  "reports_doc_to": "تا",
+  "reports_doc_period": "مدت",
+  "reports_doc_oilCake": "تیل کی کھلی",
+  "reports_doc_byProduct": "ذیلی پیداوار",
+  "reports_doc_labour": "مزدوری",
+  "reports_doc_electricity": "بجلی",
+  "reports_doc_other": "دیگر",
+  "@sales_draftSaved": {
+    "placeholders": {
+      "invoiceNo": {
+        "type": "String"
+      }
+    }
+  },
+  "@sales_salePosted": {
+    "placeholders": {
+      "invoiceNo": {
+        "type": "String"
+      }
+    }
+  },
+  "sales_confirmPost": "کیا یہ فروخت درج کریں؟ اسٹاک کم ہو جائے گا۔",
+  "sales_customer": "گاہک",
+  "sales_deleteDraft": "مسودہ حذف کریں",
+  "sales_detailTitle": "فروخت کی تفصیل",
+  "sales_draftDeleted": "مسودہ حذف ہو گیا",
+  "sales_draftSaved": "مسودہ {invoiceNo} محفوظ ہو گیا",
+  "sales_emptyTitle": "ابھی کوئی فروخت نہیں",
+  "sales_formTitle": "نئی فروخت",
+  "sales_invoicePdf": "انوائس PDF",
+  "sales_lineItems": "آئٹمز",
+  "sales_newSale": "نئی فروخت",
+  "sales_noCustomerSelected": "پہلے گاہک منتخب کریں",
+  "sales_noItems": "کم از کم ایک آئٹم شامل کریں",
+  "sales_payments": "ادائیگیاں",
+  "sales_postDraft": "مسودہ درج کریں",
+  "sales_postSale": "فروخت درج کریں",
+  "sales_recordPayment": "ادائیگی درج کریں",
+  "sales_returnTitle": "فروخت واپسی",
+  "sales_salePosted": "فروخت {invoiceNo} درج ہو گئی",
+  "sales_searchCustomer": "گاہک تلاش کریں…",
+  "sales_searchHint": "انوائس نمبر یا گاہک تلاش کریں…",
+  "sales_selectCustomer": "گاہک منتخب کریں",
+  "sales_share": "شیئر کریں",
+  "sales_statusCancelled": "منسوخ شدہ",
+  "sales_statusDraft": "مسودہ",
+  "sales_statusPaid": "ادا شدہ",
+  "sales_statusPartial": "جزوی ادا شدہ",
+  "sales_statusReturned": "واپس شدہ",
+  "sales_statusUnpaid": "غیر ادا شدہ",
+  "sales_title": "فروخت",
+  "transactions_account": "اکاؤنٹ",
+  "transactions_addItem": "آئٹم شامل کریں",
+  "transactions_adjustment": "ایڈجسٹمنٹ",
+  "transactions_bank": "بینک",
+  "transactions_cash": "نقد",
+  "transactions_category": "زمرہ",
+  "transactions_credit": "کریڈٹ",
+  "transactions_customRange": "مرضی کی مدت",
+  "transactions_customRangeHint": "{from} – {to}",
+  "@transactions_customRangeHint": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "transactions_customRangeTitle": "مدت منتخب کریں",
+  "transactions_date": "تاریخ",
+  "transactions_debit": "ڈیبٹ",
+  "transactions_description": "تفصیل",
+  "transactions_detailTitle": "لین دین کی تفصیل",
+  "transactions_discount": "رعایت",
+  "transactions_discountPct": "رعایت ٪",
+  "transactions_due": "بقایا",
+  "transactions_emptyTitle": "کوئی لین دین نہیں",
+  "transactions_entriesCount": "{count} اندراجات",
+  "@transactions_entriesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "transactions_entryNo": "اندراج نمبر",
+  "transactions_expense": "اخراجات",
+  "transactions_filterAll": "تمام",
+  "transactions_filterPaymentPaid": "ادا شدہ ادائیگی",
+  "transactions_filterPaymentReceived": "موصولہ ادائیگی",
+  "transactions_income": "آمدنی",
+  "transactions_invalidPrice": "درست قیمت درج کریں",
+  "transactions_invalidQty": "درست مقدار درج کریں",
+  "transactions_invoiceDiscount": "انوائس رعایت ٪",
+  "transactions_lineTotal": "لائن کل",
+  "transactions_maxQty": "زیادہ سے زیادہ {qty}",
+  "@transactions_maxQty": {
+    "placeholders": {
+      "qty": {
+        "type": "String"
+      }
+    }
+  },
+  "transactions_noDescription": "—",
+  "transactions_notes": "نوٹس",
+  "transactions_paidAmount": "ابھی ادائیگی",
+  "transactions_paymentAccount": "اکاؤنٹ",
+  "transactions_paymentAmount": "رقم",
+  "transactions_paymentMethod": "طریقہ",
+  "transactions_paymentReference": "حوالہ",
+  "transactions_paymentSaved": "ادائیگی محفوظ ہو گئی",
+  "transactions_paymentTitle": "ادائیگی درج کریں",
+  "transactions_production": "پیداوار",
+  "transactions_purchase": "خریداری",
+  "transactions_qty": "مقدار",
+  "transactions_reference": "حوالہ",
+  "transactions_removeLine": "لائن ہٹائیں",
+  "transactions_return": "واپسی",
+  "transactions_returnPosted": "واپسی درج ہو گئی",
+  "transactions_returnReason": "وجہ (اختیاری)",
+  "transactions_returnTitle": "آئٹم واپسی",
+  "transactions_reversal": "تنسیخی اندراج",
+  "transactions_reversalOf": "{entryNo} کی تنسیخ",
+  "@transactions_reversalOf": {
+    "placeholders": {
+      "entryNo": {
+        "type": "String"
+      }
+    }
+  },
+  "transactions_reversed": "کالعدم",
+  "transactions_sale": "فروخت",
+  "transactions_saveDraft": "مسودہ محفوظ کریں",
+  "transactions_searchHint": "تفصیل یا اندراج نمبر تلاش کریں…",
+  "transactions_searchProduct": "مصنوعات تلاش کریں…",
+  "transactions_selectProduct": "مصنوعات منتخب کریں",
+  "transactions_sortNewest": "تازہ ترین",
+  "transactions_sortOldest": "قدیم ترین",
+  "transactions_submitPayment": "ادائیگی محفوظ کریں",
+  "transactions_submitReturn": "واپسی درج کریں",
+  "transactions_subtotal": "ذیلی کل",
+  "transactions_tax": "ٹیکس",
+  "transactions_taxPct": "ٹیکس ٪",
+  "transactions_title": "لین دین",
+  "transactions_total": "جرنل کل",
+  "transactions_transfer": "منتقلی",
+  "transactions_unit": "اکائی",
+  "transactions_unitPrice": "فی اکائی قیمت",
+  "udhaar_saved": "ادھار درج کر دیا گیا",
+  "udhaar_title": "ادھار دیں"
+}

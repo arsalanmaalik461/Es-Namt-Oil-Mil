@@ -1,0 +1,90 @@
+{
+  "@inventory_errInsufficientStock": {
+    "placeholders": {
+      "available": {
+        "type": "String"
+      },
+      "needed": {
+        "type": "String"
+      },
+      "product": {
+        "type": "String"
+      }
+    }
+  },
+  "@inventory_factorHint": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "inventory_addConversion": "تبادلہ شامل کریں",
+  "inventory_addProduct": "مصنوعات شامل کریں",
+  "inventory_adjust": "اسٹاک درست کریں",
+  "inventory_adjustment": "درستگی",
+  "inventory_all": "تمام",
+  "inventory_available": "دستیاب",
+  "inventory_avgCost": "اوسط لاگت",
+  "inventory_catConsumable": "استعمال کی اشیاء",
+  "inventory_catContainer": "ڈبے",
+  "inventory_catFinishedOil": "تیار تیل",
+  "inventory_catOilCake": "کھل",
+  "inventory_catPackaging": "پیکنگ",
+  "inventory_catRawMaterial": "خام مال",
+  "inventory_catSpare": "اسپیئر پارٹس",
+  "inventory_category": "قسم",
+  "inventory_conversionExists": "اس جوڑے کے لیے تبادلہ پہلے سے موجود ہے",
+  "inventory_conversionsTitle": "تبادلے",
+  "inventory_editConversion": "تبادلے میں ترمیم کریں",
+  "inventory_editProduct": "مصنوعات میں ترمیم کریں",
+  "inventory_errDatabase": "کچھ غلط ہو گیا۔ براہ کرم دوبارہ کوشش کریں۔",
+  "inventory_errInsufficientStock": "{product} کا اسٹاک ناکافی ہے (دستیاب {available}، درکار {needed})",
+  "inventory_errInvalidAmount": "درست رقم درج کریں",
+  "inventory_errInvalidQty": "صفر سے بڑی درست مقدار درج کریں",
+  "inventory_errNoConversion": "ان اکائیوں کے درمیان کوئی تبادلہ مقرر نہیں",
+  "inventory_errProductNotFound": "مصنوعات نہیں ملی",
+  "inventory_factor": "تناسب",
+  "inventory_factorHint": "1 {from} میں کتنے {to}؟",
+  "inventory_factorPositive": "تناسب صفر سے بڑا ہونا چاہیے",
+  "inventory_from": "از",
+  "inventory_in": "آمد",
+  "inventory_lowStock": "کم اسٹاک",
+  "inventory_movements": "اسٹاک کا ریکارڈ",
+  "inventory_name": "مصنوعات کا نام",
+  "inventory_noConversions": "ابھی کوئی تبادلہ مقرر نہیں",
+  "inventory_noMovements": "ابھی کوئی ریکارڈ درج نہیں",
+  "inventory_noProducts": "کوئی مصنوعات نہیں ملی",
+  "inventory_noProductsHint": "اسٹاک کا ریکارڈ رکھنے کے لیے پہلی مصنوعات شامل کریں۔",
+  "inventory_openingStock": "ابتدائی اسٹاک",
+  "inventory_openingStockReason": "ابتدائی اسٹاک",
+  "inventory_out": "خرچ",
+  "inventory_productSaved": "مصنوعات محفوظ ہو گئی",
+  "inventory_qty": "مقدار",
+  "inventory_reason": "وجہ",
+  "inventory_reasonRequired": "براہ کرم وجہ درج کریں",
+  "inventory_reorderLevel": "دوبارہ آرڈر کی حد",
+  "inventory_salePrice": "طے شدہ فروخت قیمت (اختیاری)",
+  "inventory_searchHint": "مصنوعات تلاش کریں",
+  "inventory_sku": "SKU (اختیاری)",
+  "inventory_stock": "اسٹاک",
+  "inventory_stockIn": "اسٹاک وصول کریں",
+  "inventory_stockInReason": "اسٹاک وصولی",
+  "inventory_stockOut": "اسٹاک جاری کریں",
+  "inventory_stockOutReason": "اسٹاک اجراء",
+  "inventory_stockUpdated": "اسٹاک اپ ڈیٹ ہو گیا",
+  "inventory_stockValue": "اسٹاک کی مالیت",
+  "inventory_title": "انوینٹری",
+  "inventory_to": "تک",
+  "inventory_typeAdjustment": "درستگی",
+  "inventory_typeProduction": "پیداوار",
+  "inventory_typePurchase": "خریداری",
+  "inventory_typeReturn": "واپسی",
+  "inventory_typeSale": "فروخت",
+  "inventory_unit": "اکائی",
+  "inventory_units": "اکائیاں اور تبادلے",
+  "inventory_unitsTitle": "اکائیاں"
+}

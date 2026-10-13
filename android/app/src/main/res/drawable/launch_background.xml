@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Deep emerald launch background. -->
+    <item android:drawable="@android:color/white" />
+
+    <!-- The gold droplet mark is drawn by the Flutter splash instead;
+         keep the native layer minimal so the app starts fast. -->
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@mipmap/ic_launcher" />
+    </item>
+</layer-list>

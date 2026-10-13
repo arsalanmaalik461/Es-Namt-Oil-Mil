@@ -1,0 +1,101 @@
+{
+  "transactions_account": "اکاؤنٹ",
+  "transactions_addItem": "آئٹم شامل کریں",
+  "transactions_adjustment": "ایڈجسٹمنٹ",
+  "transactions_bank": "بینک",
+  "transactions_cash": "نقد",
+  "transactions_category": "زمرہ",
+  "transactions_credit": "کریڈٹ",
+  "transactions_customRange": "مرضی کی مدت",
+  "transactions_customRangeHint": "{from} – {to}",
+  "@transactions_customRangeHint": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "transactions_customRangeTitle": "مدت منتخب کریں",
+  "transactions_date": "تاریخ",
+  "transactions_debit": "ڈیبٹ",
+  "transactions_description": "تفصیل",
+  "transactions_detailTitle": "لین دین کی تفصیل",
+  "transactions_discount": "رعایت",
+  "transactions_discountPct": "رعایت ٪",
+  "transactions_due": "بقایا",
+  "transactions_emptyTitle": "کوئی لین دین نہیں",
+  "transactions_entriesCount": "{count} اندراجات",
+  "@transactions_entriesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "transactions_entryNo": "اندراج نمبر",
+  "transactions_expense": "اخراجات",
+  "transactions_filterAll": "تمام",
+  "transactions_filterPaymentPaid": "ادا شدہ ادائیگی",
+  "transactions_filterPaymentReceived": "موصولہ ادائیگی",
+  "transactions_income": "آمدنی",
+  "transactions_invalidPrice": "درست قیمت درج کریں",
+  "transactions_invalidQty": "درست مقدار درج کریں",
+  "transactions_invoiceDiscount": "انوائس رعایت ٪",
+  "transactions_lineTotal": "لائن کل",
+  "transactions_maxQty": "زیادہ سے زیادہ {qty}",
+  "@transactions_maxQty": {
+    "placeholders": {
+      "qty": {
+        "type": "String"
+      }
+    }
+  },
+  "transactions_noDescription": "—",
+  "transactions_notes": "نوٹس",
+  "transactions_paidAmount": "ابھی ادائیگی",
+  "transactions_paymentAccount": "اکاؤنٹ",
+  "transactions_paymentAmount": "رقم",
+  "transactions_paymentMethod": "طریقہ",
+  "transactions_paymentReference": "حوالہ",
+  "transactions_paymentSaved": "ادائیگی محفوظ ہو گئی",
+  "transactions_paymentTitle": "ادائیگی درج کریں",
+  "transactions_production": "پیداوار",
+  "transactions_purchase": "خریداری",
+  "transactions_qty": "مقدار",
+  "transactions_reference": "حوالہ",
+  "transactions_removeLine": "لائن ہٹائیں",
+  "transactions_return": "واپسی",
+  "transactions_returnPosted": "واپسی درج ہو گئی",
+  "transactions_returnReason": "وجہ (اختیاری)",
+  "transactions_returnTitle": "آئٹم واپسی",
+  "transactions_reversal": "تنسیخی اندراج",
+  "transactions_reversalOf": "{entryNo} کی تنسیخ",
+  "@transactions_reversalOf": {
+    "placeholders": {
+      "entryNo": {
+        "type": "String"
+      }
+    }
+  },
+  "transactions_reversed": "کالعدم",
+  "transactions_sale": "فروخت",
+  "transactions_saveDraft": "مسودہ محفوظ کریں",
+  "transactions_searchHint": "تفصیل یا اندراج نمبر تلاش کریں…",
+  "transactions_searchProduct": "مصنوعات تلاش کریں…",
+  "transactions_selectProduct": "مصنوعات منتخب کریں",
+  "transactions_sortNewest": "تازہ ترین",
+  "transactions_sortOldest": "قدیم ترین",
+  "transactions_submitPayment": "ادائیگی محفوظ کریں",
+  "transactions_submitReturn": "واپسی درج کریں",
+  "transactions_subtotal": "ذیلی کل",
+  "transactions_tax": "ٹیکس",
+  "transactions_taxPct": "ٹیکس ٪",
+  "transactions_title": "لین دین",
+  "transactions_total": "جرنل کل",
+  "transactions_transfer": "منتقلی",
+  "transactions_unit": "اکائی",
+  "transactions_unitPrice": "فی اکائی قیمت"
+}

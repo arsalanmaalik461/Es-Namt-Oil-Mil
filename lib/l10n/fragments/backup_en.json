@@ -1,0 +1,90 @@
+{
+  "backup_title": "Backup & Restore",
+  "backup_intro": "Keep a safe copy of all your data. Backups are a single JSON file stored on this device only — nothing is uploaded.",
+  "backup_create": "Create Backup",
+  "backup_creating": "Creating backup…",
+  "backup_created": "Backup created — {count} records in {tables} tables.",
+  "@backup_created": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      },
+      "tables": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_savedTo": "Saved to {path}",
+  "@backup_savedTo": {
+    "placeholders": {
+      "path": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_restore": "Restore Backup",
+  "backup_chooseFile": "Choose backup file",
+  "backup_reading": "Reading backup…",
+  "backup_summaryTitle": "Backup summary",
+  "backup_exportedAt": "Exported {date}",
+  "@backup_exportedAt": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_tablesCount": "{count} tables",
+  "@backup_tablesCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_recordsCount": "{count} records",
+  "@backup_recordsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_confirmTitle": "Restore this backup?",
+  "backup_confirmMessage": "All current data will be REPLACED by the backup. This cannot be undone.",
+  "backup_confirmRestore": "Restore",
+  "backup_restoring": "Restoring…",
+  "backup_restored": "Restore complete — {count} records restored.",
+  "@backup_restored": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_errorInvalidFile": "This file is not a valid Namt Oil Mil backup.",
+  "backup_errorUnsupportedVersion": "Unsupported backup version: {version}.",
+  "@backup_errorUnsupportedVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_errorMissingTables": "Backup is missing tables: {tables}.",
+  "@backup_errorMissingTables": {
+    "placeholders": {
+      "tables": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_errorChecksum": "Backup data is corrupted (checksum mismatch in {table}).",
+  "@backup_errorChecksum": {
+    "placeholders": {
+      "table": {
+        "type": "String"
+      }
+    }
+  }
+}

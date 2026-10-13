@@ -1,0 +1,15 @@
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  errors:
+    # Keep the codebase warning-clean for a release build.
+    prefer_const_constructors: warning
+  exclude:
+    - build/**
+    - android/**
+
+linter:
+  rules:
+    # Prefer explicit, readable code in a financial app.
+    always_declare_return_types: true
+    prefer_single_quotes: true

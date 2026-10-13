@@ -1,0 +1,70 @@
+{
+  "@production_available": {
+    "placeholders": {
+      "qty": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "@production_inputsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "@production_resultYield": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    }
+  },
+  "production_addInput": "Add input",
+  "production_addOutput": "Add output",
+  "production_available": "Available: {qty} {unit}",
+  "production_batchAuto": "Auto-generated when the batch is posted",
+  "production_batchNo": "Batch no.",
+  "production_costBreakdown": "Cost breakdown",
+  "production_costsCashHint": "When selected, labour, electricity and other costs are posted as expenses from this account.",
+  "production_date": "Date",
+  "production_electricityCost": "Electricity cost",
+  "production_emptyInputs": "Add at least one input",
+  "production_emptyOutputs": "Add at least one output",
+  "production_errNegativeCost": "Costs cannot be negative",
+  "production_expectedYield": "Expected yield % (optional)",
+  "production_inputs": "Inputs (raw material)",
+  "production_inputsCount": "{count} inputs",
+  "production_labourCost": "Labour cost",
+  "production_materialCost": "Material cost",
+  "production_newBatch": "New batch",
+  "production_noBatches": "No batches yet",
+  "production_noBatchesHint": "Start your first production batch.",
+  "production_notes": "Notes",
+  "production_otherCost": "Other cost",
+  "production_outOfStock": "No raw-material products yet",
+  "production_outputType": "Output type",
+  "production_outputs": "Outputs",
+  "production_payCostsFrom": "Pay costs from",
+  "production_payCostsNone": "None (record separately)",
+  "production_postBatch": "Post batch",
+  "production_qtyGtZero": "Quantity must be greater than zero",
+  "production_rawOnly": "Only raw-material products can be inputs",
+  "production_removeLine": "Remove line",
+  "production_resultNoYield": "Yield could not be computed — add a kg conversion for the units used.",
+  "production_resultTitle": "Batch posted",
+  "production_resultYield": "Yield: {pct}%",
+  "production_selectProduct": "Select product",
+  "production_statusCostsPosted": "Costs in cashbook",
+  "production_statusPosted": "Posted",
+  "production_title": "Production",
+  "production_totalCost": "Total cost",
+  "production_typeByProduct": "By-product",
+  "production_typeFinishedOil": "Finished oil",
+  "production_typeOilCake": "Oil cake",
+  "production_wastage": "Wastage / loss",
+  "production_yield": "Yield"
+}
