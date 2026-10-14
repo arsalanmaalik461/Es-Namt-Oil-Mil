@@ -1,4 +1,4 @@
-package com.namtoilmil.app
+package com.arsu.digikhatabyarsu
 
 import io.flutter.embedding.android.FlutterActivity
 

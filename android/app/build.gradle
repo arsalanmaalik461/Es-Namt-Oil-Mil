@@ -23,7 +23,7 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace = "com.namtoilmil.app"
+    namespace = "com.arsu.digikhatabyarsu"
     compileSdk = 34
 
     compileOptions {
@@ -40,7 +40,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.namtoilmil.app"
+        applicationId = "com.arsu.digikhatabyarsu"
         minSdkVersion = flutter.minSdkVersion
         targetSdk = 34
         versionCode = flutterVersionCode.toInteger()

@@ -11,6 +11,10 @@ void main() {
       expect(formatPkr(-500), 'Rs -5.00');
       expect(formatPkr(123456789), 'Rs 1,234,567.89');
     });
+
+    test('negative amounts group with the sign', () {
+      expect(formatPkr(-123456789), 'Rs -1,234,567.89');
+    });
   });
 
   group('parsePkrToPaisa', () {
@@ -20,6 +24,12 @@ void main() {
       expect(parsePkrToPaisa('Rs 1,250.50'), 125050);
       expect(parsePkrToPaisa('rs 5'), 500);
       expect(parsePkrToPaisa('0.01'), 1);
+    });
+
+    test('parses negatives and zero-only decimals', () {
+      expect(parsePkrToPaisa('-5.25'), -525);
+      expect(parsePkrToPaisa('.99'), 99);
+      expect(parsePkrToPaisa('Rs -1,234.50'), -123450);
     });
 
     test('rounds extra decimals half-up to the nearest paisa', () {

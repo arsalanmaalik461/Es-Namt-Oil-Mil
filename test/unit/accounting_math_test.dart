@@ -11,6 +11,7 @@ import 'package:namt_oil_mil/models/production_batch.dart';
 import 'package:namt_oil_mil/models/sales_invoice.dart';
 import 'package:namt_oil_mil/repositories/customer_repository.dart';
 import 'package:namt_oil_mil/repositories/expense_repository.dart';
+import 'package:namt_oil_mil/repositories/purchase_repository.dart';
 import 'package:namt_oil_mil/repositories/report_repository.dart';
 import 'package:namt_oil_mil/repositories/unit_repository.dart';
 import 'package:namt_oil_mil/services/accounting_service.dart';
@@ -112,6 +113,55 @@ void main() {
       expect(reloaded, 0);
       expect(
           await accounting.getAccountBalancePaisa(cashId), invoice.totalPaisa);
+    });
+
+    test('supplier partial payments walk the purchase status unpaid -> partial',
+        () async {
+      final supplierId = await makeSupplier('Purchase Math Supplier');
+      final seedId =
+          await makeProduct('Purchase Math Seed', ProductCategory.rawMaterial);
+      final invoice = await accounting.postPurchase(
+        supplierId: supplierId,
+        date: DateTime(2026, 10, 15),
+        lines: [
+          PurchaseLineInput(
+              productId: seedId, qty: 10, unitId: kgId, unitPricePaisa: 40000),
+        ],
+      );
+      expect(invoice.status, InvoiceStatus.unpaid);
+      expect(invoice.totalPaisa, 400000);
+      expect(await accounting.getSupplierBalancePaisa(supplierId), 400000);
+
+      final half = invoice.totalPaisa ~/ 2;
+      await accounting.postSupplierPayment(
+        supplierId: supplierId,
+        accountId: cashId,
+        amountPaisa: half,
+        date: DateTime(2026, 10, 16),
+        allocations: [
+          PaymentAllocationInput(invoiceId: invoice.id!, amountPaisa: half),
+        ],
+      );
+      expect(await accounting.getSupplierBalancePaisa(supplierId),
+          invoice.totalPaisa - half);
+      final db = await DatabaseHelper.instance.database;
+      final reloaded = await PurchaseRepository(db).getById(invoice.id!);
+      expect(reloaded!.status, InvoiceStatus.partial);
+
+      await accounting.postSupplierPayment(
+        supplierId: supplierId,
+        accountId: cashId,
+        amountPaisa: invoice.totalPaisa - half,
+        date: DateTime(2026, 10, 17),
+        allocations: [
+          PaymentAllocationInput(
+              invoiceId: invoice.id!, amountPaisa: invoice.totalPaisa - half),
+        ],
+      );
+      expect(await accounting.getSupplierBalancePaisa(supplierId), 0);
+      final settled = await PurchaseRepository(db).getById(invoice.id!);
+      expect(settled!.status, InvoiceStatus.paid);
+      expect(await accounting.verifyBalances(), isEmpty);
     });
   });
 

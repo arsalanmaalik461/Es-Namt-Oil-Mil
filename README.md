@@ -1,158 +1,92 @@
-# Namt Oil Mil — Digital Khata + Oil-Mill Accounts
+# Namt Oil Mil
 
-**Namt Oil Mil** is a 100% offline-first Flutter app for running an oil mill's
-books: customer/supplier khata (udhaar), sales & purchase invoices, inventory
-(raw seed, finished oil, oil cake, packaging), production batches with yield
-calculation, expenses/income, cash & bank accounts, 27 reports, PDF invoices /
-receipts / statements (English + Urdu), payment reminders, and local
-backup/restore. No internet, no cloud, no account needed — your data never
-leaves the device.
+**100% offline digital khata + full accounts for a Pakistani oil mill.**
+No internet, no cloud, no Firebase, no account — your data never leaves the device.
 
-- App name: **Namt Oil Mil** · package `namt_oil_mil` · Android
-  `com.namtoilmil.app`
-- Default currency: **Pakistani Rupee (PKR)** — all money is stored as integer
-  **paisa** (1 Rs = 100 paisa); doubles are never used for money.
-- Languages: **English + اردو (Urdu)** with full RTL layout.
+App name: **Namt Oil Mil** · package `namt_oil_mil` · Android `com.namtoilmil.app`
+Default currency: **Pakistani Rupee (PKR)** — all money is stored as integer **paisa** (1 Rs = 100 paisa); doubles are never used for money.
 
-## Quick start
+## Features
 
-Prerequisites: Flutter SDK 3.47+ (Dart 3.13+). This repo was built with the
-SDK at `~/workspace/tools/flutter`.
-
-```bash
-cd namat_khata
-flutter pub get --offline     # IMPORTANT: always --offline; online hangs
-flutter run
-```
-
-> **Toolchain note (this build environment):** Dart's HTTP client cannot reach
-> pub.dev through the sandbox egress proxy, so every `flutter`/`dart` command
-> must pass `--offline` (online `pub get` hangs forever). Missing packages are
-> fetched with a curl-based script into `~/.pub-cache`, after which `--offline`
-> resolves them. Always run flutter commands as
-> `CI=true timeout <N> flutter <cmd>`.
-
-## Run the tests
-
-```bash
-cd namat_khata
-CI=true timeout 900 flutter test
-```
-
-Test suites:
-
-| File | What it covers |
-|---|---|
-| `test/unit/money_test.dart` | `formatPkr` / `parsePkrToPaisa` / `percentOf` (half-up) / `applyDiscount` / `lineTotalPaisa` / `weightedAverageCostPaisa` |
-| `test/unit/accounting_math_test.dart` | Discounts, taxes, partial payments + status walk, opening balances, running balances, receivables/payables, transfers excluded from income/expense, unit conversions, stock movements, yield %, P&L math, udhaar posting |
-| `test/db/database_test.dart` | CRUD, failed-transaction rollback, FK RESTRICT on customer delete, idempotent re-post, backup export→import round-trip, invalid-backup rejection (uses `sqflite_common_ffi`, in-memory-friendly) |
-| `test/integration/workflows_test.dart` | Master workflows A–F: customer credit lifecycle, supplier credit lifecycle, production batch, cashbook reconcile, backup/restore, udhaar |
-| `test/widget/smoke_test.dart` | App boots, all 5 bottom-nav tabs reachable, customer form rejects empty name, amount validator rejects 0/garbage, EN→UR gives RTL, dark theme applies |
-
-Analyze & format:
-
-```bash
-CI=true timeout 300 dart format lib test
-CI=true timeout 600 flutter analyze   # expect ZERO errors
-```
-
-## Build the APK
-
-Requires JDK 17 and the Android SDK (one-time setup):
-
-```bash
-export JAVA_HOME=~/workspace/tools/jdk17
-export ANDROID_HOME=~/workspace/tools/android-sdk
-export PATH="$JAVA_HOME/bin:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH"
-
-cd namat_khata
-CI=true timeout 1800 flutter build apk --debug
-# -> build/app/outputs/flutter-apk/app-debug.apk
-```
-
-For a release APK: `flutter build apk --release` (signing config lives in
-`android/app/build.gradle.kts` — add your keystore before publishing).
+- **Dashboard** — receivables / payables, today's sales, purchases, cash received / paid, cash + bank balances, monthly income / expense, low-stock alerts, recent transactions, quick actions.
+- **Khata (customers & suppliers)** — party lists, per-party ledgers with running balances, opening balances, payments with invoice allocation, copyable payment-reminder messages.
+- **Sales & purchases** — draft → posted invoicing with line items, discounts, tax %, paid-now, unique invoice numbers, and full **returns** (sales returns / purchase returns).
+- **Inventory** — products in configurable units (kg, maund, ton, litre, bag, piece); conversion factors are user-editable; litre↔kg is deliberately unseeded (oil density varies — set your own factor under Inventory → Units); stock in / out / adjust, weighted-average cost, reorder levels.
+- **Production** — batches with input materials, outputs (finished oil / oil cake / by-product), wastage, labour / electricity / other costs, and **yield %** calculation; batch numbers auto-assigned.
+- **Cashbook + bank** — multiple cash / bank accounts, receipts, payments, account-to-account transfers (never mis-posted as income / expense), per-account ledgers.
+- **Expenses & income** — 9 seeded expense categories plus custom ones; today / month / year summaries.
+- **27 reports** — trial balance, daybook, P&L (carries an "estimated" disclaimer), party statements, stock, cash / bank, and more; date / month filters and drill-downs.
+- **PDF documents (EN / UR)** — sale invoices, purchase vouchers, payment receipts, supplier payment vouchers, customer / supplier statements, cash receipts, expense vouchers, production reports — preview, save, share, print.
+- **Local backup / restore** — versioned JSON export with checksums; import is validated and restored transactionally behind an explicit danger-confirm.
+- **EN + UR (RTL) UI** — full bilingual interface with proper Urdu script and RTL layout, switchable in settings.
 
 ## Architecture
 
 ```
 lib/
-  main.dart / app.dart        — entry, MaterialApp (l10n, theme, router)
-  models/                     — 19 pure-Dart immutable models (fromMap/toMap)
-  db/                         — DatabaseHelper (singleton, FK pragma, migrations),
-                                schema.dart (27 tables, 59 indexes), audit_log.dart
-  repositories/               — 16 CRUD-only repositories (never compute balances)
-  services/
-    accounting_service.dart   — THE ledger authority (~2900 lines). Every
-                                balance-affecting write goes through here as ONE
-                                atomic SQLite transaction: journal entries +
-                                balance caches + stock + documents.
-    backup_service.dart       — versioned JSON export/import with checksums
-    pdf/                      — PDF builders (DB-free, testable)
-  providers/                  — Riverpod: db_providers (18), settings (locale/
-                                theme/business profile, SharedPreferences)
-  screens/                    — dashboard, khata, sales, purchases, inventory,
-                                production, cashbook, expenses, transactions,
-                                reports, backup, settings
-  l10n/                       — app_en.arb / app_ur.arb (675 keys, parity-checked);
-                                feature strings arrive via lib/l10n/fragments/
-  utils/                      — money.dart (int-paisa contract), time, keys, qty
+├── presentation   screens/ + widgets/     (UI — never computes balances)
+├── providers/     Riverpod providers       (state plumbing)
+├── services/     AccountingService        (SOLE owner of all balance math)
+│                 pdf/ PdfService          (DB-free, testable document builder)
+├── repositories/ 16 repos                 (CRUD only; no business logic)
+├── db/           sqflite schema — 27 tables, FKs ON, additive migrations
+├── models/       19 pure-Dart models
+└── l10n/         EN + UR strings (ARB), RTL direction
 ```
 
-### The one rule
+The rules the codebase enforces:
 
-**UI code must call `AccountingService` for anything that affects a balance**
-— sales, purchases, payments, udhaar, expenses, income, transfers, production,
-returns, stock adjustments. Repositories are CRUD-only. Screens never compute
-balances ad hoc. All balance formulas live in exactly one place:
-`AccountingService.signedEffect`, exposed via `getCustomerBalancePaisa` /
-`getSupplierBalancePaisa` / `getAccountBalancePaisa` /
-`ledgerWithRunningBalance`.
+- **Single ledger authority** — every balance-affecting write goes through `AccountingService`, which posts balanced double-entry journals (`ledger_entries`, Σ debit == Σ credit). Posted rows are immutable; corrections are offsetting rows. All balance formulas live in exactly one place: `AccountingService.signedEffect`. Balance caches are updated in the same transaction; `verifyBalances()` reconciles cache vs ledger.
+- **Money is integer paisa** — DB columns are `*_paisa INTEGER`.
+- **Zero network dependencies** — `pubspec.yaml` is locked down; every dependency works fully offline. No Firebase, no analytics, no tracking.
+- **sqflite with additive migrations** — `namt_oil_mil.db`, version 1. Migrations never drop/rename user tables or change a money column's type.
 
-Balance semantics:
+## Run
 
-- customer balance > 0 → customer owes the business (receivable / udhaar)
-- supplier balance > 0 → business owes the supplier (payable)
-- cash/bank balance → on-hand amount
-- "Give Udhaar" posts **Dr Customer / Cr Cash|Bank** (`category: 'udhaar'`) —
-  it is a cash advance, *not* a goods sale
+Requires the Flutter SDK (built with 3.47.7 / Dart 3.13.5). Always use `--offline` — online `pub get` cannot reach pub.dev through a proxied environment and hangs; with a warm pub cache, offline resolves everything.
 
-Data integrity:
+```bash
+cd namat_khata
+flutter pub get --offline
+flutter run
+```
 
-- Foreign keys `ON DELETE RESTRICT` on business records (a customer with
-  invoices cannot be deleted), `CASCADE` on line items
-- Balance caches (`balance_paisa`, stock, avg cost) are updated in the same
-  transaction as the journal; `verifyBalances()` reconciles cache vs ledger
-- Postings are idempotent via `idempotencyKey` — safe to retry
-- Every write is audit-logged (`audit_log` table)
+## Build the APK
 
-## Limitations (honest)
+One-time: install **JDK 17** and the Android SDK **command-line tools**, then install the platform + build-tools via `sdkmanager`. Then:
 
-- **Urdu in PDFs is limited:** the `pdf` package sets RTL direction, but
-  Arabic-script shaping and Urdu glyph coverage are limited — Urdu text in
-  PDFs renders as-is (unshaped). On-screen Urdu (Flutter) renders correctly
-  with full RTL.
-- **100% offline by design:** no cloud sync, no Firebase, no backend. There is
-  nothing to sign into and nothing is uploaded — ever.
-- **Backups are local files:** a backup JSON lives on the device. **It does
-  not survive an app uninstall** unless you copy the file elsewhere first.
-- **Web/desktop were not built in this pass** (Android APK is the target).
-- Production posts no cash ledger entries by default (raw material was already
-  expensed at purchase); pass a cost cash account to post labour/electricity
-  cash outflows inline.
-- litre↔kg conversion is deliberately unseeded (oil density varies); add your
-  own factor under Inventory → Units.
-- Reversals correct ledger + caches only; invoice status/stock are untouched
-  (use returns for those).
+```bash
+cd namat_khata
+flutter build apk --debug
+# → build/app/outputs/flutter-apk/app-debug.apk
+```
 
-## خلاصہ (اردو)
+The debug APK is unsigned — installs fine directly on a phone, but it cannot be uploaded to the Play Store. A signed release build is a separate step.
+
+## Run the tests
+
+```bash
+cd namat_khata
+flutter test
+```
+
+Unit tests (money math, balance formulas, idempotency), DB integration tests via `sqflite_common_ffi` (posting flows, allocations, returns, balance reconciliation, backup round-trip), and widget smoke tests.
+
+## اردو خلاصہ
 
 **نعمت آئل مل** آپ کے آئل مل کا مکمل ڈیجیٹل کھاتہ ہے — سو فیصد آف لائن۔
-گاہکوں اور سپلائرز کا ادھار، سیل اور خریداری کی رسیدیں، اسٹاک (سرسوں/تیل/کھل)،
-پیداوار کی لاگت اور اوسط، اخراجات و آمدنی، کیش و بینک کھاتے، 27 رپورٹیں، اردو
-اور انگریزی میں PDF رسیدیں، ادائیگی کی یاد دہانیاں، اور مقامی بیک اپ —
+گاہکوں اور سپلائرز کا ادھار، سیل اور خریداری کی رسیدیں، اسٹاک (کلوگرام، من، ٹن، لیٹر)،
+پیداوار کے بیچ (ییلڈ فیصد کے ساتھ)، نقد رقم و بینک کھاتے، اخراجات و آمدنی،
+27 رپورٹیں، اردو اور انگریزی میں PDF دستاویزات، اور مقامی بیک اپ —
 سب کچھ آپ کے اپنے موبائل میں، انٹرنیٹ کے بغیر۔
+ڈیٹا کا بیک اپ کہیں اور محفوظ رکھیں، کیونکہ ایپ ڈیلیٹ ہونے پر ڈیٹا ضائع ہو جائے گا۔
 
----
+## Honest limitations
 
-*Built with Flutter · SQLite (sqflite) · Riverpod · pdf/printing · intl*
+- **Urdu shaping in generated PDFs is limited.** The PDF engine applies RTL direction, but Arabic-script glyph shaping and full Urdu glyph coverage are limited — Urdu text renders as-is and may not look as polished as the on-screen UI. On-screen Urdu (Flutter) renders correctly with full RTL. English PDFs are unaffected.
+- **Web/desktop not built in this pass.** The codebase is plain Flutter and platform-agnostic, but this build and its QA targeted **Android**.
+- **No cloud sync or Firebase — by design.** A deliberate choice for a business that cannot rely on connectivity. Nothing is uploaded, ever.
+- **A local backup file does not survive app uninstall.** The backup JSON lives wherever *you* save or share it. Keep copies on a second device, a drive, or your laptop.
+- **The debug APK is unsigned.** Fine for direct install; not for the Play Store.
+- **P&L carries an "estimated" disclaimer** — it reflects ledger postings, not audited accounts.
+- Draft invoices reserve real invoice numbers at creation, so deleting a draft leaves a number gap — intentional, to keep the audit trail clean.

@@ -7,6 +7,8 @@ analyzer:
   exclude:
     - build/**
     - android/**
+    # Generated l10n bridge (snake_case ARB key names; lint-clean by design).
+    - lib/l10n/fragment_strings.dart
 
 linter:
   rules:
