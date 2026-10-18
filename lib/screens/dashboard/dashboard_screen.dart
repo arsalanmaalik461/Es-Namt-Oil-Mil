@@ -9,6 +9,7 @@ import 'package:namt_oil_mil/models/supplier.dart';
 import 'package:namt_oil_mil/navigation/routes.dart';
 import 'package:namt_oil_mil/widgets/amount_text.dart';
 import 'package:namt_oil_mil/widgets/empty_state.dart';
+import 'package:namt_oil_mil/widgets/entrance_animation.dart';
 import 'package:namt_oil_mil/widgets/error_state.dart';
 import 'package:namt_oil_mil/widgets/loading_state.dart';
 import 'package:namt_oil_mil/widgets/section_header.dart';
@@ -61,16 +62,26 @@ class DashboardScreen extends ConsumerWidget {
   }
 
   Widget _buildBody(BuildContext context, WidgetRef ref, DashboardData data) {
+    // Staggered entrance: each section fades/slides in 70ms after the
+    // previous one. Runs once per screen mount, not on data refreshes.
+    const stagger = Duration(milliseconds: 70);
+    final sections = [
+      _OutstandingSection(data: data),
+      _TodaySection(data: data),
+      _AccountsSection(data: data),
+      _MonthSection(data: data),
+      _QuickActionsSection(ref: ref),
+      _LowStockSection(data: data),
+      _RecentActivitySection(data: data),
+    ];
     return ListView(
       padding: const EdgeInsets.only(bottom: 24),
       children: [
-        _OutstandingSection(data: data),
-        _TodaySection(data: data),
-        _AccountsSection(data: data),
-        _MonthSection(data: data),
-        _QuickActionsSection(ref: ref),
-        _LowStockSection(data: data),
-        _RecentActivitySection(data: data),
+        for (var i = 0; i < sections.length; i++)
+          StaggerEntrance(
+            delay: stagger * i,
+            child: sections[i],
+          ),
       ],
     );
   }
@@ -98,6 +109,7 @@ class _OutstandingSection extends StatelessWidget {
                   paisa: data.totalReceivablePaisa,
                   icon: Icons.arrow_downward,
                   positive: true,
+                  animateAmount: true,
                   onTap: () => Navigator.pushNamed(context, Routes.customers),
                 ),
                 SummaryCard(
@@ -105,6 +117,7 @@ class _OutstandingSection extends StatelessWidget {
                   paisa: data.totalPayablePaisa,
                   icon: Icons.arrow_upward,
                   positive: false,
+                  animateAmount: true,
                   onTap: () => Navigator.pushNamed(context, Routes.suppliers),
                 ),
               ];
@@ -185,14 +198,20 @@ class _TodaySection extends StatelessWidget {
         SectionHeader(title: t.dashboard_today),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: GridView.count(
-            crossAxisCount: 2,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            mainAxisSpacing: 12,
-            crossAxisSpacing: 12,
-            childAspectRatio: 1.6,
-            children: cards,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              // 2 columns on phones, 4 across on tablets / wide screens.
+              final wide = constraints.maxWidth >= 600;
+              return GridView.count(
+                crossAxisCount: wide ? 4 : 2,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                mainAxisSpacing: 12,
+                crossAxisSpacing: 12,
+                childAspectRatio: wide ? 1.35 : 1.6,
+                children: cards,
+              );
+            },
           ),
         ),
       ],
@@ -231,7 +250,7 @@ class _MiniCard extends StatelessWidget {
                   style: Theme.of(context).textTheme.bodySmall,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis),
-              AmountText(paisa: paisa),
+              AnimatedAmountText(paisa: paisa),
             ],
           ),
         ),
@@ -313,6 +332,7 @@ class _MonthSection extends StatelessWidget {
                   paisa: data.month.incomePaisa,
                   icon: Icons.trending_up,
                   positive: true,
+                  animateAmount: true,
                   onTap: () => Navigator.pushNamed(context, Routes.reports),
                 ),
                 SummaryCard(
@@ -320,6 +340,7 @@ class _MonthSection extends StatelessWidget {
                   paisa: data.month.expensesPaisa,
                   icon: Icons.trending_down,
                   positive: false,
+                  animateAmount: true,
                   onTap: () => Navigator.pushNamed(context, Routes.reports),
                 ),
               ];
@@ -413,14 +434,24 @@ class _QuickActionsSection extends StatelessWidget {
         SectionHeader(title: t.dashboard_quickActions),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: GridView.count(
-            crossAxisCount: 5,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            mainAxisSpacing: 8,
-            crossAxisSpacing: 8,
-            childAspectRatio: 0.72,
-            children: [for (final a in actions) _QuickActionTile(action: a)],
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              // Fewer columns on narrow phones so labels don't clip;
+              // a single row of all 10 on large tablets.
+              final w = constraints.maxWidth;
+              final columns = w < 380 ? 4 : (w < 900 ? 5 : 10);
+              return GridView.count(
+                crossAxisCount: columns,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                mainAxisSpacing: 8,
+                crossAxisSpacing: 8,
+                childAspectRatio: 0.65,
+                children: [
+                  for (final a in actions) _QuickActionTile(action: a)
+                ],
+              );
+            },
           ),
         ),
       ],

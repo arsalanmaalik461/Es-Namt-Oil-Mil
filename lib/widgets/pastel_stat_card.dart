@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 
 /// Pastel stat card in the v2 "soft khata" style: a light pastel tile with
 /// a small uppercase label, a large value, and a muted sub-label.
-///
-/// Mirrors the Easy-Khata-style KULL SALES / KULL ORDERS tiles without
-/// copying any of that app's assets — colors and copy here are our own.
 class PastelStatCard extends StatelessWidget {
   final String label;
   final String value;
@@ -25,6 +22,7 @@ class PastelStatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
     final card = Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -39,7 +37,7 @@ class PastelStatCard extends StatelessWidget {
             style: Theme.of(context).textTheme.labelMedium?.copyWith(
                   letterSpacing: 1.1,
                   fontWeight: FontWeight.w600,
-                  color: Colors.black54,
+                  color: scheme.onSurfaceVariant,
                 ),
           ),
           const SizedBox(height: 10),
@@ -58,7 +56,7 @@ class PastelStatCard extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .bodySmall
-                ?.copyWith(color: Colors.black45),
+                ?.copyWith(color: scheme.onSurfaceVariant),
           ),
         ],
       ),

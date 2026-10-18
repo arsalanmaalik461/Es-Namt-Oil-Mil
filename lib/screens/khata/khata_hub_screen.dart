@@ -12,6 +12,7 @@ import 'package:namt_oil_mil/utils/money.dart';
 import 'package:namt_oil_mil/widgets/app_search_bar.dart';
 import 'package:namt_oil_mil/widgets/bottom_cta_button.dart';
 import 'package:namt_oil_mil/widgets/empty_state.dart';
+import 'package:namt_oil_mil/widgets/entrance_animation.dart';
 import 'package:namt_oil_mil/widgets/error_state.dart';
 import 'package:namt_oil_mil/widgets/loading_state.dart';
 import 'khata_providers.dart';
@@ -102,7 +103,8 @@ class _KhataHubScreenState extends ConsumerState<KhataHubScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: BottomCtaButton(
           icon: Icons.add,
-          label: _showSuppliers ? t.khata_addSupplierBtn : t.khata_addCustomerBtn,
+          label:
+              _showSuppliers ? t.khata_addSupplierBtn : t.khata_addCustomerBtn,
           onPressed: () async {
             final saved = await showPartyFormSheet(
               context,
@@ -132,12 +134,16 @@ class _KhataHubScreenState extends ConsumerState<KhataHubScreen> {
             child: const Icon(Icons.storefront, color: Colors.white, size: 26),
           ),
           const SizedBox(width: 12),
-          Text(
-            t.khata_businessName.toUpperCase(),
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: 2.5,
-                ),
+          Expanded(
+            child: Text(
+              t.khata_businessName.toUpperCase(),
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 2.5,
+                  ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ],
       ),
@@ -158,12 +164,13 @@ class _KhataHubScreenState extends ConsumerState<KhataHubScreen> {
                 style: Theme.of(context).textTheme.labelMedium?.copyWith(
                       letterSpacing: 1.2,
                       fontWeight: FontWeight.w600,
-                      color: Colors.black54,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
               ),
               const SizedBox(width: 8),
-              const Icon(Icons.remove_red_eye_outlined,
-                  size: 18, color: Colors.black45),
+              Icon(Icons.remove_red_eye_outlined,
+                  size: 18,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant),
             ],
           ),
           const SizedBox(height: 10),
@@ -206,21 +213,26 @@ class _KhataHubScreenState extends ConsumerState<KhataHubScreen> {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.surface,
             borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: Colors.black12),
+            border:
+                Border.all(color: Theme.of(context).colorScheme.outlineVariant),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Icon(Icons.notifications_outlined, size: 20),
               const SizedBox(width: 8),
-              Text(
-                t.khata_remindersCount(count: '$overdue'),
-                style: Theme.of(context)
-                    .textTheme
-                    .titleSmall
-                    ?.copyWith(fontWeight: FontWeight.w600),
+              Flexible(
+                child: Text(
+                  t.khata_remindersCount(count: '$overdue'),
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleSmall
+                      ?.copyWith(fontWeight: FontWeight.w600),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
             ],
           ),
@@ -253,7 +265,7 @@ class _KhataHubScreenState extends ConsumerState<KhataHubScreen> {
             style: Theme.of(context).textTheme.labelMedium?.copyWith(
                   letterSpacing: 1.2,
                   fontWeight: FontWeight.w600,
-                  color: Colors.black54,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
           ),
           const Spacer(),
@@ -313,15 +325,20 @@ class _KhataHubScreenState extends ConsumerState<KhataHubScreen> {
                   date: DateFormat.yMMMd(
                           Localizations.localeOf(context).toLanguageTag())
                       .format(updated));
-          return _PartyRow(
-            name: name,
-            subtitle: dateLabel,
-            balancePaisa: balance,
-            isSupplier: _showSuppliers,
-            onTap: () => Navigator.pushNamed(
-              context,
-              _showSuppliers ? Routes.supplierDetail : Routes.customerDetail,
-              arguments: p.id as int,
+          return StaggerEntrance(
+            // Staggered entrance per row; capped at 300ms so long lists
+            // stay snappy. Runs on first load only.
+            delay: Duration(milliseconds: (index * 40).clamp(0, 300).toInt()),
+            child: _PartyRow(
+              name: name,
+              subtitle: dateLabel,
+              balancePaisa: balance,
+              isSupplier: _showSuppliers,
+              onTap: () => Navigator.pushNamed(
+                context,
+                _showSuppliers ? Routes.supplierDetail : Routes.customerDetail,
+                arguments: p.id as int,
+              ),
             ),
           );
         },
@@ -450,10 +467,10 @@ class _MiniBalanceCard extends StatelessWidget {
                 Text(
                   amount,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w800,
-                        color: foreground,
-                        fontFeatures: const [FontFeature.tabularFigures()],
-                      ),
+                    fontWeight: FontWeight.w800,
+                    color: foreground,
+                    fontFeatures: const [FontFeature.tabularFigures()],
+                  ),
                   textDirection: TextDirection.ltr,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -497,20 +514,19 @@ class _PartyRow extends StatelessWidget {
     // payable side is mirrored so "dene hain" stays pink as well.
     final owesUs = isSupplier ? balancePaisa < 0 : balancePaisa > 0;
     final color = balancePaisa == 0
-        ? Colors.black54
+        ? Theme.of(context).colorScheme.onSurfaceVariant
         : (owesUs ? AppColors.pastelPinkText : AppColors.pastelGreenText);
-    final prefix = balancePaisa == 0
-        ? ''
-        : (owesUs ? '- ' : '+ ');
+    final prefix = balancePaisa == 0 ? '' : (owesUs ? '- ' : '+ ');
     return InkWell(
       borderRadius: BorderRadius.circular(16),
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.black12),
+          border:
+              Border.all(color: Theme.of(context).colorScheme.outlineVariant),
         ),
         child: Row(
           children: [
@@ -539,10 +555,9 @@ class _PartyRow extends StatelessWidget {
                   if (subtitle.isNotEmpty)
                     Text(
                       subtitle,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall
-                          ?.copyWith(color: Colors.black45),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color:
+                              Theme.of(context).colorScheme.onSurfaceVariant),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -552,10 +567,10 @@ class _PartyRow extends StatelessWidget {
             Text(
               '$prefix${formatPkr(balancePaisa.abs())}',
               style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.w700,
-                    color: color,
-                    fontFeatures: const [FontFeature.tabularFigures()],
-                  ),
+                fontWeight: FontWeight.w700,
+                color: color,
+                fontFeatures: const [FontFeature.tabularFigures()],
+              ),
               textDirection: TextDirection.ltr,
             ),
           ],

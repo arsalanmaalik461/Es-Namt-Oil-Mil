@@ -107,50 +107,59 @@ class _PartyPickerDialogState extends ConsumerState<_PartyPickerDialog> {
   Widget build(BuildContext context) {
     final t = FragmentStrings.of(context);
     final l10n = AppLocalizations.of(context);
-    return AlertDialog(
-      title: Text(widget.isCustomer
-          ? t.reports_selectCustomer
-          : t.reports_selectSupplier),
-      content: SizedBox(
-        width: double.maxFinite,
-        height: 380,
-        child: Column(
-          children: [
-            TextField(
-              controller: _search,
-              decoration: InputDecoration(
-                hintText: l10n.common_search,
-                prefixIcon: const Icon(Icons.search),
-              ),
+    // Responsive height: fits short phone screens, caps on large ones.
+    final listHeight =
+        (MediaQuery.sizeOf(context).height * 0.5).clamp(260.0, 420.0);
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 500),
+        child: AlertDialog(
+          title: Text(widget.isCustomer
+              ? t.reports_selectCustomer
+              : t.reports_selectSupplier),
+          content: SizedBox(
+            width: double.maxFinite,
+            height: listHeight,
+            child: Column(
+              children: [
+                TextField(
+                  controller: _search,
+                  decoration: InputDecoration(
+                    hintText: l10n.common_search,
+                    prefixIcon: const Icon(Icons.search),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Expanded(
+                  child: _loading
+                      ? const Center(child: CircularProgressIndicator())
+                      : _error != null
+                          ? Center(child: Text(_error!))
+                          : _results.isEmpty
+                              ? Center(child: Text(l10n.empty_default))
+                              : ListView.builder(
+                                  itemCount: _results.length,
+                                  itemBuilder: (_, i) {
+                                    final r = _results[i];
+                                    return ListTile(
+                                      title: Text(r.name),
+                                      onTap: () =>
+                                          Navigator.of(context).pop(r.id),
+                                    );
+                                  },
+                                ),
+                ),
+              ],
             ),
-            const SizedBox(height: 8),
-            Expanded(
-              child: _loading
-                  ? const Center(child: CircularProgressIndicator())
-                  : _error != null
-                      ? Center(child: Text(_error!))
-                      : _results.isEmpty
-                          ? Center(child: Text(l10n.empty_default))
-                          : ListView.builder(
-                              itemCount: _results.length,
-                              itemBuilder: (_, i) {
-                                final r = _results[i];
-                                return ListTile(
-                                  title: Text(r.name),
-                                  onTap: () => Navigator.of(context).pop(r.id),
-                                );
-                              },
-                            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(l10n.common_cancel),
             ),
           ],
         ),
       ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: Text(l10n.common_cancel),
-        ),
-      ],
     );
   }
 }
@@ -210,48 +219,57 @@ class _ProductPickerDialogState extends ConsumerState<_ProductPickerDialog> {
   Widget build(BuildContext context) {
     final t = FragmentStrings.of(context);
     final l10n = AppLocalizations.of(context);
-    return AlertDialog(
-      title: Text(t.reports_selectProduct),
-      content: SizedBox(
-        width: double.maxFinite,
-        height: 380,
-        child: Column(
-          children: [
-            TextField(
-              controller: _search,
-              decoration: InputDecoration(
-                hintText: l10n.common_search,
-                prefixIcon: const Icon(Icons.search),
-              ),
+    // Responsive height: fits short phone screens, caps on large ones.
+    final listHeight =
+        (MediaQuery.sizeOf(context).height * 0.5).clamp(260.0, 420.0);
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 500),
+        child: AlertDialog(
+          title: Text(t.reports_selectProduct),
+          content: SizedBox(
+            width: double.maxFinite,
+            height: listHeight,
+            child: Column(
+              children: [
+                TextField(
+                  controller: _search,
+                  decoration: InputDecoration(
+                    hintText: l10n.common_search,
+                    prefixIcon: const Icon(Icons.search),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Expanded(
+                  child: _loading
+                      ? const Center(child: CircularProgressIndicator())
+                      : _error != null
+                          ? Center(child: Text(_error!))
+                          : _results.isEmpty
+                              ? Center(child: Text(l10n.empty_default))
+                              : ListView.builder(
+                                  itemCount: _results.length,
+                                  itemBuilder: (_, i) {
+                                    final r = _results[i];
+                                    return ListTile(
+                                      title: Text(r.name),
+                                      onTap: () =>
+                                          Navigator.of(context).pop(r.id),
+                                    );
+                                  },
+                                ),
+                ),
+              ],
             ),
-            const SizedBox(height: 8),
-            Expanded(
-              child: _loading
-                  ? const Center(child: CircularProgressIndicator())
-                  : _error != null
-                      ? Center(child: Text(_error!))
-                      : _results.isEmpty
-                          ? Center(child: Text(l10n.empty_default))
-                          : ListView.builder(
-                              itemCount: _results.length,
-                              itemBuilder: (_, i) {
-                                final r = _results[i];
-                                return ListTile(
-                                  title: Text(r.name),
-                                  onTap: () => Navigator.of(context).pop(r.id),
-                                );
-                              },
-                            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(l10n.common_cancel),
             ),
           ],
         ),
       ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: Text(l10n.common_cancel),
-        ),
-      ],
     );
   }
 }

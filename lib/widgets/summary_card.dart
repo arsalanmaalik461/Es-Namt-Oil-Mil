@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:namt_oil_mil/widgets/amount_text.dart';
+import 'package:namt_oil_mil/widgets/entrance_animation.dart';
 
 /// KPI-style card: icon + label + big amount, optionally tappable.
+///
+/// Set [animateAmount] to count the amount up on first appearance
+/// (dashboard usage); leave it off elsewhere so values render instantly.
 class SummaryCard extends StatelessWidget {
   final String label;
   final int paisa;
   final IconData icon;
   final bool? positive;
   final VoidCallback? onTap;
+  final bool animateAmount;
 
   const SummaryCard({
     super.key,
@@ -16,6 +21,7 @@ class SummaryCard extends StatelessWidget {
     required this.icon,
     this.positive,
     this.onTap,
+    this.animateAmount = false,
   });
 
   @override
@@ -48,11 +54,17 @@ class SummaryCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 4),
-                AmountText(
-                  paisa: paisa,
-                  positive: positive,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
+                animateAmount
+                    ? AnimatedAmountText(
+                        paisa: paisa,
+                        positive: positive,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      )
+                    : AmountText(
+                        paisa: paisa,
+                        positive: positive,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
               ],
             ),
           ),

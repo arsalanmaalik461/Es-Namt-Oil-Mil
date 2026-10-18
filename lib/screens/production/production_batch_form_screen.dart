@@ -663,53 +663,63 @@ class _ProductPickerDialogState extends State<_ProductPickerDialog> {
     final list = widget.products
         .where((p) => p.name.toLowerCase().contains(_query))
         .toList();
-    return AlertDialog(
-      title: Text(widget.title),
-      content: SizedBox(
-        width: double.maxFinite,
-        height: 380,
-        child: Column(
-          children: [
-            TextField(
-              controller: _search,
-              decoration: InputDecoration(
-                hintText: l10n.inventory_searchHint,
-                prefixIcon: const Icon(Icons.search),
-              ),
-              onChanged: (v) => setState(() => _query = v.trim().toLowerCase()),
+    // Responsive height: fits short phone screens, caps on large ones.
+    final listHeight =
+        (MediaQuery.sizeOf(context).height * 0.5).clamp(260.0, 420.0);
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 500),
+        child: AlertDialog(
+          title: Text(widget.title),
+          content: SizedBox(
+            width: double.maxFinite,
+            height: listHeight,
+            child: Column(
+              children: [
+                TextField(
+                  controller: _search,
+                  decoration: InputDecoration(
+                    hintText: l10n.inventory_searchHint,
+                    prefixIcon: const Icon(Icons.search),
+                  ),
+                  onChanged: (v) =>
+                      setState(() => _query = v.trim().toLowerCase()),
+                ),
+                const SizedBox(height: 8),
+                Expanded(
+                  child: list.isEmpty
+                      ? Center(child: Text(widget.emptyMessage))
+                      : ListView.builder(
+                          itemCount: list.length,
+                          itemBuilder: (context, index) {
+                            final p = list[index];
+                            final symbol =
+                                widget.units[p.baseUnitId]?.symbol ?? '';
+                            return ListTile(
+                              title: Text(p.name,
+                                  maxLines: 1, overflow: TextOverflow.ellipsis),
+                              subtitle: Text(
+                                '${l10n.inventory_available}: '
+                                '${formatQty(p.stockQty)} $symbol',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              onTap: () => Navigator.of(context).pop(p),
+                            );
+                          },
+                        ),
+                ),
+              ],
             ),
-            const SizedBox(height: 8),
-            Expanded(
-              child: list.isEmpty
-                  ? Center(child: Text(widget.emptyMessage))
-                  : ListView.builder(
-                      itemCount: list.length,
-                      itemBuilder: (context, index) {
-                        final p = list[index];
-                        final symbol = widget.units[p.baseUnitId]?.symbol ?? '';
-                        return ListTile(
-                          title: Text(p.name,
-                              maxLines: 1, overflow: TextOverflow.ellipsis),
-                          subtitle: Text(
-                            '${l10n.inventory_available}: '
-                            '${formatQty(p.stockQty)} $symbol',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          onTap: () => Navigator.of(context).pop(p),
-                        );
-                      },
-                    ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(l10n.common_cancel),
             ),
           ],
         ),
       ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: Text(l10n.common_cancel),
-        ),
-      ],
     );
   }
 }

@@ -2128,8 +2128,12 @@ class _DocumentViewState extends ConsumerState<_DocumentView> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(m.label,
-                                    style: theme.textTheme.bodyMedium),
+                                Flexible(
+                                  child: Text(m.label,
+                                      style: theme.textTheme.bodyMedium,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis),
+                                ),
                                 AmountTextPreview(value: m.value),
                               ],
                             ),

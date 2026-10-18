@@ -100,7 +100,8 @@ class _CustomerDetailScreenState extends ConsumerState<CustomerDetailScreen> {
           statementAsync.when(
             data: (statement) => _buildTxnSliver(context, statement),
             loading: () => const SliverToBoxAdapter(
-              child: Padding(padding: EdgeInsets.all(32), child: LoadingState()),
+              child:
+                  Padding(padding: EdgeInsets.all(32), child: LoadingState()),
             ),
             error: (e, _) => SliverToBoxAdapter(
               child: ErrorState(
@@ -123,7 +124,8 @@ class _CustomerDetailScreenState extends ConsumerState<CustomerDetailScreen> {
     final since = c.createdAt == null
         ? ''
         : t.khata_customerSince(
-            date: DateFormat.yMMMd(Localizations.localeOf(context).toLanguageTag())
+            date: DateFormat.yMMMd(
+                    Localizations.localeOf(context).toLanguageTag())
                 .format(c.createdAt!));
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
@@ -149,10 +151,8 @@ class _CustomerDetailScreenState extends ConsumerState<CustomerDetailScreen> {
                 if (since.isNotEmpty)
                   Text(
                     since,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall
-                        ?.copyWith(color: Colors.black54),
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant),
                   ),
               ],
             ),
@@ -171,9 +171,8 @@ class _CustomerDetailScreenState extends ConsumerState<CustomerDetailScreen> {
               ),
               PopupMenuItem(
                 value: 'archive',
-                child: Text(c.isArchived
-                    ? t.customers_unarchive
-                    : t.customers_archive),
+                child: Text(
+                    c.isArchived ? t.customers_unarchive : t.customers_archive),
               ),
             ],
           ),
@@ -242,7 +241,8 @@ class _CustomerDetailScreenState extends ConsumerState<CustomerDetailScreen> {
           Expanded(
             child: AppSearchBar(
               controller: _searchController,
-              onChanged: (v) => setState(() => _search = v.trim().toLowerCase()),
+              onChanged: (v) =>
+                  setState(() => _search = v.trim().toLowerCase()),
               hint: t.customers_searchLedgerHint,
             ),
           ),
@@ -269,7 +269,7 @@ class _CustomerDetailScreenState extends ConsumerState<CustomerDetailScreen> {
     final style = Theme.of(context).textTheme.labelMedium?.copyWith(
           letterSpacing: 1.1,
           fontWeight: FontWeight.w600,
-          color: Colors.black45,
+          color: Theme.of(context).colorScheme.onSurfaceVariant,
         );
     return Padding(
       padding: const EdgeInsets.fromLTRB(28, 16, 28, 8),
@@ -361,7 +361,13 @@ class _CustomerDetailScreenState extends ConsumerState<CustomerDetailScreen> {
                     children: [
                       const Icon(Icons.arrow_upward, size: 20),
                       const SizedBox(width: 6),
-                      Text(t.khata_maineyDiye),
+                      Flexible(
+                        child: Text(
+                          t.khata_maineyDiye,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -400,7 +406,13 @@ class _CustomerDetailScreenState extends ConsumerState<CustomerDetailScreen> {
                     children: [
                       const Icon(Icons.arrow_downward, size: 20),
                       const SizedBox(width: 6),
-                      Text(t.khata_maineyLiye),
+                      Flexible(
+                        child: Text(
+                          t.khata_maineyLiye,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -569,7 +581,8 @@ class _ActionButton extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(icon,
-                size: 30, color: iconColor ?? Colors.black87),
+                size: 30,
+                color: iconColor ?? Theme.of(context).colorScheme.onSurface),
             const SizedBox(height: 6),
             Text(
               label,
@@ -605,11 +618,13 @@ class _SquareIconButton extends StatelessWidget {
         width: 52,
         height: 52,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: Colors.black12),
+          border:
+              Border.all(color: Theme.of(context).colorScheme.outlineVariant),
         ),
-        child: Icon(icon, color: Colors.black54),
+        child:
+            Icon(icon, color: Theme.of(context).colorScheme.onSurfaceVariant),
       ),
     );
   }
@@ -647,10 +662,10 @@ class _TxnRow extends StatelessWidget {
             : entry.entryNo);
 
     final amountStyle = Theme.of(context).textTheme.titleSmall?.copyWith(
-          fontWeight: FontWeight.w700,
-          color: isDiye ? AppColors.pastelPinkText : AppColors.pastelGreenText,
-          fontFeatures: const [FontFeature.tabularFigures()],
-        );
+      fontWeight: FontWeight.w700,
+      color: isDiye ? AppColors.pastelPinkText : AppColors.pastelGreenText,
+      fontFeatures: const [FontFeature.tabularFigures()],
+    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -660,9 +675,7 @@ class _TxnRow extends StatelessWidget {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: isDiye
-                    ? AppColors.pastelPink
-                    : AppColors.pastelGreen,
+                color: isDiye ? AppColors.pastelPink : AppColors.pastelGreen,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(
@@ -681,10 +694,8 @@ class _TxnRow extends StatelessWidget {
                 children: [
                   Text(
                     dateLabel,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium
-                        ?.copyWith(color: Colors.black87),
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurface),
                   ),
                   Container(
                     margin: const EdgeInsets.only(top: 4),
@@ -697,11 +708,9 @@ class _TxnRow extends StatelessWidget {
                     child: Text(
                       t.khata_balAfter(amount: formatPkr(runningBalancePaisa)),
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Colors.black87,
-                            fontFeatures: const [
-                              FontFeature.tabularFigures()
-                            ],
-                          ),
+                        color: Theme.of(context).colorScheme.onSurface,
+                        fontFeatures: const [FontFeature.tabularFigures()],
+                      ),
                       textDirection: TextDirection.ltr,
                     ),
                   ),
@@ -735,7 +744,7 @@ class _TxnRow extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .bodyMedium
-                ?.copyWith(color: Colors.black87),
+                ?.copyWith(color: Theme.of(context).colorScheme.onSurface),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),

@@ -17,26 +17,34 @@ Future<bool> showConfirmDialog(
     context: context,
     builder: (dialogContext) {
       final dialogL10n = AppLocalizations.of(dialogContext);
-      return AlertDialog(
-        title: Text(title ?? dialogL10n.confirmDelete_title),
-        content: Text(message ?? dialogL10n.confirmDelete_message),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop(false),
-            child: Text(cancelLabel ?? dialogL10n.common_cancel),
+      // Cap the width on tablets; on phones the dialog already fills the
+      // safe inset area via the default insetPadding.
+      return Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 420),
+          child: AlertDialog(
+            title: Text(title ?? dialogL10n.confirmDelete_title),
+            content: Text(message ?? dialogL10n.confirmDelete_message),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(dialogContext).pop(false),
+                child: Text(cancelLabel ?? dialogL10n.common_cancel),
+              ),
+              FilledButton(
+                onPressed: () => Navigator.of(dialogContext).pop(true),
+                style: danger
+                    ? FilledButton.styleFrom(
+                        backgroundColor:
+                            Theme.of(dialogContext).colorScheme.error,
+                        foregroundColor:
+                            Theme.of(dialogContext).colorScheme.onError,
+                      )
+                    : null,
+                child: Text(confirmLabel ?? dialogL10n.common_delete),
+              ),
+            ],
           ),
-          FilledButton(
-            onPressed: () => Navigator.of(dialogContext).pop(true),
-            style: danger
-                ? FilledButton.styleFrom(
-                    backgroundColor: Theme.of(dialogContext).colorScheme.error,
-                    foregroundColor:
-                        Theme.of(dialogContext).colorScheme.onError,
-                  )
-                : null,
-            child: Text(confirmLabel ?? dialogL10n.common_delete),
-          ),
-        ],
+        ),
       );
     },
   );

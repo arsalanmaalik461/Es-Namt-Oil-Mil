@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:namt_oil_mil/navigation/page_transitions.dart';
 
 /// Brand palette for "Namt Oil Mil".
 ///
@@ -96,6 +97,7 @@ class AppTheme {
 
     return ThemeData(
       useMaterial3: true,
+      pageTransitionsTheme: buildAppPageTransitionsTheme(),
       colorScheme: scheme,
       scaffoldBackgroundColor: AppColors.softBackground,
       appBarTheme: const AppBarTheme(
@@ -289,6 +291,7 @@ class AppTheme {
 
     return ThemeData(
       useMaterial3: true,
+      pageTransitionsTheme: buildAppPageTransitionsTheme(),
       colorScheme: scheme,
       scaffoldBackgroundColor: AppColors.charcoal,
       appBarTheme: const AppBarTheme(

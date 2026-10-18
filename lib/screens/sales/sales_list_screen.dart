@@ -11,6 +11,7 @@ import 'package:namt_oil_mil/utils/money.dart';
 import 'package:namt_oil_mil/widgets/app_search_bar.dart';
 import 'package:namt_oil_mil/widgets/bottom_cta_button.dart';
 import 'package:namt_oil_mil/widgets/empty_state.dart';
+import 'package:namt_oil_mil/widgets/entrance_animation.dart';
 import 'package:namt_oil_mil/widgets/pastel_stat_card.dart';
 
 /// Sales dashboard (`/sales`) in the v2 "soft khata" style.
@@ -60,8 +61,8 @@ class _SalesListScreenState extends ConsumerState<SalesListScreen> {
   DateTime get _from {
     final now = DateTime.now();
     return switch (_period) {
-      _Period.hafta =>
-        DateTime(now.year, now.month, now.day).subtract(const Duration(days: 6)),
+      _Period.hafta => DateTime(now.year, now.month, now.day)
+          .subtract(const Duration(days: 6)),
       _Period.maheena => DateTime(now.year, now.month, 1),
       _Period.custom => _customRange == null
           ? DateTime(now.year, now.month, 1)
@@ -206,10 +207,8 @@ class _SalesListScreenState extends ConsumerState<SalesListScreen> {
           ),
           Text(
             t.khata_businessName,
-            style: Theme.of(context)
-                .textTheme
-                .bodySmall
-                ?.copyWith(color: Colors.black45),
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: Theme.of(context).colorScheme.onSurfaceVariant),
           ),
         ],
       ),
@@ -247,9 +246,8 @@ class _SalesListScreenState extends ConsumerState<SalesListScreen> {
             label: Text(t.sales_apniMarzi),
             style: OutlinedButton.styleFrom(
               visualDensity: VisualDensity.compact,
-              backgroundColor: _period == _Period.custom
-                  ? AppColors.pastelBlue
-                  : null,
+              backgroundColor:
+                  _period == _Period.custom ? AppColors.pastelBlue : null,
             ),
             onPressed: _pickCustomRange,
           ),
@@ -271,22 +269,27 @@ class _SalesListScreenState extends ConsumerState<SalesListScreen> {
           Row(
             children: [
               Expanded(
-                child: PastelStatCard(
-                  label: t.sales_kullSales,
-                  value: formatPkr(totalSales),
-                  sublabel: periodLabel,
-                  background: Colors.white,
-                  valueColor: Colors.black87,
+                child: StaggerEntrance(
+                  child: PastelStatCard(
+                    label: t.sales_kullSales,
+                    value: formatPkr(totalSales),
+                    sublabel: periodLabel,
+                    background: Theme.of(context).colorScheme.surface,
+                    valueColor: Theme.of(context).colorScheme.onSurface,
+                  ),
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
-                child: PastelStatCard(
-                  label: t.sales_kullOrders,
-                  value: '${rows.length}',
-                  sublabel: periodLabel,
-                  background: Colors.white,
-                  valueColor: Colors.black87,
+                child: StaggerEntrance(
+                  delay: const Duration(milliseconds: 70),
+                  child: PastelStatCard(
+                    label: t.sales_kullOrders,
+                    value: '${rows.length}',
+                    sublabel: periodLabel,
+                    background: Theme.of(context).colorScheme.surface,
+                    valueColor: Theme.of(context).colorScheme.onSurface,
+                  ),
                 ),
               ),
             ],
@@ -295,22 +298,28 @@ class _SalesListScreenState extends ConsumerState<SalesListScreen> {
           Row(
             children: [
               Expanded(
-                child: PastelStatCard(
-                  label: t.sales_kullNaqad,
-                  value: formatPkr(totalNaqad),
-                  sublabel: periodLabel,
-                  background: AppColors.pastelGreen,
-                  valueColor: AppColors.pastelGreenText,
+                child: StaggerEntrance(
+                  delay: const Duration(milliseconds: 140),
+                  child: PastelStatCard(
+                    label: t.sales_kullNaqad,
+                    value: formatPkr(totalNaqad),
+                    sublabel: periodLabel,
+                    background: AppColors.pastelGreen,
+                    valueColor: AppColors.pastelGreenText,
+                  ),
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
-                child: PastelStatCard(
-                  label: t.sales_kullUdhaar,
-                  value: formatPkr(totalUdhaar),
-                  sublabel: periodLabel,
-                  background: AppColors.pastelPink,
-                  valueColor: AppColors.pastelPinkText,
+                child: StaggerEntrance(
+                  delay: const Duration(milliseconds: 210),
+                  child: PastelStatCard(
+                    label: t.sales_kullUdhaar,
+                    value: formatPkr(totalUdhaar),
+                    sublabel: periodLabel,
+                    background: AppColors.pastelPink,
+                    valueColor: AppColors.pastelPinkText,
+                  ),
                 ),
               ),
             ],
@@ -330,9 +339,10 @@ class _SalesListScreenState extends ConsumerState<SalesListScreen> {
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.surface,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Colors.black12),
+            border:
+                Border.all(color: Theme.of(context).colorScheme.outlineVariant),
           ),
           child: Row(
             children: [
@@ -360,17 +370,17 @@ class _SalesListScreenState extends ConsumerState<SalesListScreen> {
                     ),
                     Text(
                       t.sales_itemsManageHint,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall
-                          ?.copyWith(color: Colors.black54),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color:
+                              Theme.of(context).colorScheme.onSurfaceVariant),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
               ),
-              const Icon(Icons.chevron_right, color: Colors.black38),
+              Icon(Icons.chevron_right,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant),
             ],
           ),
         ),
@@ -396,11 +406,13 @@ class _SalesListScreenState extends ConsumerState<SalesListScreen> {
             width: 52,
             height: 52,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.surface,
               borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: Colors.black12),
+              border: Border.all(
+                  color: Theme.of(context).colorScheme.outlineVariant),
             ),
-            child: const Icon(Icons.filter_list, color: Colors.black54),
+            child: Icon(Icons.filter_list,
+                color: Theme.of(context).colorScheme.onSurfaceVariant),
           ),
         ],
       ),
@@ -416,21 +428,23 @@ class _SalesListScreenState extends ConsumerState<SalesListScreen> {
         children: [
           Row(
             children: [
-              Text(
-                t.sales_haaliSales,
-                style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      letterSpacing: 1.2,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black54,
-                    ),
+              Flexible(
+                child: Text(
+                  t.sales_haaliSales,
+                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                        letterSpacing: 1.2,
+                        fontWeight: FontWeight.w600,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
               const Spacer(),
               Text(
                 t.sales_nataij(count: '${rows.length}'),
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall
-                    ?.copyWith(color: Colors.black45),
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant),
               ),
             ],
           ),
@@ -443,9 +457,10 @@ class _SalesListScreenState extends ConsumerState<SalesListScreen> {
           else
             Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: Colors.black12),
+                border: Border.all(
+                    color: Theme.of(context).colorScheme.outlineVariant),
               ),
               child: ListView.separated(
                 shrinkWrap: true,
@@ -455,45 +470,49 @@ class _SalesListScreenState extends ConsumerState<SalesListScreen> {
                 itemBuilder: (context, index) {
                   final r = rows[index];
                   final due = r.totalPaisa - r.paidPaisa;
-                  return ListTile(
-                    title: Text(
-                      r.customerName,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontWeight: FontWeight.w600),
-                    ),
-                    subtitle: Text(
-                      '${r.invoiceNo} • ${DateFormat.yMMMd(localeTag).format(r.date)}',
-                      textDirection: TextDirection.ltr,
-                    ),
-                    trailing: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          formatPkr(r.totalPaisa),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontFeatures: [FontFeature.tabularFigures()],
-                          ),
-                          textDirection: TextDirection.ltr,
-                        ),
-                        if (due > 0)
+                  return StaggerEntrance(
+                    // Staggered entrance per row; capped at 300ms.
+                    delay: Duration(milliseconds: (index * 35).clamp(0, 300)),
+                    child: ListTile(
+                      title: Text(
+                        r.customerName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      subtitle: Text(
+                        '${r.invoiceNo} • ${DateFormat.yMMMd(localeTag).format(r.date)}',
+                        textDirection: TextDirection.ltr,
+                      ),
+                      trailing: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
                           Text(
-                            formatPkr(due),
+                            formatPkr(r.totalPaisa),
                             style: const TextStyle(
-                              fontSize: 12,
-                              color: AppColors.pastelPinkText,
+                              fontWeight: FontWeight.w700,
                               fontFeatures: [FontFeature.tabularFigures()],
                             ),
                             textDirection: TextDirection.ltr,
                           ),
-                      ],
-                    ),
-                    onTap: () => Navigator.pushNamed(
-                      context,
-                      Routes.saleDetail,
-                      arguments: r.id,
+                          if (due > 0)
+                            Text(
+                              formatPkr(due),
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: AppColors.pastelPinkText,
+                                fontFeatures: [FontFeature.tabularFigures()],
+                              ),
+                              textDirection: TextDirection.ltr,
+                            ),
+                        ],
+                      ),
+                      onTap: () => Navigator.pushNamed(
+                        context,
+                        Routes.saleDetail,
+                        arguments: r.id,
+                      ),
                     ),
                   );
                 },

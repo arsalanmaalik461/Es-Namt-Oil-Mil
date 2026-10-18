@@ -248,7 +248,13 @@ class _CostRow extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label),
+          Expanded(
+            child: Text(
+              label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
           AmountText(
               paisa: paisa, style: Theme.of(context).textTheme.bodyLarge),
         ],
