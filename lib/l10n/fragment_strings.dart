@@ -12,21 +12,18 @@ import 'package:flutter/widgets.dart';
 
 const Map<String, String> _fragmentEn = {
   'backup_chooseFile': 'Choose backup file',
-  'backup_confirmMessage':
-      'All current data will be REPLACED by the backup. This cannot be undone.',
+  'backup_confirmMessage': 'All current data will be REPLACED by the backup. This cannot be undone.',
   'backup_confirmRestore': 'Restore',
   'backup_confirmTitle': 'Restore this backup?',
   'backup_create': 'Create Backup',
   'backup_created': 'Backup created — {count} records in {tables} tables.',
   'backup_creating': 'Creating backup…',
-  'backup_errorChecksum':
-      'Backup data is corrupted (checksum mismatch in {table}).',
+  'backup_errorChecksum': 'Backup data is corrupted (checksum mismatch in {table}).',
   'backup_errorInvalidFile': 'This file is not a valid Namt Oil Mil backup.',
   'backup_errorMissingTables': 'Backup is missing tables: {tables}.',
   'backup_errorUnsupportedVersion': 'Unsupported backup version: {version}.',
   'backup_exportedAt': 'Exported {date}',
-  'backup_intro':
-      'Keep a safe copy of all your data. Backups are a single JSON file stored on this device only — nothing is uploaded.',
+  'backup_intro': 'Keep a safe copy of all your data. Backups are a single JSON file stored on this device only — nothing is uploaded.',
   'backup_reading': 'Reading backup…',
   'backup_recordsCount': '{count} records',
   'backup_restore': 'Restore Backup',
@@ -74,21 +71,19 @@ const Map<String, String> _fragmentEn = {
   'cashbook_totalIn': 'Total in',
   'cashbook_totalOut': 'Total out',
   'cashbook_transfer': 'Transfer',
-  'cashbook_transferInfo':
-      'A transfer moves money between two accounts. It is never income or expense.',
+  'cashbook_transferInfo': 'A transfer moves money between two accounts. It is never income or expense.',
   'cashbook_typeBank': 'Bank',
   'cashbook_typeCash': 'Cash',
+  'common_cancel': 'Cancel',
   'customers_account': 'Account',
   'customers_addCustomer': 'New customer',
   'customers_addFirstHint': 'Add your first customer to track udhaar',
-  'customers_addFirstSupplierHint':
-      'Add your first supplier to track purchases',
+  'customers_addFirstSupplierHint': 'Add your first supplier to track purchases',
   'customers_addSupplier': 'New supplier',
   'customers_address': 'Address',
   'customers_amount': 'Amount (PKR)',
   'customers_archive': 'Archive',
-  'customers_archiveMessage':
-      'They will be hidden from lists, but their history is kept.',
+  'customers_archiveMessage': 'They will be hidden from lists, but their history is kept.',
   'customers_archiveTitle': 'Archive {name}?',
   'customers_bank': 'Bank',
   'customers_businessName': 'Business name',
@@ -125,10 +120,8 @@ const Map<String, String> _fragmentEn = {
   'customers_openingBalance': 'Opening balance',
   'customers_openingBalanceHint': 'Optional. Amount in PKR.',
   'customers_openingBalanceLabel': 'Opening balance',
-  'customers_openingHelpCustomer':
-      'Positive: the customer owes you. Negative: you owe the customer.',
-  'customers_openingHelpSupplier':
-      'Positive: you owe the supplier. Negative: the supplier owes you.',
+  'customers_openingHelpCustomer': 'Positive: the customer owes you. Negative: you owe the customer.',
+  'customers_openingHelpSupplier': 'Positive: you owe the supplier. Negative: the supplier owes you.',
   'customers_paymentSaved': 'Payment recorded',
   'customers_paymentTitlePay': 'Make payment',
   'customers_paymentTitleReceive': 'Receive payment',
@@ -239,8 +232,7 @@ const Map<String, String> _fragmentEn = {
   'inventory_editConversion': 'Edit conversion',
   'inventory_editProduct': 'Edit product',
   'inventory_errDatabase': 'Something went wrong. Please try again.',
-  'inventory_errInsufficientStock':
-      'Insufficient stock of {product} (available {available}, needed {needed})',
+  'inventory_errInsufficientStock': 'Insufficient stock of {product} (available {available}, needed {needed})',
   'inventory_errInvalidAmount': 'Enter a valid amount',
   'inventory_errInvalidQty': 'Enter a valid quantity greater than zero',
   'inventory_errNoConversion': 'No conversion defined between these units',
@@ -285,7 +277,16 @@ const Map<String, String> _fragmentEn = {
   'inventory_unit': 'Unit',
   'inventory_units': 'Units & conversions',
   'inventory_unitsTitle': 'Units',
+  'khata_addBills': 'Add bills',
+  'khata_addCustomerBtn': 'Add customer',
+  'khata_addSupplierBtn': 'Add supplier',
+  'khata_balAfter': 'Bal: {amount}',
+  'khata_billAttached': 'Bill image attached',
+  'khata_businessName': 'Namt Oil Mil',
+  'khata_camera': 'Camera',
+  'khata_customerSince': 'Customer since {date}',
   'khata_customers': 'Customers',
+  'khata_diye': 'DIYE',
   'khata_errorAccountInactive': 'This account is inactive.',
   'khata_errorAccountNotFound': 'Account not found.',
   'khata_errorAlreadyReversed': 'This entry has already been reversed.',
@@ -305,8 +306,7 @@ const Map<String, String> _fragmentEn = {
   'khata_errorInvalidJournalLine': 'Invalid journal entry.',
   'khata_errorInvalidQty': 'Invalid quantity.',
   'khata_errorInvoiceNotFound': 'Invoice not found.',
-  'khata_errorMethodAccountMismatch':
-      'The payment method does not match the account.',
+  'khata_errorMethodAccountMismatch': 'The payment method does not match the account.',
   'khata_errorNegativeCost': 'Cost cannot be negative.',
   'khata_errorNegativePrice': 'Price cannot be negative.',
   'khata_errorNegativeTax': 'Tax cannot be negative.',
@@ -314,10 +314,8 @@ const Map<String, String> _fragmentEn = {
   'khata_errorNoConversion': 'Unit conversion is not available.',
   'khata_errorNotADraft': 'Only drafts can be changed like this.',
   'khata_errorOilCostAllocation': 'Could not allocate the oil cost.',
-  'khata_errorOverAllocated':
-      'The payment is more than the outstanding amount.',
-  'khata_errorOverAllocatedInvoice':
-      'The payment is more than the invoice balance.',
+  'khata_errorOverAllocated': 'The payment is more than the outstanding amount.',
+  'khata_errorOverAllocatedInvoice': 'The payment is more than the invoice balance.',
   'khata_errorProductArchived': 'This product is archived.',
   'khata_errorProductNotFound': 'Product not found.',
   'khata_errorReasonRequired': 'A reason is required.',
@@ -328,22 +326,41 @@ const Map<String, String> _fragmentEn = {
   'khata_errorTransferSameAccount': 'Cannot transfer to the same account.',
   'khata_errorUnbalancedJournal': 'The journal is not balanced.',
   'khata_errorUnitNotFound': 'Unit not found.',
+  'khata_gallery': 'Gallery',
+  'khata_hisaabClear': 'Hisaab clear hai',
+  'khata_imageAddKarein': 'Image add karein',
+  'khata_lastTransacted': 'last transacted on {date}',
+  'khata_liye': 'LIYE',
+  'khata_maineDeneHain': 'Maine dene hain',
+  'khata_maineLeneHain': 'Maine lene hain',
+  'khata_maineyDiye': 'Mainey Diye',
+  'khata_maineyLiye': 'Mainey Liye',
+  'khata_noCamera': 'Camera is not available on this device right now.',
   'khata_noDues': 'All settled up',
   'khata_noDuesHint': 'No outstanding balances',
+  'khata_noPhone': 'No phone number saved for this customer.',
+  'khata_remindersCount': 'Reminders ({count} overdue)',
+  'khata_searchCustomer': 'Search Customer',
+  'khata_searchSupplier': 'Search Supplier',
+  'khata_sms': 'SMS',
+  'khata_supplierSince': 'Supplier since {date}',
   'khata_suppliers': 'Suppliers',
+  'khata_tareekhRakhein': 'Tareekh Rakhein',
+  'khata_time': 'TIME',
   'khata_title': 'Khata',
   'khata_toPay': 'To pay',
   'khata_toReceive': 'To receive',
+  'khata_totalBalance': 'TOTAL BALANCE',
   'khata_viewAllCustomers': 'View customers',
   'khata_viewAllSuppliers': 'View suppliers',
+  'khata_whatsapp': 'WhatsApp',
   'production_addInput': 'Add input',
   'production_addOutput': 'Add output',
   'production_available': 'Available: {qty} {unit}',
   'production_batchAuto': 'Auto-generated when the batch is posted',
   'production_batchNo': 'Batch no.',
   'production_costBreakdown': 'Cost breakdown',
-  'production_costsCashHint':
-      'When selected, labour, electricity and other costs are posted as expenses from this account.',
+  'production_costsCashHint': 'When selected, labour, electricity and other costs are posted as expenses from this account.',
   'production_date': 'Date',
   'production_electricityCost': 'Electricity cost',
   'production_emptyInputs': 'Add at least one input',
@@ -368,8 +385,7 @@ const Map<String, String> _fragmentEn = {
   'production_qtyGtZero': 'Quantity must be greater than zero',
   'production_rawOnly': 'Only raw-material products can be inputs',
   'production_removeLine': 'Remove line',
-  'production_resultNoYield':
-      'Yield could not be computed — add a kg conversion for the units used.',
+  'production_resultNoYield': 'Yield could not be computed — add a kg conversion for the units used.',
   'production_resultTitle': 'Batch posted',
   'production_resultYield': 'Yield: {pct}%',
   'production_selectProduct': 'Select product',
@@ -411,6 +427,25 @@ const Map<String, String> _fragmentEn = {
   'purchases_supplier': 'Supplier',
   'purchases_title': 'Purchases',
   'purchases_voucherPdf': 'Purchase voucher PDF',
+  'reminders_daysOverdue': '{days} days overdue',
+  'reminders_dueOn': 'Due {date}',
+  'reminders_editMessage': 'Edit message',
+  'reminders_emptyMessage': 'No overdue or upcoming payments. All clear!',
+  'reminders_emptyTitle': 'No reminders',
+  'reminders_failed': 'Could not send. Try again.',
+  'reminders_noPhone': 'No phone number saved for {name}.',
+  'reminders_overdue': 'Overdue',
+  'reminders_pickScript': 'Choose message language',
+  'reminders_scriptEnglish': 'English',
+  'reminders_scriptRoman': 'Roman Urdu',
+  'reminders_scriptUrdu': 'Urdu',
+  'reminders_send': 'Send',
+  'reminders_sendSms': 'Send SMS reminder',
+  'reminders_sendWhatsapp': 'Send WhatsApp reminder',
+  'reminders_sent': 'Reminder sent.',
+  'reminders_title': 'Payment Reminders',
+  'reminders_upcoming': 'Upcoming',
+  'reminders_whatsappSoon': 'WhatsApp sharing is coming in the next update.',
   'reports_accounts': 'Accounts',
   'reports_all': 'All',
   'reports_avgCost': 'Avg. cost',
@@ -486,8 +521,7 @@ const Map<String, String> _fragmentEn = {
   'reports_doc_total': 'Total',
   'reports_doc_yield': 'Yield',
   'reports_due': 'Due',
-  'reports_estimatedNote':
-      'Estimated — cost data is incomplete for this period.',
+  'reports_estimatedNote': 'Estimated — cost data is incomplete for this period.',
   'reports_expense': 'Expenses',
   'reports_expensesByCategory': 'Expenses by category',
   'reports_grandTotal': 'Grand total',
@@ -540,6 +574,7 @@ const Map<String, String> _fragmentEn = {
   'reports_unpaid': 'Unpaid',
   'reports_value': 'Value',
   'reports_yield': 'Yield',
+  'sales_apniMarzi': 'Apni marzi',
   'sales_confirmPost': 'Post this sale? Stock will be reduced.',
   'sales_customer': 'Customer',
   'sales_deleteDraft': 'Delete draft',
@@ -548,19 +583,36 @@ const Map<String, String> _fragmentEn = {
   'sales_draftSaved': 'Draft {invoiceNo} saved',
   'sales_emptyTitle': 'No sales yet',
   'sales_formTitle': 'New sale',
+  'sales_haaliSales': 'HAALI SALES',
+  'sales_hafta': 'Hafta',
   'sales_invoicePdf': 'Invoice PDF',
+  'sales_itemsManage': 'Items manage karein',
+  'sales_itemsManageHint': 'Jo cheezein bechte hain unhe add, update ya remove karein',
+  'sales_kullNaqad': 'KULL NAQAD',
+  'sales_kullOrders': 'KULL ORDERS',
+  'sales_kullSales': 'KULL SALES',
+  'sales_kullUdhaar': 'KULL UDHAAR',
   'sales_lineItems': 'Items',
+  'sales_maheena': 'Maheena',
+  'sales_manageItems': 'Manage items',
+  'sales_nataij': '{count} nataij',
   'sales_newSale': 'New sale',
   'sales_noCustomerSelected': 'Select a customer first',
   'sales_noItems': 'Add at least one item',
+  'sales_noSalesPeriod': 'No sales in this period',
   'sales_payments': 'Payments',
+  'sales_periodCustom': 'is muddat mein',
+  'sales_periodHafta': 'is haftay',
+  'sales_periodMaheena': 'is maheeney',
   'sales_postDraft': 'Post draft',
   'sales_postSale': 'Post sale',
   'sales_recordPayment': 'Record payment',
   'sales_returnTitle': 'Sales return',
+  'sales_saleDarjKarein': 'Sale darj karein',
   'sales_salePosted': 'Sale {invoiceNo} posted',
   'sales_searchCustomer': 'Search customers…',
   'sales_searchHint': 'Search invoice no. or customer…',
+  'sales_searchSales': 'Naam ya raqam se talash karein',
   'sales_selectCustomer': 'Select customer',
   'sales_share': 'Share',
   'sales_statusCancelled': 'Cancelled',
@@ -644,21 +696,18 @@ const Map<String, String> _fragmentEn = {
 
 const Map<String, String> _fragmentUr = {
   'backup_chooseFile': 'بیک اپ فائل منتخب کریں',
-  'backup_confirmMessage':
-      'موجودہ تمام ڈیٹا بیک اپ سے بدل دیا جائے گا۔ یہ عمل واپس نہیں ہو سکتا۔',
+  'backup_confirmMessage': 'موجودہ تمام ڈیٹا بیک اپ سے بدل دیا جائے گا۔ یہ عمل واپس نہیں ہو سکتا۔',
   'backup_confirmRestore': 'بحال کریں',
   'backup_confirmTitle': 'کیا یہ بیک اپ بحال کریں؟',
   'backup_create': 'بیک اپ بنائیں',
   'backup_created': 'بیک اپ تیار — {tables} ٹیبلز میں {count} ریکارڈ۔',
   'backup_creating': 'بیک اپ بنایا جا رہا ہے…',
-  'backup_errorChecksum':
-      'بیک اپ ڈیٹا خراب ہے ({table} میں چیک سم مماثل نہیں)۔',
+  'backup_errorChecksum': 'بیک اپ ڈیٹا خراب ہے ({table} میں چیک سم مماثل نہیں)۔',
   'backup_errorInvalidFile': 'یہ فائل نمت آئل مل کا درست بیک اپ نہیں ہے۔',
   'backup_errorMissingTables': 'بیک اپ میں یہ ٹیبلز غائب ہیں: {tables}۔',
   'backup_errorUnsupportedVersion': 'غیر تعاون یافتہ بیک اپ ورژن: {version}۔',
   'backup_exportedAt': 'برآمد شدہ: {date}',
-  'backup_intro':
-      'اپنے تمام ڈیٹا کی محفوظ نقل رکھیں۔ بیک اپ ایک JSON فائل ہے جو صرف اس ڈیوائس پر محفوظ ہوتی ہے — کچھ بھی اپ لوڈ نہیں ہوتا۔',
+  'backup_intro': 'اپنے تمام ڈیٹا کی محفوظ نقل رکھیں۔ بیک اپ ایک JSON فائل ہے جو صرف اس ڈیوائس پر محفوظ ہوتی ہے — کچھ بھی اپ لوڈ نہیں ہوتا۔',
   'backup_reading': 'بیک اپ پڑھا جا رہا ہے…',
   'backup_recordsCount': '{count} ریکارڈ',
   'backup_restore': 'بیک اپ بحال کریں',
@@ -706,21 +755,19 @@ const Map<String, String> _fragmentUr = {
   'cashbook_totalIn': 'کل آمد',
   'cashbook_totalOut': 'کل خرچ',
   'cashbook_transfer': 'منتقلی',
-  'cashbook_transferInfo':
-      'منتقلی دو کھاتوں کے درمیان رقم منتقل کرتی ہے۔ یہ کبھی آمدنی یا خرچ نہیں ہوتی۔',
+  'cashbook_transferInfo': 'منتقلی دو کھاتوں کے درمیان رقم منتقل کرتی ہے۔ یہ کبھی آمدنی یا خرچ نہیں ہوتی۔',
   'cashbook_typeBank': 'بینک',
   'cashbook_typeCash': 'نقد',
+  'common_cancel': 'منسوخ کریں',
   'customers_account': 'اکاؤنٹ',
   'customers_addCustomer': 'نیا گاہک',
   'customers_addFirstHint': 'ادھار کا حساب رکھنے کے لیے پہلا گاہک شامل کریں',
-  'customers_addFirstSupplierHint':
-      'خریداری کا حساب رکھنے کے لیے پہلا سپلائر شامل کریں',
+  'customers_addFirstSupplierHint': 'خریداری کا حساب رکھنے کے لیے پہلا سپلائر شامل کریں',
   'customers_addSupplier': 'نیا سپلائر',
   'customers_address': 'پتہ',
   'customers_amount': 'رقم (روپے)',
   'customers_archive': 'آرکائیو',
-  'customers_archiveMessage':
-      'وہ فہرستوں سے چھپ جائیں گے، لیکن ان کا ریکارڈ محفوظ رہے گا۔',
+  'customers_archiveMessage': 'وہ فہرستوں سے چھپ جائیں گے، لیکن ان کا ریکارڈ محفوظ رہے گا۔',
   'customers_archiveTitle': '{name} کو آرکائیو کریں؟',
   'customers_bank': 'بینک',
   'customers_businessName': 'کاروبار کا نام',
@@ -757,10 +804,8 @@ const Map<String, String> _fragmentUr = {
   'customers_openingBalance': 'ابتدائی بیلنس',
   'customers_openingBalanceHint': 'اختیاری۔ رقم روپے میں۔',
   'customers_openingBalanceLabel': 'ابتدائی بیلنس',
-  'customers_openingHelpCustomer':
-      'مثبت: گاہک آپ کا مقروض ہے۔ منفی: آپ گاہک کے مقروض ہیں۔',
-  'customers_openingHelpSupplier':
-      'مثبت: آپ سپلائر کے مقروض ہیں۔ منفی: سپلائر آپ کا مقروض ہے۔',
+  'customers_openingHelpCustomer': 'مثبت: گاہک آپ کا مقروض ہے۔ منفی: آپ گاہک کے مقروض ہیں۔',
+  'customers_openingHelpSupplier': 'مثبت: آپ سپلائر کے مقروض ہیں۔ منفی: سپلائر آپ کا مقروض ہے۔',
   'customers_paymentSaved': 'ادائیگی درج ہو گئی',
   'customers_paymentTitlePay': 'ادائیگی کریں',
   'customers_paymentTitleReceive': 'ادائیگی وصول کریں',
@@ -871,8 +916,7 @@ const Map<String, String> _fragmentUr = {
   'inventory_editConversion': 'تبادلے میں ترمیم کریں',
   'inventory_editProduct': 'مصنوعات میں ترمیم کریں',
   'inventory_errDatabase': 'کچھ غلط ہو گیا۔ براہ کرم دوبارہ کوشش کریں۔',
-  'inventory_errInsufficientStock':
-      '{product} کا اسٹاک ناکافی ہے (دستیاب {available}، درکار {needed})',
+  'inventory_errInsufficientStock': '{product} کا اسٹاک ناکافی ہے (دستیاب {available}، درکار {needed})',
   'inventory_errInvalidAmount': 'درست رقم درج کریں',
   'inventory_errInvalidQty': 'صفر سے بڑی درست مقدار درج کریں',
   'inventory_errNoConversion': 'ان اکائیوں کے درمیان کوئی تبادلہ مقرر نہیں',
@@ -888,8 +932,7 @@ const Map<String, String> _fragmentUr = {
   'inventory_noConversions': 'ابھی کوئی تبادلہ مقرر نہیں',
   'inventory_noMovements': 'ابھی کوئی ریکارڈ درج نہیں',
   'inventory_noProducts': 'کوئی مصنوعات نہیں ملی',
-  'inventory_noProductsHint':
-      'اسٹاک کا ریکارڈ رکھنے کے لیے پہلی مصنوعات شامل کریں۔',
+  'inventory_noProductsHint': 'اسٹاک کا ریکارڈ رکھنے کے لیے پہلی مصنوعات شامل کریں۔',
   'inventory_openingStock': 'ابتدائی اسٹاک',
   'inventory_openingStockReason': 'ابتدائی اسٹاک',
   'inventory_out': 'خرچ',
@@ -918,7 +961,16 @@ const Map<String, String> _fragmentUr = {
   'inventory_unit': 'اکائی',
   'inventory_units': 'اکائیاں اور تبادلے',
   'inventory_unitsTitle': 'اکائیاں',
+  'khata_addBills': 'بل شامل کریں',
+  'khata_addCustomerBtn': 'گاہک شامل کریں',
+  'khata_addSupplierBtn': 'سپلائر شامل کریں',
+  'khata_balAfter': 'بیلنس: {amount}',
+  'khata_billAttached': 'بل کی تصویر منسلک ہو گئی',
+  'khata_businessName': 'نمت آئل مل',
+  'khata_camera': 'کیمرہ',
+  'khata_customerSince': 'گاہک از {date}',
   'khata_customers': 'گاہک',
+  'khata_diye': 'دیے',
   'khata_errorAccountInactive': 'یہ اکاؤنٹ غیر فعال ہے۔',
   'khata_errorAccountNotFound': 'اکاؤنٹ نہیں ملا۔',
   'khata_errorAlreadyReversed': 'اس اندراج کو پہلے ہی کالعدم کیا جا چکا ہے۔',
@@ -938,8 +990,7 @@ const Map<String, String> _fragmentUr = {
   'khata_errorInvalidJournalLine': 'غلط جرنل اندراج۔',
   'khata_errorInvalidQty': 'غلط مقدار۔',
   'khata_errorInvoiceNotFound': 'انوائس نہیں ملی۔',
-  'khata_errorMethodAccountMismatch':
-      'ادائیگی کا طریقہ اکاؤنٹ سے مطابقت نہیں رکھتا۔',
+  'khata_errorMethodAccountMismatch': 'ادائیگی کا طریقہ اکاؤنٹ سے مطابقت نہیں رکھتا۔',
   'khata_errorNegativeCost': 'لاگت منفی نہیں ہو سکتی۔',
   'khata_errorNegativePrice': 'قیمت منفی نہیں ہو سکتی۔',
   'khata_errorNegativeTax': 'ٹیکس منفی نہیں ہو سکتا۔',
@@ -959,22 +1010,41 @@ const Map<String, String> _fragmentUr = {
   'khata_errorTransferSameAccount': 'ایک ہی اکاؤنٹ میں منتقلی نہیں ہو سکتی۔',
   'khata_errorUnbalancedJournal': 'جرنل متوازن نہیں ہے۔',
   'khata_errorUnitNotFound': 'یونٹ نہیں ملا۔',
+  'khata_gallery': 'گیلری',
+  'khata_hisaabClear': 'حساب کلیئر ہے',
+  'khata_imageAddKarein': 'تصویر شامل کریں',
+  'khata_lastTransacted': 'آخری لین دین {date}',
+  'khata_liye': 'لیے',
+  'khata_maineDeneHain': 'میں نے دینے ہیں',
+  'khata_maineLeneHain': 'میں نے لینے ہیں',
+  'khata_maineyDiye': 'میں نے دیے',
+  'khata_maineyLiye': 'میں نے لیے',
+  'khata_noCamera': 'اس ڈیوائس پر کیمرہ دستیاب نہیں ہے۔',
   'khata_noDues': 'سب حساب برابر ہے',
   'khata_noDuesHint': 'کوئی بقایا رقم نہیں',
+  'khata_noPhone': 'اس گاہک کا فون نمبر محفوظ نہیں ہے۔',
+  'khata_remindersCount': 'یاد دہانیاں ({count} زائد المیعاد)',
+  'khata_searchCustomer': 'گاہک تلاش کریں',
+  'khata_searchSupplier': 'سپلائر تلاش کریں',
+  'khata_sms': 'ایس ایم ایس',
+  'khata_supplierSince': 'سپلائر از {date}',
   'khata_suppliers': 'سپلائرز',
+  'khata_tareekhRakhein': 'تاریخ رکھیں',
+  'khata_time': 'وقت',
   'khata_title': 'کھاتہ',
   'khata_toPay': 'ادا کرنا ہے',
   'khata_toReceive': 'وصول کرنا ہے',
+  'khata_totalBalance': 'کل بیلنس',
   'khata_viewAllCustomers': 'گاہک دیکھیں',
   'khata_viewAllSuppliers': 'سپلائرز دیکھیں',
+  'khata_whatsapp': 'واٹس ایپ',
   'production_addInput': 'ان پٹ شامل کریں',
   'production_addOutput': 'آؤٹ پٹ شامل کریں',
   'production_available': 'دستیاب: {qty} {unit}',
   'production_batchAuto': 'بیچ پوسٹ کرتے وقت خود بن جائے گا',
   'production_batchNo': 'بیچ نمبر',
   'production_costBreakdown': 'لاگت کی تفصیل',
-  'production_costsCashHint':
-      'منتخب کرنے کی صورت میں مزدوری، بجلی اور دیگر اخراجات اس کھاتے سے پوسٹ ہوں گے۔',
+  'production_costsCashHint': 'منتخب کرنے کی صورت میں مزدوری، بجلی اور دیگر اخراجات اس کھاتے سے پوسٹ ہوں گے۔',
   'production_date': 'تاریخ',
   'production_electricityCost': 'بجلی کی لاگت',
   'production_emptyInputs': 'کم از کم ایک ان پٹ شامل کریں',
@@ -999,8 +1069,7 @@ const Map<String, String> _fragmentUr = {
   'production_qtyGtZero': 'مقدار صفر سے بڑی ہونی چاہیے',
   'production_rawOnly': 'ان پٹ کے لیے صرف خام مال کی مصنوعات',
   'production_removeLine': 'لائن ہٹائیں',
-  'production_resultNoYield':
-      'پیداوار معلوم نہیں ہو سکی — استعمال شدہ اکائیوں کے لیے کلوگرام کا تبادلہ شامل کریں۔',
+  'production_resultNoYield': 'پیداوار معلوم نہیں ہو سکی — استعمال شدہ اکائیوں کے لیے کلوگرام کا تبادلہ شامل کریں۔',
   'production_resultTitle': 'بیچ پوسٹ ہو گیا',
   'production_resultYield': 'پیداوار: {pct}٪',
   'production_selectProduct': 'مصنوعات منتخب کریں',
@@ -1042,6 +1111,25 @@ const Map<String, String> _fragmentUr = {
   'purchases_supplier': 'سپلائر',
   'purchases_title': 'خریداری',
   'purchases_voucherPdf': 'خریداری واؤچر PDF',
+  'reminders_daysOverdue': '{days} دن سے واجب الادا',
+  'reminders_dueOn': 'واجب الادا {date}',
+  'reminders_editMessage': 'پیغام میں ترمیم کریں',
+  'reminders_emptyMessage': 'کوئی واجب الادا یا آئندہ ادائیگی نہیں۔ سب کلیئر ہے!',
+  'reminders_emptyTitle': 'کوئی یاددہانی نہیں',
+  'reminders_failed': 'نہیں بھیجی جا سکی۔ دوبارہ کوشش کریں۔',
+  'reminders_noPhone': '{name} کا فون نمبر محفوظ نہیں۔',
+  'reminders_overdue': 'واجب الادا',
+  'reminders_pickScript': 'پیغام کی زبان منتخب کریں',
+  'reminders_scriptEnglish': 'انگریزی',
+  'reminders_scriptRoman': 'رومن اردو',
+  'reminders_scriptUrdu': 'اردو',
+  'reminders_send': 'بھیجیں',
+  'reminders_sendSms': 'SMS یاددہانی بھیجیں',
+  'reminders_sendWhatsapp': 'واٹس ایپ یاددہانی بھیجیں',
+  'reminders_sent': 'یاددہانی بھیج دی گئی۔',
+  'reminders_title': 'ادائیگی کی یاددہانی',
+  'reminders_upcoming': 'آئندہ',
+  'reminders_whatsappSoon': 'واٹس ایپ شیئرنگ اگلی اپ ڈیٹ میں آ رہی ہے۔',
   'reports_accounts': 'اکاؤنٹس',
   'reports_all': 'تمام',
   'reports_avgCost': 'اوسط لاگت',
@@ -1117,8 +1205,7 @@ const Map<String, String> _fragmentUr = {
   'reports_doc_total': 'کل میزان',
   'reports_doc_yield': 'پیداواری شرح',
   'reports_due': 'بقایا',
-  'reports_estimatedNote':
-      'تخمینہ — اس مدت کے لاگت کے اعداد و شمار نامکمل ہیں۔',
+  'reports_estimatedNote': 'تخمینہ — اس مدت کے لاگت کے اعداد و شمار نامکمل ہیں۔',
   'reports_expense': 'اخراجات',
   'reports_expensesByCategory': 'زمرہ کے حساب سے اخراجات',
   'reports_grandTotal': 'مجموعی میزان',
@@ -1171,6 +1258,7 @@ const Map<String, String> _fragmentUr = {
   'reports_unpaid': 'غیر ادا شدہ',
   'reports_value': 'مالیت',
   'reports_yield': 'پیداواری شرح',
+  'sales_apniMarzi': 'اپنی مرضی',
   'sales_confirmPost': 'کیا یہ فروخت درج کریں؟ اسٹاک کم ہو جائے گا۔',
   'sales_customer': 'گاہک',
   'sales_deleteDraft': 'مسودہ حذف کریں',
@@ -1179,19 +1267,36 @@ const Map<String, String> _fragmentUr = {
   'sales_draftSaved': 'مسودہ {invoiceNo} محفوظ ہو گیا',
   'sales_emptyTitle': 'ابھی کوئی فروخت نہیں',
   'sales_formTitle': 'نئی فروخت',
+  'sales_haaliSales': 'حالیہ فروخت',
+  'sales_hafta': 'ہفتہ',
   'sales_invoicePdf': 'انوائس PDF',
+  'sales_itemsManage': 'آئٹمز مینج کریں',
+  'sales_itemsManageHint': 'جو چیزیں بیچتے ہیں انہیں شامل، اپ ڈیٹ یا حذف کریں',
+  'sales_kullNaqad': 'کل نقد',
+  'sales_kullOrders': 'کل آرڈرز',
+  'sales_kullSales': 'کل فروخت',
+  'sales_kullUdhaar': 'کل ادھار',
   'sales_lineItems': 'آئٹمز',
+  'sales_maheena': 'مہینہ',
+  'sales_manageItems': 'آئٹمز',
+  'sales_nataij': '{count} نتائج',
   'sales_newSale': 'نئی فروخت',
   'sales_noCustomerSelected': 'پہلے گاہک منتخب کریں',
   'sales_noItems': 'کم از کم ایک آئٹم شامل کریں',
+  'sales_noSalesPeriod': 'اس مدت میں کوئی فروخت نہیں',
   'sales_payments': 'ادائیگیاں',
+  'sales_periodCustom': 'اس مدت میں',
+  'sales_periodHafta': 'اس ہفتے',
+  'sales_periodMaheena': 'اس مہینے',
   'sales_postDraft': 'مسودہ درج کریں',
   'sales_postSale': 'فروخت درج کریں',
   'sales_recordPayment': 'ادائیگی درج کریں',
   'sales_returnTitle': 'فروخت واپسی',
+  'sales_saleDarjKarein': 'سیل درج کریں',
   'sales_salePosted': 'فروخت {invoiceNo} درج ہو گئی',
   'sales_searchCustomer': 'گاہک تلاش کریں…',
   'sales_searchHint': 'انوائس نمبر یا گاہک تلاش کریں…',
+  'sales_searchSales': 'نام یا رقم سے تلاش کریں',
   'sales_selectCustomer': 'گاہک منتخب کریں',
   'sales_share': 'شیئر کریں',
   'sales_statusCancelled': 'منسوخ شدہ',
@@ -1300,31 +1405,22 @@ class FragmentStrings {
   String get backup_confirmRestore => _t('backup_confirmRestore');
   String get backup_confirmTitle => _t('backup_confirmTitle');
   String get backup_create => _t('backup_create');
-  String backup_created({required Object count, required Object tables}) =>
-      _f('backup_created', {'count': count, 'tables': tables});
+  String backup_created({required Object count, required Object tables}) => _f('backup_created', {'count': count, 'tables': tables});
   String get backup_creating => _t('backup_creating');
-  String backup_errorChecksum({required Object table}) =>
-      _f('backup_errorChecksum', {'table': table});
+  String backup_errorChecksum({required Object table}) => _f('backup_errorChecksum', {'table': table});
   String get backup_errorInvalidFile => _t('backup_errorInvalidFile');
-  String backup_errorMissingTables({required Object tables}) =>
-      _f('backup_errorMissingTables', {'tables': tables});
-  String backup_errorUnsupportedVersion({required Object version}) =>
-      _f('backup_errorUnsupportedVersion', {'version': version});
-  String backup_exportedAt({required Object date}) =>
-      _f('backup_exportedAt', {'date': date});
+  String backup_errorMissingTables({required Object tables}) => _f('backup_errorMissingTables', {'tables': tables});
+  String backup_errorUnsupportedVersion({required Object version}) => _f('backup_errorUnsupportedVersion', {'version': version});
+  String backup_exportedAt({required Object date}) => _f('backup_exportedAt', {'date': date});
   String get backup_intro => _t('backup_intro');
   String get backup_reading => _t('backup_reading');
-  String backup_recordsCount({required Object count}) =>
-      _f('backup_recordsCount', {'count': count});
+  String backup_recordsCount({required Object count}) => _f('backup_recordsCount', {'count': count});
   String get backup_restore => _t('backup_restore');
-  String backup_restored({required Object count}) =>
-      _f('backup_restored', {'count': count});
+  String backup_restored({required Object count}) => _f('backup_restored', {'count': count});
   String get backup_restoring => _t('backup_restoring');
-  String backup_savedTo({required Object path}) =>
-      _f('backup_savedTo', {'path': path});
+  String backup_savedTo({required Object path}) => _f('backup_savedTo', {'path': path});
   String get backup_summaryTitle => _t('backup_summaryTitle');
-  String backup_tablesCount({required Object count}) =>
-      _f('backup_tablesCount', {'count': count});
+  String backup_tablesCount({required Object count}) => _f('backup_tablesCount', {'count': count});
   String get backup_title => _t('backup_title');
   String get cashbook_accountName => _t('cashbook_accountName');
   String get cashbook_accountType => _t('cashbook_accountType');
@@ -1367,18 +1463,17 @@ class FragmentStrings {
   String get cashbook_transferInfo => _t('cashbook_transferInfo');
   String get cashbook_typeBank => _t('cashbook_typeBank');
   String get cashbook_typeCash => _t('cashbook_typeCash');
+  String get common_cancel => _t('common_cancel');
   String get customers_account => _t('customers_account');
   String get customers_addCustomer => _t('customers_addCustomer');
   String get customers_addFirstHint => _t('customers_addFirstHint');
-  String get customers_addFirstSupplierHint =>
-      _t('customers_addFirstSupplierHint');
+  String get customers_addFirstSupplierHint => _t('customers_addFirstSupplierHint');
   String get customers_addSupplier => _t('customers_addSupplier');
   String get customers_address => _t('customers_address');
   String get customers_amount => _t('customers_amount');
   String get customers_archive => _t('customers_archive');
   String get customers_archiveMessage => _t('customers_archiveMessage');
-  String customers_archiveTitle({required Object name}) =>
-      _f('customers_archiveTitle', {'name': name});
+  String customers_archiveTitle({required Object name}) => _f('customers_archiveTitle', {'name': name});
   String get customers_bank => _t('customers_bank');
   String get customers_businessName => _t('customers_businessName');
   String get customers_cash => _t('customers_cash');
@@ -1413,16 +1508,12 @@ class FragmentStrings {
   String get customers_notes => _t('customers_notes');
   String get customers_openingBalance => _t('customers_openingBalance');
   String get customers_openingBalanceHint => _t('customers_openingBalanceHint');
-  String get customers_openingBalanceLabel =>
-      _t('customers_openingBalanceLabel');
-  String get customers_openingHelpCustomer =>
-      _t('customers_openingHelpCustomer');
-  String get customers_openingHelpSupplier =>
-      _t('customers_openingHelpSupplier');
+  String get customers_openingBalanceLabel => _t('customers_openingBalanceLabel');
+  String get customers_openingHelpCustomer => _t('customers_openingHelpCustomer');
+  String get customers_openingHelpSupplier => _t('customers_openingHelpSupplier');
   String get customers_paymentSaved => _t('customers_paymentSaved');
   String get customers_paymentTitlePay => _t('customers_paymentTitlePay');
-  String get customers_paymentTitleReceive =>
-      _t('customers_paymentTitleReceive');
+  String get customers_paymentTitleReceive => _t('customers_paymentTitleReceive');
   String get customers_phone => _t('customers_phone');
   String get customers_receivePayment => _t('customers_receivePayment');
   String get customers_recordPurchase => _t('customers_recordPurchase');
@@ -1448,10 +1539,8 @@ class FragmentStrings {
   String get dashboard_activityIncome => _t('dashboard_activityIncome');
   String get dashboard_activityPaymentIn => _t('dashboard_activityPaymentIn');
   String get dashboard_activityPaymentOut => _t('dashboard_activityPaymentOut');
-  String dashboard_activityPurchase({required Object no}) =>
-      _f('dashboard_activityPurchase', {'no': no});
-  String dashboard_activitySale({required Object no}) =>
-      _f('dashboard_activitySale', {'no': no});
+  String dashboard_activityPurchase({required Object no}) => _f('dashboard_activityPurchase', {'no': no});
+  String dashboard_activitySale({required Object no}) => _f('dashboard_activitySale', {'no': no});
   String get dashboard_bankBalance => _t('dashboard_bankBalance');
   String get dashboard_cashInHand => _t('dashboard_cashInHand');
   String get dashboard_lowStock => _t('dashboard_lowStock');
@@ -1476,8 +1565,7 @@ class FragmentStrings {
   String get dashboard_quickActions => _t('dashboard_quickActions');
   String get dashboard_receivedToday => _t('dashboard_receivedToday');
   String get dashboard_recentActivity => _t('dashboard_recentActivity');
-  String dashboard_stockLeft({required Object qty, required Object unit}) =>
-      _f('dashboard_stockLeft', {'qty': qty, 'unit': unit});
+  String dashboard_stockLeft({required Object qty, required Object unit}) => _f('dashboard_stockLeft', {'qty': qty, 'unit': unit});
   String get dashboard_thisMonth => _t('dashboard_thisMonth');
   String get dashboard_title => _t('dashboard_title');
   String get dashboard_today => _t('dashboard_today');
@@ -1533,19 +1621,13 @@ class FragmentStrings {
   String get inventory_editConversion => _t('inventory_editConversion');
   String get inventory_editProduct => _t('inventory_editProduct');
   String get inventory_errDatabase => _t('inventory_errDatabase');
-  String inventory_errInsufficientStock(
-          {required Object available,
-          required Object needed,
-          required Object product}) =>
-      _f('inventory_errInsufficientStock',
-          {'available': available, 'needed': needed, 'product': product});
+  String inventory_errInsufficientStock({required Object available, required Object needed, required Object product}) => _f('inventory_errInsufficientStock', {'available': available, 'needed': needed, 'product': product});
   String get inventory_errInvalidAmount => _t('inventory_errInvalidAmount');
   String get inventory_errInvalidQty => _t('inventory_errInvalidQty');
   String get inventory_errNoConversion => _t('inventory_errNoConversion');
   String get inventory_errProductNotFound => _t('inventory_errProductNotFound');
   String get inventory_factor => _t('inventory_factor');
-  String inventory_factorHint({required Object from, required Object to}) =>
-      _f('inventory_factorHint', {'from': from, 'to': to});
+  String inventory_factorHint({required Object from, required Object to}) => _f('inventory_factorHint', {'from': from, 'to': to});
   String get inventory_factorPositive => _t('inventory_factorPositive');
   String get inventory_from => _t('inventory_from');
   String get inventory_in => _t('inventory_in');
@@ -1584,7 +1666,16 @@ class FragmentStrings {
   String get inventory_unit => _t('inventory_unit');
   String get inventory_units => _t('inventory_units');
   String get inventory_unitsTitle => _t('inventory_unitsTitle');
+  String get khata_addBills => _t('khata_addBills');
+  String get khata_addCustomerBtn => _t('khata_addCustomerBtn');
+  String get khata_addSupplierBtn => _t('khata_addSupplierBtn');
+  String khata_balAfter({required Object amount}) => _f('khata_balAfter', {'amount': amount});
+  String get khata_billAttached => _t('khata_billAttached');
+  String get khata_businessName => _t('khata_businessName');
+  String get khata_camera => _t('khata_camera');
+  String khata_customerSince({required Object date}) => _f('khata_customerSince', {'date': date});
   String get khata_customers => _t('khata_customers');
+  String get khata_diye => _t('khata_diye');
   String get khata_errorAccountInactive => _t('khata_errorAccountInactive');
   String get khata_errorAccountNotFound => _t('khata_errorAccountNotFound');
   String get khata_errorAlreadyReversed => _t('khata_errorAlreadyReversed');
@@ -1599,15 +1690,12 @@ class FragmentStrings {
   String get khata_errorEmptyJournal => _t('khata_errorEmptyJournal');
   String get khata_errorEmptyReturn => _t('khata_errorEmptyReturn');
   String get khata_errorEntryNotFound => _t('khata_errorEntryNotFound');
-  String khata_errorInsufficientStock({required Object product}) =>
-      _f('khata_errorInsufficientStock', {'product': product});
+  String khata_errorInsufficientStock({required Object product}) => _f('khata_errorInsufficientStock', {'product': product});
   String get khata_errorInvalidAmount => _t('khata_errorInvalidAmount');
-  String get khata_errorInvalidJournalLine =>
-      _t('khata_errorInvalidJournalLine');
+  String get khata_errorInvalidJournalLine => _t('khata_errorInvalidJournalLine');
   String get khata_errorInvalidQty => _t('khata_errorInvalidQty');
   String get khata_errorInvoiceNotFound => _t('khata_errorInvoiceNotFound');
-  String get khata_errorMethodAccountMismatch =>
-      _t('khata_errorMethodAccountMismatch');
+  String get khata_errorMethodAccountMismatch => _t('khata_errorMethodAccountMismatch');
   String get khata_errorNegativeCost => _t('khata_errorNegativeCost');
   String get khata_errorNegativePrice => _t('khata_errorNegativePrice');
   String get khata_errorNegativeTax => _t('khata_errorNegativeTax');
@@ -1616,32 +1704,48 @@ class FragmentStrings {
   String get khata_errorNotADraft => _t('khata_errorNotADraft');
   String get khata_errorOilCostAllocation => _t('khata_errorOilCostAllocation');
   String get khata_errorOverAllocated => _t('khata_errorOverAllocated');
-  String get khata_errorOverAllocatedInvoice =>
-      _t('khata_errorOverAllocatedInvoice');
+  String get khata_errorOverAllocatedInvoice => _t('khata_errorOverAllocatedInvoice');
   String get khata_errorProductArchived => _t('khata_errorProductArchived');
   String get khata_errorProductNotFound => _t('khata_errorProductNotFound');
   String get khata_errorReasonRequired => _t('khata_errorReasonRequired');
-  String get khata_errorReturnExceedsBought =>
-      _t('khata_errorReturnExceedsBought');
+  String get khata_errorReturnExceedsBought => _t('khata_errorReturnExceedsBought');
   String get khata_errorReturnExceedsSold => _t('khata_errorReturnExceedsSold');
   String get khata_errorSupplierArchived => _t('khata_errorSupplierArchived');
   String get khata_errorSupplierNotFound => _t('khata_errorSupplierNotFound');
-  String get khata_errorTransferSameAccount =>
-      _t('khata_errorTransferSameAccount');
+  String get khata_errorTransferSameAccount => _t('khata_errorTransferSameAccount');
   String get khata_errorUnbalancedJournal => _t('khata_errorUnbalancedJournal');
   String get khata_errorUnitNotFound => _t('khata_errorUnitNotFound');
+  String get khata_gallery => _t('khata_gallery');
+  String get khata_hisaabClear => _t('khata_hisaabClear');
+  String get khata_imageAddKarein => _t('khata_imageAddKarein');
+  String khata_lastTransacted({required Object date}) => _f('khata_lastTransacted', {'date': date});
+  String get khata_liye => _t('khata_liye');
+  String get khata_maineDeneHain => _t('khata_maineDeneHain');
+  String get khata_maineLeneHain => _t('khata_maineLeneHain');
+  String get khata_maineyDiye => _t('khata_maineyDiye');
+  String get khata_maineyLiye => _t('khata_maineyLiye');
+  String get khata_noCamera => _t('khata_noCamera');
   String get khata_noDues => _t('khata_noDues');
   String get khata_noDuesHint => _t('khata_noDuesHint');
+  String get khata_noPhone => _t('khata_noPhone');
+  String khata_remindersCount({required Object count}) => _f('khata_remindersCount', {'count': count});
+  String get khata_searchCustomer => _t('khata_searchCustomer');
+  String get khata_searchSupplier => _t('khata_searchSupplier');
+  String get khata_sms => _t('khata_sms');
+  String khata_supplierSince({required Object date}) => _f('khata_supplierSince', {'date': date});
   String get khata_suppliers => _t('khata_suppliers');
+  String get khata_tareekhRakhein => _t('khata_tareekhRakhein');
+  String get khata_time => _t('khata_time');
   String get khata_title => _t('khata_title');
   String get khata_toPay => _t('khata_toPay');
   String get khata_toReceive => _t('khata_toReceive');
+  String get khata_totalBalance => _t('khata_totalBalance');
   String get khata_viewAllCustomers => _t('khata_viewAllCustomers');
   String get khata_viewAllSuppliers => _t('khata_viewAllSuppliers');
+  String get khata_whatsapp => _t('khata_whatsapp');
   String get production_addInput => _t('production_addInput');
   String get production_addOutput => _t('production_addOutput');
-  String production_available({required Object qty, required Object unit}) =>
-      _f('production_available', {'qty': qty, 'unit': unit});
+  String production_available({required Object qty, required Object unit}) => _f('production_available', {'qty': qty, 'unit': unit});
   String get production_batchAuto => _t('production_batchAuto');
   String get production_batchNo => _t('production_batchNo');
   String get production_costBreakdown => _t('production_costBreakdown');
@@ -1653,8 +1757,7 @@ class FragmentStrings {
   String get production_errNegativeCost => _t('production_errNegativeCost');
   String get production_expectedYield => _t('production_expectedYield');
   String get production_inputs => _t('production_inputs');
-  String production_inputsCount({required Object count}) =>
-      _f('production_inputsCount', {'count': count});
+  String production_inputsCount({required Object count}) => _f('production_inputsCount', {'count': count});
   String get production_labourCost => _t('production_labourCost');
   String get production_materialCost => _t('production_materialCost');
   String get production_newBatch => _t('production_newBatch');
@@ -1673,8 +1776,7 @@ class FragmentStrings {
   String get production_removeLine => _t('production_removeLine');
   String get production_resultNoYield => _t('production_resultNoYield');
   String get production_resultTitle => _t('production_resultTitle');
-  String production_resultYield({required Object pct}) =>
-      _f('production_resultYield', {'pct': pct});
+  String production_resultYield({required Object pct}) => _f('production_resultYield', {'pct': pct});
   String get production_selectProduct => _t('production_selectProduct');
   String get production_statusCostsPosted => _t('production_statusCostsPosted');
   String get production_statusPosted => _t('production_statusPosted');
@@ -1689,8 +1791,7 @@ class FragmentStrings {
   String get purchases_deleteDraft => _t('purchases_deleteDraft');
   String get purchases_detailTitle => _t('purchases_detailTitle');
   String get purchases_draftDeleted => _t('purchases_draftDeleted');
-  String purchases_draftSaved({required Object invoiceNo}) =>
-      _f('purchases_draftSaved', {'invoiceNo': invoiceNo});
+  String purchases_draftSaved({required Object invoiceNo}) => _f('purchases_draftSaved', {'invoiceNo': invoiceNo});
   String get purchases_emptyTitle => _t('purchases_emptyTitle');
   String get purchases_formTitle => _t('purchases_formTitle');
   String get purchases_lineItems => _t('purchases_lineItems');
@@ -1700,8 +1801,7 @@ class FragmentStrings {
   String get purchases_payments => _t('purchases_payments');
   String get purchases_postDraft => _t('purchases_postDraft');
   String get purchases_postPurchase => _t('purchases_postPurchase');
-  String purchases_purchasePosted({required Object invoiceNo}) =>
-      _f('purchases_purchasePosted', {'invoiceNo': invoiceNo});
+  String purchases_purchasePosted({required Object invoiceNo}) => _f('purchases_purchasePosted', {'invoiceNo': invoiceNo});
   String get purchases_recordPayment => _t('purchases_recordPayment');
   String get purchases_returnTitle => _t('purchases_returnTitle');
   String get purchases_searchHint => _t('purchases_searchHint');
@@ -1716,6 +1816,25 @@ class FragmentStrings {
   String get purchases_supplier => _t('purchases_supplier');
   String get purchases_title => _t('purchases_title');
   String get purchases_voucherPdf => _t('purchases_voucherPdf');
+  String reminders_daysOverdue({required Object days}) => _f('reminders_daysOverdue', {'days': days});
+  String reminders_dueOn({required Object date}) => _f('reminders_dueOn', {'date': date});
+  String get reminders_editMessage => _t('reminders_editMessage');
+  String get reminders_emptyMessage => _t('reminders_emptyMessage');
+  String get reminders_emptyTitle => _t('reminders_emptyTitle');
+  String get reminders_failed => _t('reminders_failed');
+  String reminders_noPhone({required Object name}) => _f('reminders_noPhone', {'name': name});
+  String get reminders_overdue => _t('reminders_overdue');
+  String get reminders_pickScript => _t('reminders_pickScript');
+  String get reminders_scriptEnglish => _t('reminders_scriptEnglish');
+  String get reminders_scriptRoman => _t('reminders_scriptRoman');
+  String get reminders_scriptUrdu => _t('reminders_scriptUrdu');
+  String get reminders_send => _t('reminders_send');
+  String get reminders_sendSms => _t('reminders_sendSms');
+  String get reminders_sendWhatsapp => _t('reminders_sendWhatsapp');
+  String get reminders_sent => _t('reminders_sent');
+  String get reminders_title => _t('reminders_title');
+  String get reminders_upcoming => _t('reminders_upcoming');
+  String get reminders_whatsappSoon => _t('reminders_whatsappSoon');
   String get reports_accounts => _t('reports_accounts');
   String get reports_all => _t('reports_all');
   String get reports_avgCost => _t('reports_avgCost');
@@ -1745,8 +1864,7 @@ class FragmentStrings {
   String get reports_doc_closingBalance => _t('reports_doc_closingBalance');
   String get reports_doc_credit => _t('reports_doc_credit');
   String get reports_doc_customer => _t('reports_doc_customer');
-  String get reports_doc_customerStatement =>
-      _t('reports_doc_customerStatement');
+  String get reports_doc_customerStatement => _t('reports_doc_customerStatement');
   String get reports_doc_date => _t('reports_doc_date');
   String get reports_doc_debit => _t('reports_doc_debit');
   String get reports_doc_description => _t('reports_doc_description');
@@ -1755,8 +1873,7 @@ class FragmentStrings {
   String get reports_doc_electricity => _t('reports_doc_electricity');
   String get reports_doc_expenseVoucher => _t('reports_doc_expenseVoucher');
   String get reports_doc_from => _t('reports_doc_from');
-  String reports_doc_generatedOn({required Object date}) =>
-      _f('reports_doc_generatedOn', {'date': date});
+  String reports_doc_generatedOn({required Object date}) => _f('reports_doc_generatedOn', {'date': date});
   String get reports_doc_inputs => _t('reports_doc_inputs');
   String get reports_doc_invoiceNo => _t('reports_doc_invoiceNo');
   String get reports_doc_item => _t('reports_doc_item');
@@ -1786,10 +1903,8 @@ class FragmentStrings {
   String get reports_doc_status => _t('reports_doc_status');
   String get reports_doc_subtotal => _t('reports_doc_subtotal');
   String get reports_doc_supplier => _t('reports_doc_supplier');
-  String get reports_doc_supplierPaymentVoucher =>
-      _t('reports_doc_supplierPaymentVoucher');
-  String get reports_doc_supplierStatement =>
-      _t('reports_doc_supplierStatement');
+  String get reports_doc_supplierPaymentVoucher => _t('reports_doc_supplierPaymentVoucher');
+  String get reports_doc_supplierStatement => _t('reports_doc_supplierStatement');
   String get reports_doc_tax => _t('reports_doc_tax');
   String get reports_doc_to => _t('reports_doc_to');
   String get reports_doc_total => _t('reports_doc_total');
@@ -1824,8 +1939,7 @@ class FragmentStrings {
   String get reports_purchaseReturns => _t('reports_purchaseReturns');
   String get reports_quantity => _t('reports_quantity');
   String get reports_receivables => _t('reports_receivables');
-  String reports_recordsCount({required Object count}) =>
-      _f('reports_recordsCount', {'count': count});
+  String reports_recordsCount({required Object count}) => _f('reports_recordsCount', {'count': count});
   String get reports_reorderLevel => _t('reports_reorderLevel');
   String get reports_saleInvoices => _t('reports_saleInvoices');
   String get reports_sales => _t('reports_sales');
@@ -1849,29 +1963,45 @@ class FragmentStrings {
   String get reports_unpaid => _t('reports_unpaid');
   String get reports_value => _t('reports_value');
   String get reports_yield => _t('reports_yield');
+  String get sales_apniMarzi => _t('sales_apniMarzi');
   String get sales_confirmPost => _t('sales_confirmPost');
   String get sales_customer => _t('sales_customer');
   String get sales_deleteDraft => _t('sales_deleteDraft');
   String get sales_detailTitle => _t('sales_detailTitle');
   String get sales_draftDeleted => _t('sales_draftDeleted');
-  String sales_draftSaved({required Object invoiceNo}) =>
-      _f('sales_draftSaved', {'invoiceNo': invoiceNo});
+  String sales_draftSaved({required Object invoiceNo}) => _f('sales_draftSaved', {'invoiceNo': invoiceNo});
   String get sales_emptyTitle => _t('sales_emptyTitle');
   String get sales_formTitle => _t('sales_formTitle');
+  String get sales_haaliSales => _t('sales_haaliSales');
+  String get sales_hafta => _t('sales_hafta');
   String get sales_invoicePdf => _t('sales_invoicePdf');
+  String get sales_itemsManage => _t('sales_itemsManage');
+  String get sales_itemsManageHint => _t('sales_itemsManageHint');
+  String get sales_kullNaqad => _t('sales_kullNaqad');
+  String get sales_kullOrders => _t('sales_kullOrders');
+  String get sales_kullSales => _t('sales_kullSales');
+  String get sales_kullUdhaar => _t('sales_kullUdhaar');
   String get sales_lineItems => _t('sales_lineItems');
+  String get sales_maheena => _t('sales_maheena');
+  String get sales_manageItems => _t('sales_manageItems');
+  String sales_nataij({required Object count}) => _f('sales_nataij', {'count': count});
   String get sales_newSale => _t('sales_newSale');
   String get sales_noCustomerSelected => _t('sales_noCustomerSelected');
   String get sales_noItems => _t('sales_noItems');
+  String get sales_noSalesPeriod => _t('sales_noSalesPeriod');
   String get sales_payments => _t('sales_payments');
+  String get sales_periodCustom => _t('sales_periodCustom');
+  String get sales_periodHafta => _t('sales_periodHafta');
+  String get sales_periodMaheena => _t('sales_periodMaheena');
   String get sales_postDraft => _t('sales_postDraft');
   String get sales_postSale => _t('sales_postSale');
   String get sales_recordPayment => _t('sales_recordPayment');
   String get sales_returnTitle => _t('sales_returnTitle');
-  String sales_salePosted({required Object invoiceNo}) =>
-      _f('sales_salePosted', {'invoiceNo': invoiceNo});
+  String get sales_saleDarjKarein => _t('sales_saleDarjKarein');
+  String sales_salePosted({required Object invoiceNo}) => _f('sales_salePosted', {'invoiceNo': invoiceNo});
   String get sales_searchCustomer => _t('sales_searchCustomer');
   String get sales_searchHint => _t('sales_searchHint');
+  String get sales_searchSales => _t('sales_searchSales');
   String get sales_selectCustomer => _t('sales_selectCustomer');
   String get sales_share => _t('sales_share');
   String get sales_statusCancelled => _t('sales_statusCancelled');
@@ -1889,11 +2019,8 @@ class FragmentStrings {
   String get transactions_category => _t('transactions_category');
   String get transactions_credit => _t('transactions_credit');
   String get transactions_customRange => _t('transactions_customRange');
-  String transactions_customRangeHint(
-          {required Object from, required Object to}) =>
-      _f('transactions_customRangeHint', {'from': from, 'to': to});
-  String get transactions_customRangeTitle =>
-      _t('transactions_customRangeTitle');
+  String transactions_customRangeHint({required Object from, required Object to}) => _f('transactions_customRangeHint', {'from': from, 'to': to});
+  String get transactions_customRangeTitle => _t('transactions_customRangeTitle');
   String get transactions_date => _t('transactions_date');
   String get transactions_debit => _t('transactions_debit');
   String get transactions_description => _t('transactions_description');
@@ -1902,30 +2029,25 @@ class FragmentStrings {
   String get transactions_discountPct => _t('transactions_discountPct');
   String get transactions_due => _t('transactions_due');
   String get transactions_emptyTitle => _t('transactions_emptyTitle');
-  String transactions_entriesCount({required Object count}) =>
-      _f('transactions_entriesCount', {'count': count});
+  String transactions_entriesCount({required Object count}) => _f('transactions_entriesCount', {'count': count});
   String get transactions_entryNo => _t('transactions_entryNo');
   String get transactions_expense => _t('transactions_expense');
   String get transactions_filterAll => _t('transactions_filterAll');
-  String get transactions_filterPaymentPaid =>
-      _t('transactions_filterPaymentPaid');
-  String get transactions_filterPaymentReceived =>
-      _t('transactions_filterPaymentReceived');
+  String get transactions_filterPaymentPaid => _t('transactions_filterPaymentPaid');
+  String get transactions_filterPaymentReceived => _t('transactions_filterPaymentReceived');
   String get transactions_income => _t('transactions_income');
   String get transactions_invalidPrice => _t('transactions_invalidPrice');
   String get transactions_invalidQty => _t('transactions_invalidQty');
   String get transactions_invoiceDiscount => _t('transactions_invoiceDiscount');
   String get transactions_lineTotal => _t('transactions_lineTotal');
-  String transactions_maxQty({required Object qty}) =>
-      _f('transactions_maxQty', {'qty': qty});
+  String transactions_maxQty({required Object qty}) => _f('transactions_maxQty', {'qty': qty});
   String get transactions_noDescription => _t('transactions_noDescription');
   String get transactions_notes => _t('transactions_notes');
   String get transactions_paidAmount => _t('transactions_paidAmount');
   String get transactions_paymentAccount => _t('transactions_paymentAccount');
   String get transactions_paymentAmount => _t('transactions_paymentAmount');
   String get transactions_paymentMethod => _t('transactions_paymentMethod');
-  String get transactions_paymentReference =>
-      _t('transactions_paymentReference');
+  String get transactions_paymentReference => _t('transactions_paymentReference');
   String get transactions_paymentSaved => _t('transactions_paymentSaved');
   String get transactions_paymentTitle => _t('transactions_paymentTitle');
   String get transactions_production => _t('transactions_production');
@@ -1938,8 +2060,7 @@ class FragmentStrings {
   String get transactions_returnReason => _t('transactions_returnReason');
   String get transactions_returnTitle => _t('transactions_returnTitle');
   String get transactions_reversal => _t('transactions_reversal');
-  String transactions_reversalOf({required Object entryNo}) =>
-      _f('transactions_reversalOf', {'entryNo': entryNo});
+  String transactions_reversalOf({required Object entryNo}) => _f('transactions_reversalOf', {'entryNo': entryNo});
   String get transactions_reversed => _t('transactions_reversed');
   String get transactions_sale => _t('transactions_sale');
   String get transactions_saveDraft => _t('transactions_saveDraft');

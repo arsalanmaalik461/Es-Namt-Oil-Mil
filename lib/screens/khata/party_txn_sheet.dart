@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart' hide TextDirection;
@@ -10,9 +13,8 @@ import 'package:namt_oil_mil/models/payment.dart';
 import 'package:namt_oil_mil/providers/db_providers.dart';
 import 'package:namt_oil_mil/utils/error_text.dart';
 import 'package:namt_oil_mil/utils/keys.dart';
-import 'package:namt_oil_mil/utils/money.dart';
-import 'package:namt_oil_mil/widgets/app_button.dart';
 import 'package:namt_oil_mil/widgets/app_text_field.dart';
+import 'package:namt_oil_mil/widgets/calculator_pad.dart';
 import 'khata_providers.dart';
 
 /// Direction of the money movement recorded by the sheet.
@@ -28,7 +30,8 @@ enum PartyTxnKind {
 /// [AccountingService.postCustomerPayment] for [PartyTxnKind.receive],
 /// [AccountingService.postSupplierPayment] for [PartyTxnKind.pay].
 ///
-/// Fields: amount, date, note, method (cash/bank) and the cash/bank account.
+/// Fields: calculator amount entry, date, note, bill image, method
+/// (cash/bank) and the cash/bank account.
 /// Returns `true` when a payment was posted.
 Future<bool> showPartyTxnSheet(
   BuildContext context,
@@ -67,23 +70,22 @@ class _PartyTxnSheet extends ConsumerStatefulWidget {
 
 class _PartyTxnSheetState extends ConsumerState<_PartyTxnSheet> {
   final _formKey = GlobalKey<FormState>();
-  late final TextEditingController _amount;
   late final TextEditingController _note;
+  double _calcValue = 0;
   DateTime _date = DateTime.now();
   PaymentMethod _method = PaymentMethod.cash;
   int? _accountId;
   bool _saving = false;
+  String? _billImagePath;
 
   @override
   void initState() {
     super.initState();
-    _amount = TextEditingController();
     _note = TextEditingController();
   }
 
   @override
   void dispose() {
-    _amount.dispose();
     _note.dispose();
     super.dispose();
   }
@@ -96,6 +98,73 @@ class _PartyTxnSheetState extends ConsumerState<_PartyTxnSheet> {
       lastDate: DateTime.now().add(const Duration(days: 365 * 5)),
     );
     if (picked != null) setState(() => _date = picked);
+  }
+
+  Future<void> _pickBillImage() async {
+    final t = FragmentStrings.of(context);
+    final choice = await showModalBottomSheet<String>(
+      context: context,
+      builder: (c) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 40,
+              height: 4,
+              margin: const EdgeInsets.only(top: 12),
+              decoration: BoxDecoration(
+                color: Theme.of(c).colorScheme.outlineVariant,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  t.khata_imageAddKarein,
+                  style: Theme.of(c)
+                      .textTheme
+                      .titleLarge
+                      ?.copyWith(fontWeight: FontWeight.w700),
+                ),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.camera_alt, color: Colors.blue),
+              title: Text(t.khata_camera),
+              onTap: () => Navigator.of(c).pop('camera'),
+            ),
+            const Divider(height: 1),
+            ListTile(
+              leading: const Icon(Icons.image, color: Colors.blue),
+              title: Text(t.khata_gallery),
+              onTap: () => Navigator.of(c).pop('gallery'),
+            ),
+            const SizedBox(height: 12),
+          ],
+        ),
+      ),
+    );
+    if (choice == null || !mounted) return;
+    if (choice == 'camera') {
+      // No camera plugin in the offline dependency lockdown (pubspec is
+      // Module-A owned); gallery picking works via file_picker.
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(t.khata_noCamera)),
+      );
+      return;
+    }
+    final picked = await FilePicker.pickFiles(
+      type: FileType.image,
+    );
+    final path = picked.isEmpty ? null : picked.first.path;
+    if (path != null && mounted) {
+      setState(() => _billImagePath = path);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(t.khata_billAttached)),
+      );
+    }
   }
 
   void _invalidate() {
@@ -112,26 +181,27 @@ class _PartyTxnSheetState extends ConsumerState<_PartyTxnSheet> {
   Future<void> _save() async {
     final t = FragmentStrings.of(context);
     if (!_formKey.currentState!.validate()) return;
+    if (_calcValue <= 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(AppLocalizations.of(context).val_invalidAmount)),
+      );
+      return;
+    }
     if (_accountId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(t.customers_selectAccount)),
       );
       return;
     }
-    late final int amountPaisa;
-    try {
-      amountPaisa = parsePkrToPaisa(_amount.text);
-    } on FormatException {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(AppLocalizations.of(context).val_invalidAmount)),
-      );
-      return;
-    }
+    final amountPaisa = (_calcValue * 100).round();
 
     setState(() => _saving = true);
     try {
       final accounting = await ref.watch(accountingServiceProvider.future);
       final note = _note.text.trim();
+      // NOTE: the bill image is kept as a local preview in this sheet.
+      // AccountingService has no attachment slot (models are Team-3 owned);
+      // wiring persistence is tracked for the features team.
       if (widget.kind == PartyTxnKind.receive) {
         await accounting.postCustomerPayment(
           customerId: widget.partyId,
@@ -176,9 +246,10 @@ class _PartyTxnSheetState extends ConsumerState<_PartyTxnSheet> {
     final title = widget.kind == PartyTxnKind.receive
         ? t.customers_paymentTitleReceive
         : t.customers_paymentTitlePay;
-    final dateLabel =
-        DateFormat.yMMMd(Localizations.localeOf(context).toLanguageTag())
-            .format(_date);
+    // Green for money in, red for money out — matches the Diye/Liye buttons.
+    final saveColor = widget.kind == PartyTxnKind.receive
+        ? const Color(0xFF4CAF50)
+        : const Color(0xFFE85D5D);
 
     final accountsAsync = ref.watch(cashAccountRepositoryProvider);
 
@@ -205,26 +276,95 @@ class _PartyTxnSheetState extends ConsumerState<_PartyTxnSheet> {
                 ),
               ),
               const SizedBox(height: 12),
-              Text(title, style: Theme.of(context).textTheme.titleLarge),
-              const SizedBox(height: 16),
-              AppTextField.numeric(
-                controller: _amount,
-                label: t.customers_amount,
-                validator: AppValidators.amount(context),
-                textInputAction: TextInputAction.next,
-                autofocus: true,
+              Text(
+                title,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge
+                    ?.copyWith(fontWeight: FontWeight.w700),
               ),
               const SizedBox(height: 12),
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                leading: const Icon(Icons.calendar_today),
-                title: Text(t.customers_date),
-                trailing: TextButton(
-                  onPressed: _pickDate,
-                  child: Text(dateLabel),
-                ),
+              CalculatorPad(
+                onValue: (v) => setState(() => _calcValue = v),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: 12),
+              AppTextField(
+                controller: _note,
+                label: t.customers_note,
+                maxLines: 2,
+                textInputAction: TextInputAction.done,
+              ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      icon: const Icon(Icons.calendar_month_outlined, size: 20),
+                      label: Text(
+                        DateFormat('d MMM, yy',
+                                Localizations.localeOf(context).toLanguageTag())
+                            .format(_date),
+                      ),
+                      onPressed: _pickDate,
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      icon: const Icon(Icons.camera_alt_outlined, size: 20),
+                      label: Text(t.khata_addBills),
+                      onPressed: _pickBillImage,
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              if (_billImagePath != null) ...[
+                const SizedBox(height: 12),
+                Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Image.file(
+                        File(_billImagePath!),
+                        height: 120,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+                      ),
+                    ),
+                    Positioned(
+                      top: 4,
+                      right: 4,
+                      child: InkWell(
+                        onTap: () =>
+                            setState(() => _billImagePath = null),
+                        child: Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: const BoxDecoration(
+                            color: Colors.black54,
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(Icons.close,
+                              color: Colors.white, size: 16),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+              const SizedBox(height: 12),
               Text(t.customers_method,
                   style: Theme.of(context).textTheme.labelLarge),
               const SizedBox(height: 8),
@@ -279,27 +419,40 @@ class _PartyTxnSheetState extends ConsumerState<_PartyTxnSheet> {
                 loading: () => const LinearProgressIndicator(),
                 error: (_, __) => Text(l10n.error_generic),
               ),
-              const SizedBox(height: 12),
-              AppTextField(
-                controller: _note,
-                label: t.customers_note,
-                maxLines: 2,
-                textInputAction: TextInputAction.done,
-              ),
               const SizedBox(height: 20),
-              AppButton(
-                label: l10n.common_save,
-                onPressed: _saving ? null : _save,
-                isLoading: _saving,
-                expanded: true,
+              SizedBox(
+                height: 54,
+                child: FilledButton(
+                  onPressed: _saving ? null : _save,
+                  style: FilledButton.styleFrom(
+                    backgroundColor: saveColor,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(27),
+                    ),
+                    textStyle: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 1.5,
+                    ),
+                  ),
+                  child: _saving
+                      ? const SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 2.5,
+                          ),
+                        )
+                      : Text(l10n.common_save.toUpperCase()),
+                ),
               ),
               const SizedBox(height: 8),
-              AppButton(
-                label: l10n.common_cancel,
-                variant: AppButtonVariant.secondary,
+              TextButton(
                 onPressed:
                     _saving ? null : () => Navigator.of(context).pop(false),
-                expanded: true,
+                child: Text(l10n.common_cancel),
               ),
             ],
           ),

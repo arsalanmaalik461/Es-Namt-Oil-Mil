@@ -7,6 +7,9 @@ import 'package:namt_oil_mil/widgets/app_button.dart';
 import 'package:namt_oil_mil/widgets/app_text_field.dart';
 import 'package:namt_oil_mil/widgets/section_header.dart';
 
+import 'google_drive_section.dart';
+import 'package:namt_oil_mil/screens/security/security_settings_screen.dart';
+
 /// App settings: language, theme, business profile, and an About section.
 /// Language/theme changes apply instantly — no restart needed.
 class SettingsScreen extends ConsumerStatefulWidget {
@@ -89,6 +92,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   title: Text(l10n.langUrdu),
                   value: 'ur',
                 ),
+                RadioListTile<String>(
+                  title: Text(l10n.langRomanUrdu),
+                  value: 'romanur',
+                ),
+                RadioListTile<String>(
+                  title: Text(l10n.langSindhi),
+                  value: 'sd',
+                ),
               ],
             ),
           ),
@@ -165,9 +176,62 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             trailing: const Icon(Icons.chevron_right),
             onTap: () => Navigator.pushNamed(context, Routes.about),
           ),
+          const Divider(),
+          // Hisaab mode: personal vs business (Team 7, 2026-10-18).
+          _HisaabModeSection(),
+          const Divider(),
+          // App lock & security (Team 7, 2026-10-18).
+          ListTile(
+            leading: const Icon(Icons.lock_outline),
+            title: Text(l10n.security_title),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => const SecuritySettingsScreen(),
+              ),
+            ),
+          ),
+          const Divider(),
+          // Google Drive backup (opt-in, user-requested 2026-10-18).
+          const GoogleDriveSection(),
           const SizedBox(height: 24),
         ],
       ),
+    );
+  }
+}
+
+/// Personal vs business hisaab toggle (Team 7, 2026-10-18).
+class _HisaabModeSection extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final mode = ref.watch(hisaabModeProvider);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SectionHeader(title: l10n.settings_hisaabMode),
+        RadioGroup<HisaabMode>(
+          groupValue: mode,
+          onChanged: (v) {
+            if (v != null) ref.read(hisaabModeProvider.notifier).setMode(v);
+          },
+          child: Column(
+            children: [
+              RadioListTile<HisaabMode>(
+                title: Text(l10n.settings_hisaabBusiness),
+                value: HisaabMode.business,
+                secondary: const Icon(Icons.business_outlined),
+              ),
+              RadioListTile<HisaabMode>(
+                title: Text(l10n.settings_hisaabPersonal),
+                value: HisaabMode.personal,
+                secondary: const Icon(Icons.person_outline),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

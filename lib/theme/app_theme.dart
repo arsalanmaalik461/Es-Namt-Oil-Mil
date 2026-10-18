@@ -28,6 +28,32 @@ class AppColors {
   static const Color debitOnDark = Color(0xFFEF9A9A);
   static const Color creditOnDark = Color(0xFFA5D6A7);
 
+  // --- Pastel surfaces (v2 "soft khata" look) ---
+  /// Receivable ("lene hain") pastel backgrounds.
+  static const Color pastelPink = Color(0xFFFDECEA);
+  static const Color pastelPinkDeep = Color(0xFFF8CFC9);
+  static const Color pastelPinkText = Color(0xFFD32F2F);
+
+  /// Payable / settled ("dene hain") pastel backgrounds.
+  static const Color pastelGreen = Color(0xFFE6F4EA);
+  static const Color pastelGreenDeep = Color(0xFFC3E6CB);
+  static const Color pastelGreenText = Color(0xFF1E7E34);
+
+  /// Info banners.
+  static const Color pastelBlue = Color(0xFFE3F2FD);
+  static const Color pastelBlueDeep = Color(0xFFBBDEFB);
+  static const Color pastelBlueText = Color(0xFF1565C0);
+
+  /// Warm neutral.
+  static const Color pastelAmber = Color(0xFFFFF8E1);
+  static const Color pastelAmberText = Color(0xFFF57F17);
+
+  /// Soft app background (v2).
+  static const Color softBackground = Color(0xFFF5F7FA);
+
+  /// Near-black CTA buttons (v2).
+  static const Color inkButton = Color(0xFF1B1B1B);
+
   const AppColors._();
 }
 
@@ -71,7 +97,7 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       colorScheme: scheme,
-      scaffoldBackgroundColor: AppColors.offWhite,
+      scaffoldBackgroundColor: AppColors.softBackground,
       appBarTheme: const AppBarTheme(
         centerTitle: false,
         elevation: 0,

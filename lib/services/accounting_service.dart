@@ -268,7 +268,8 @@ class AccountingService {
       final rows = await db.rawQuery(
         'SELECT COALESCE(SUM(debit_paisa), 0) AS d, '
         'COALESCE(SUM(credit_paisa), 0) AS c '
-        'FROM ledger_entries WHERE account_type = ? AND account_id = ?',
+        'FROM ledger_entries WHERE account_type = ? AND account_id = ? '
+        'AND COALESCE(voided, 0) = 0',
         [type.dbValue, accountId],
       );
       final d = ((rows.first['d'] as num?) ?? 0).toInt();
@@ -2730,7 +2731,8 @@ class AccountingService {
           'SELECT COALESCE(SUM(debit_paisa), 0) AS d, '
           'COALESCE(SUM(credit_paisa), 0) AS c '
           'FROM ledger_entries '
-          'WHERE account_type = ? AND account_id = ? AND date < ?',
+          'WHERE account_type = ? AND account_id = ? AND date < ? '
+          'AND COALESCE(voided, 0) = 0',
           [accountType.dbValue, accountId, fromMillis],
         );
         opening = signedEffect(
@@ -2755,8 +2757,11 @@ class AccountingService {
       final lines = <LedgerLine>[];
       for (final row in rows) {
         final entry = LedgerEntry.fromMap(row);
-        running +=
-            signedEffect(accountType, entry.debitPaisa, entry.creditPaisa);
+        // Voided entries stay visible in history but don't move the balance.
+        if (!entry.voided) {
+          running +=
+              signedEffect(accountType, entry.debitPaisa, entry.creditPaisa);
+        }
         lines.add(LedgerLine(entry: entry, runningBalancePaisa: running));
       }
       return LedgerStatement(

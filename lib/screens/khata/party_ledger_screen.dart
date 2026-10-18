@@ -5,8 +5,14 @@ import 'package:intl/intl.dart' hide TextDirection;
 import 'package:namt_oil_mil/core/app_exception.dart';
 import 'package:namt_oil_mil/l10n/fragment_strings.dart';
 import 'package:namt_oil_mil/l10n/gen/app_localizations.dart';
+import 'package:namt_oil_mil/models/customer.dart';
 import 'package:namt_oil_mil/models/ledger_entry.dart';
+import 'package:namt_oil_mil/providers/settings_provider.dart';
+import 'package:namt_oil_mil/screens/reports/document_data.dart';
+import 'package:namt_oil_mil/screens/reports/report_definitions.dart';
 import 'package:namt_oil_mil/services/accounting_service.dart';
+import 'package:namt_oil_mil/services/pdf/pdf_service.dart';
+import 'package:namt_oil_mil/services/whatsapp_service.dart';
 import 'package:namt_oil_mil/utils/error_text.dart';
 import 'package:namt_oil_mil/utils/money.dart';
 import 'package:namt_oil_mil/widgets/app_search_bar.dart';
@@ -16,6 +22,7 @@ import 'package:namt_oil_mil/widgets/error_state.dart';
 import 'package:namt_oil_mil/widgets/ledger_row.dart';
 import 'package:namt_oil_mil/widgets/loading_state.dart';
 import 'khata_providers.dart';
+import 'party_form_sheet.dart';
 
 /// Shared full-ledger UI for a customer or supplier.
 ///
@@ -91,6 +98,124 @@ class _PartyLedgerViewState extends ConsumerState<PartyLedgerView> {
 
   void _clearCustomRange() => setState(() => _customRange = null);
 
+  // ------------------------------------------------------------ WhatsApp
+
+  /// WhatsApp button on the customer ledger (user-requested 2026-10-18).
+  ///
+  /// * No WhatsApp number saved → prompt to add it (opens the edit sheet).
+  /// * Number saved → bottom sheet: "Chat kholein" (opens the customer's
+  ///   WhatsApp chat directly) or "Statement PDF bhejein" (generates the
+  ///   customer statement PDF and opens the share sheet).
+  Future<void> _onWhatsAppTap(Customer customer) async {
+    final wa = ref.read(whatsAppServiceProvider);
+    final number = wa.normalizeNumber(customer.whatsappNumber);
+    if (number == null) {
+      final add = await showDialog<bool>(
+        context: context,
+        builder: (c) => AlertDialog(
+          title: const Text('WhatsApp number add karein'),
+          content: Text(
+              '${customer.name} ka WhatsApp number save karein taake hisaab seedha unki chat mein bheja ja sake.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(c, false),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(c, true),
+              child: const Text('Add karein'),
+            ),
+          ],
+        ),
+      );
+      if (add == true && mounted) {
+        await showPartyFormSheet(
+          context,
+          ref,
+          kind: PartyKind.customer,
+          customer: customer,
+        );
+        ref.invalidate(customerDetailProvider(customer.id!));
+        setState(() {});
+      }
+      return;
+    }
+    if (!mounted) return;
+    final action = await showModalBottomSheet<_WaAction>(
+      context: context,
+      builder: (c) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.chat_outlined),
+              title: const Text('Chat kholein'),
+              subtitle: Text(number),
+              onTap: () => Navigator.pop(c, _WaAction.openChat),
+            ),
+            ListTile(
+              leading: const Icon(Icons.picture_as_pdf_outlined),
+              title: const Text('Statement PDF bhejein'),
+              subtitle: const Text('Hisaab-kitaab PDF ban kar share hoga'),
+              onTap: () => Navigator.pop(c, _WaAction.sharePdf),
+            ),
+            const SizedBox(height: 8),
+          ],
+        ),
+      ),
+    );
+    if (!mounted || action == null) return;
+    switch (action) {
+      case _WaAction.openChat:
+        final ok = await wa.openChat(customer.whatsappNumber);
+        if (!ok && mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+                content: Text(
+                    'WhatsApp nahi khul saka. Number check karein ya WhatsApp install karein.')),
+          );
+        }
+      case _WaAction.sharePdf:
+        await _shareStatementPdf(customer);
+    }
+  }
+
+  Future<void> _shareStatementPdf(Customer customer) async {
+    final l10n = AppLocalizations.of(context);
+    try {
+      final t = FragmentStrings.of(context);
+      final business = ref.read(businessProfileProvider);
+      final localeCode = Localizations.localeOf(context).languageCode;
+      String fmt(DateTime d) => DateFormat.yMMMd(localeCode).format(d);
+      final data = await buildDocumentData(
+        ref: ref,
+        documentType: DocumentKeys.customerStatement,
+        id: customer.id!,
+        t: t,
+        business: business,
+        formatDate: fmt,
+      );
+      final bytes = await ref
+          .read(pdfServiceProvider)
+          .buildPdf(document: data, l10n: l10n);
+      final fileName =
+          'namt-oil-mil-statement-${customer.name.replaceAll(RegExp(r'[^\w\- ]'), '_')}.pdf';
+      await ref.read(whatsAppServiceProvider).shareStatementPdf(
+            pdfBytes: bytes,
+            fileName: fileName,
+            text: '${customer.name} — khaata statement',
+          );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text(e is AppException
+                ? errorText(context, e)
+                : l10n.error_generic)),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -100,8 +225,34 @@ class _PartyLedgerViewState extends ConsumerState<PartyLedgerView> {
         ? ref.watch(customerLedgerProvider(_query))
         : ref.watch(supplierLedgerProvider(_query));
 
+    // WhatsApp action (customers only): resolved via customerDetailProvider.
+    final customerAsync = widget.isCustomer
+        ? ref.watch(customerDetailProvider(widget.partyId))
+        : null;
+
     return Scaffold(
-      appBar: AppBar(title: Text(t.customers_ledgerTitle)),
+      appBar: AppBar(
+        title: Text(t.customers_ledgerTitle),
+        actions: [
+          if (widget.isCustomer)
+            customerAsync!.when(
+              data: (detail) => IconButton(
+                tooltip: 'WhatsApp',
+                icon: const Icon(Icons.chat_outlined),
+                onPressed: () => _onWhatsAppTap(detail.customer),
+              ),
+              loading: () => const Padding(
+                padding: EdgeInsets.all(12),
+                child: SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                ),
+              ),
+              error: (_, __) => const SizedBox.shrink(),
+            ),
+        ],
+      ),
       body: Column(
         children: [
           Row(
@@ -226,8 +377,7 @@ class _PartyLedgerViewState extends ConsumerState<PartyLedgerView> {
           .format(d);
 }
 
-class _OpeningRow extends StatelessWidget {
-  final int openingPaisa;
+class _OpeningRow extends StatelessWidget {  final int openingPaisa;
   final bool isCustomer;
   const _OpeningRow({required this.openingPaisa, required this.isCustomer});
 
@@ -257,3 +407,6 @@ class _OpeningRow extends StatelessWidget {
     );
   }
 }
+
+/// WhatsApp actions offered on the customer ledger bottom sheet.
+enum _WaAction { openChat, sharePdf }

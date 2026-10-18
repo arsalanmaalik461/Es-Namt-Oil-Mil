@@ -16,6 +16,7 @@ import 'package:namt_oil_mil/screens/khata/supplier_ledger_screen.dart';
 import 'package:namt_oil_mil/screens/khata/supplier_list_screen.dart';
 import 'package:namt_oil_mil/screens/more/backup_screen.dart';
 import 'package:namt_oil_mil/screens/more/more_hub_screen.dart';
+import 'package:namt_oil_mil/screens/reminders/reminders_screen.dart';
 import 'package:namt_oil_mil/screens/production/production_batch_detail_screen.dart';
 import 'package:namt_oil_mil/screens/production/production_screen.dart';
 import 'package:namt_oil_mil/screens/purchases/purchase_detail_screen.dart';
@@ -90,6 +91,7 @@ class Routes {
   static const String reports = '/reports';
   static const String reportDetail = '/report-detail';
   static const String backup = '/backup';
+  static const String reminders = '/reminders';
   static const String settings = '/settings';
   static const String about = '/about';
   static const String more = '/more';
@@ -186,6 +188,8 @@ class RouteRegistry {
         );
       case Routes.backup:
         page = const BackupScreen();
+      case Routes.reminders:
+        page = const RemindersScreen();
 
       default:
         page = _UnknownRouteScreen(routeName: settings.name);

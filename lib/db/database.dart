@@ -25,7 +25,7 @@ class DatabaseHelper {
   static const String dbFileName = 'namt_oil_mil.db';
 
   /// Current schema version. Bump when adding entries to [migrations].
-  static const int dbVersion = 2;
+  static const int dbVersion = 4;
 
   /// Additive migration scripts keyed by TARGET version.
   ///
@@ -42,6 +42,20 @@ class DatabaseHelper {
     // v2: idempotency for ledger-only postings (udhaar). UNIQUE allows
     // multiple NULLs, so pre-v2 rows and postings without a key are unaffected.
     2: ['ALTER TABLE ledger_entries ADD COLUMN idempotency_key TEXT UNIQUE'],
+    // v3: WhatsApp number per customer (user-requested 2026-10-18) for
+    // one-tap statement sharing to the customer's WhatsApp chat.
+    3: ['ALTER TABLE customers ADD COLUMN whatsapp_number TEXT'],
+    // v4: Reminders/sharing gaps (Team 6, 2026-10-18) — void flag, due date,
+    // bill photo path, and correction-journal link on ledger entries.
+    // All additive; existing rows default to not-voided / no due date.
+    4: [
+      'ALTER TABLE ledger_entries ADD COLUMN voided INTEGER NOT NULL DEFAULT 0',
+      'ALTER TABLE ledger_entries ADD COLUMN due_date INTEGER',
+      'ALTER TABLE ledger_entries ADD COLUMN bill_image_path TEXT',
+      'ALTER TABLE ledger_entries ADD COLUMN corrects_journal TEXT',
+      'CREATE INDEX IF NOT EXISTS idx_ledger_voided ON ledger_entries(voided)',
+      'CREATE INDEX IF NOT EXISTS idx_ledger_due ON ledger_entries(due_date)',
+    ],
   };
 
   Database? _db;

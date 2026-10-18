@@ -2122,4 +2122,89 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get udhaar_title => 'Give udhaar';
+
+  @override
+  String get security_title => 'Security & App Lock';
+
+  @override
+  String get security_pinLock => 'PIN lock';
+
+  @override
+  String get security_pinLockDesc =>
+      'Ask for a 4-digit PIN when opening the app';
+
+  @override
+  String get security_biometric => 'Fingerprint / Face lock';
+
+  @override
+  String get security_biometricDesc =>
+      'Biometric verification when opening the app';
+
+  @override
+  String get security_changePin => 'Change PIN';
+
+  @override
+  String get security_setupPin => 'Set up PIN';
+
+  @override
+  String get security_enterPin => 'Enter your 4-digit PIN';
+
+  @override
+  String get security_confirmPin => 'Confirm your PIN';
+
+  @override
+  String get security_pinMismatch => 'PINs did not match. Try again.';
+
+  @override
+  String get security_pinSet => 'PIN set successfully';
+
+  @override
+  String get security_pinRemoved => 'PIN lock turned off';
+
+  @override
+  String get security_wrongPin => 'Wrong PIN. Try again.';
+
+  @override
+  String get security_forgotPin => 'Forgot PIN?';
+
+  @override
+  String get security_forgotPinMsg =>
+      'Resetting the PIN will remove the app lock. Continue?';
+
+  @override
+  String get security_autoLock => 'Auto-lock after';
+
+  @override
+  String get security_autoLockImmediate => 'Immediately';
+
+  @override
+  String get security_autoLock1min => 'After 1 minute';
+
+  @override
+  String get security_autoLock5min => 'After 5 minutes';
+
+  @override
+  String get security_biometricNotAvailable =>
+      'Biometric is not available on this device';
+
+  @override
+  String get security_unlockWithBiometric => 'Unlock with biometric';
+
+  @override
+  String get security_usePinInstead => 'Use PIN instead';
+
+  @override
+  String get langRomanUrdu => 'Roman Urdu';
+
+  @override
+  String get langSindhi => 'Sindhi';
+
+  @override
+  String get settings_hisaabMode => 'Hisaab mode';
+
+  @override
+  String get settings_hisaabBusiness => 'Business';
+
+  @override
+  String get settings_hisaabPersonal => 'Personal';
 }

@@ -63,6 +63,7 @@ class _PartyFormSheetState extends ConsumerState<_PartyFormSheet> {
   final _formKey = GlobalKey<FormState>();
   late final TextEditingController _name;
   late final TextEditingController _phone;
+  late final TextEditingController _whatsapp;
   late final TextEditingController _address;
   late final TextEditingController _code;
   late final TextEditingController _businessName;
@@ -80,6 +81,7 @@ class _PartyFormSheetState extends ConsumerState<_PartyFormSheet> {
     final s = widget.supplier;
     _name = TextEditingController(text: c?.name ?? s?.name ?? '');
     _phone = TextEditingController(text: c?.phone ?? s?.phone ?? '');
+    _whatsapp = TextEditingController(text: c?.whatsappNumber ?? '');
     _address = TextEditingController(text: c?.address ?? s?.address ?? '');
     _code = TextEditingController(text: c?.code ?? s?.code ?? '');
     _businessName =
@@ -95,6 +97,7 @@ class _PartyFormSheetState extends ConsumerState<_PartyFormSheet> {
   void dispose() {
     _name.dispose();
     _phone.dispose();
+    _whatsapp.dispose();
     _address.dispose();
     _code.dispose();
     _businessName.dispose();
@@ -136,6 +139,7 @@ class _PartyFormSheetState extends ConsumerState<_PartyFormSheet> {
           await repo.update(widget.customer!.copyWith(
             name: _name.text.trim(),
             phone: _nullIfEmpty(_phone.text),
+            whatsappNumber: _nullIfEmpty(_whatsapp.text),
             address: _nullIfEmpty(_address.text),
             code: _nullIfEmpty(_code.text),
             businessName: _nullIfEmpty(_businessName.text),
@@ -145,6 +149,7 @@ class _PartyFormSheetState extends ConsumerState<_PartyFormSheet> {
           await repo.insert(Customer(
             name: _name.text.trim(),
             phone: _nullIfEmpty(_phone.text),
+            whatsappNumber: _nullIfEmpty(_whatsapp.text),
             address: _nullIfEmpty(_address.text),
             code: _nullIfEmpty(_code.text),
             businessName: _nullIfEmpty(_businessName.text),
@@ -244,6 +249,17 @@ class _PartyFormSheetState extends ConsumerState<_PartyFormSheet> {
                 validator: AppValidators.phone(context),
                 textInputAction: TextInputAction.next,
               ),
+              if (_isCustomer) ...[
+                const SizedBox(height: 12),
+                AppTextField(
+                  controller: _whatsapp,
+                  label: 'WhatsApp number',
+                  keyboardType: TextInputType.phone,
+                  validator: AppValidators.phone(context),
+                  textInputAction: TextInputAction.next,
+                  prefixIcon: const Icon(Icons.chat_outlined),
+                ),
+              ],
               const SizedBox(height: 12),
               AppTextField(
                 controller: _businessName,

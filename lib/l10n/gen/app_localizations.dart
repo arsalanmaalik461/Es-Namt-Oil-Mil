@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
+import 'app_localizations_sd.dart';
 import 'app_localizations_ur.dart';
 
 // ignore_for_file: type=lint
@@ -95,7 +96,9 @@ abstract class AppLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
-    Locale('ur')
+    Locale('sd'),
+    Locale('ur'),
+    Locale.fromSubtags(languageCode: 'ur', scriptCode: 'Latn')
   ];
 
   /// About screen: app name
@@ -4148,6 +4151,168 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Give udhaar'**
   String get udhaar_title;
+
+  /// No description provided for @security_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Security & App Lock'**
+  String get security_title;
+
+  /// No description provided for @security_pinLock.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN lock'**
+  String get security_pinLock;
+
+  /// No description provided for @security_pinLockDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask for a 4-digit PIN when opening the app'**
+  String get security_pinLockDesc;
+
+  /// No description provided for @security_biometric.
+  ///
+  /// In en, this message translates to:
+  /// **'Fingerprint / Face lock'**
+  String get security_biometric;
+
+  /// No description provided for @security_biometricDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Biometric verification when opening the app'**
+  String get security_biometricDesc;
+
+  /// No description provided for @security_changePin.
+  ///
+  /// In en, this message translates to:
+  /// **'Change PIN'**
+  String get security_changePin;
+
+  /// No description provided for @security_setupPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Set up PIN'**
+  String get security_setupPin;
+
+  /// No description provided for @security_enterPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your 4-digit PIN'**
+  String get security_enterPin;
+
+  /// No description provided for @security_confirmPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm your PIN'**
+  String get security_confirmPin;
+
+  /// No description provided for @security_pinMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'PINs did not match. Try again.'**
+  String get security_pinMismatch;
+
+  /// No description provided for @security_pinSet.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN set successfully'**
+  String get security_pinSet;
+
+  /// No description provided for @security_pinRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN lock turned off'**
+  String get security_pinRemoved;
+
+  /// No description provided for @security_wrongPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong PIN. Try again.'**
+  String get security_wrongPin;
+
+  /// No description provided for @security_forgotPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot PIN?'**
+  String get security_forgotPin;
+
+  /// No description provided for @security_forgotPinMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'Resetting the PIN will remove the app lock. Continue?'**
+  String get security_forgotPinMsg;
+
+  /// No description provided for @security_autoLock.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-lock after'**
+  String get security_autoLock;
+
+  /// No description provided for @security_autoLockImmediate.
+  ///
+  /// In en, this message translates to:
+  /// **'Immediately'**
+  String get security_autoLockImmediate;
+
+  /// No description provided for @security_autoLock1min.
+  ///
+  /// In en, this message translates to:
+  /// **'After 1 minute'**
+  String get security_autoLock1min;
+
+  /// No description provided for @security_autoLock5min.
+  ///
+  /// In en, this message translates to:
+  /// **'After 5 minutes'**
+  String get security_autoLock5min;
+
+  /// No description provided for @security_biometricNotAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Biometric is not available on this device'**
+  String get security_biometricNotAvailable;
+
+  /// No description provided for @security_unlockWithBiometric.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock with biometric'**
+  String get security_unlockWithBiometric;
+
+  /// No description provided for @security_usePinInstead.
+  ///
+  /// In en, this message translates to:
+  /// **'Use PIN instead'**
+  String get security_usePinInstead;
+
+  /// No description provided for @langRomanUrdu.
+  ///
+  /// In en, this message translates to:
+  /// **'Roman Urdu'**
+  String get langRomanUrdu;
+
+  /// No description provided for @langSindhi.
+  ///
+  /// In en, this message translates to:
+  /// **'Sindhi'**
+  String get langSindhi;
+
+  /// No description provided for @settings_hisaabMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Hisaab mode'**
+  String get settings_hisaabMode;
+
+  /// No description provided for @settings_hisaabBusiness.
+  ///
+  /// In en, this message translates to:
+  /// **'Business'**
+  String get settings_hisaabBusiness;
+
+  /// No description provided for @settings_hisaabPersonal.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal'**
+  String get settings_hisaabPersonal;
 }
 
 class _AppLocalizationsDelegate
@@ -4161,17 +4326,31 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en', 'ur'].contains(locale.languageCode);
+      <String>['en', 'sd', 'ur'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
 }
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
+  // Lookup logic when language+script codes are specified.
+  switch (locale.languageCode) {
+    case 'ur':
+      {
+        switch (locale.scriptCode) {
+          case 'Latn':
+            return AppLocalizationsUrLatn();
+        }
+        break;
+      }
+  }
+
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
     case 'en':
       return AppLocalizationsEn();
+    case 'sd':
+      return AppLocalizationsSd();
     case 'ur':
       return AppLocalizationsUr();
   }

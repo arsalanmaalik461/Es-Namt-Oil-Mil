@@ -14,6 +14,11 @@ class Customer {
   final int? id;
   final String name;
   final String? phone;
+
+  /// WhatsApp number for one-tap statement sharing (user-requested
+  /// 2026-10-18). May differ from [phone]; stored as typed by the user and
+  /// normalized only when building the wa.me link.
+  final String? whatsappNumber;
   final String? address;
   final String? code;
   final String? businessName;
@@ -28,6 +33,7 @@ class Customer {
     this.id,
     required this.name,
     this.phone,
+    this.whatsappNumber,
     this.address,
     this.code,
     this.businessName,
@@ -49,6 +55,7 @@ class Customer {
     int? id,
     String? name,
     String? phone,
+    String? whatsappNumber,
     String? address,
     String? code,
     String? businessName,
@@ -63,6 +70,7 @@ class Customer {
       id: id ?? this.id,
       name: name ?? this.name,
       phone: phone ?? this.phone,
+      whatsappNumber: whatsappNumber ?? this.whatsappNumber,
       address: address ?? this.address,
       code: code ?? this.code,
       businessName: businessName ?? this.businessName,
@@ -80,6 +88,7 @@ class Customer {
       'id': id,
       'name': name,
       'phone': phone,
+      'whatsapp_number': whatsappNumber,
       'address': address,
       'code': code,
       'business_name': businessName,
@@ -97,6 +106,7 @@ class Customer {
       id: map['id'] as int?,
       name: (map['name'] as String?) ?? '',
       phone: map['phone'] as String?,
+      whatsappNumber: map['whatsapp_number'] as String?,
       address: map['address'] as String?,
       code: map['code'] as String?,
       businessName: map['business_name'] as String?,

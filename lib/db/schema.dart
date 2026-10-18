@@ -37,6 +37,7 @@ CREATE TABLE customers(
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL,
   phone TEXT,
+  whatsapp_number TEXT,
   address TEXT,
   code TEXT UNIQUE,
   business_name TEXT,
@@ -234,6 +235,10 @@ CREATE TABLE ledger_entries(
   reversed_by_id INTEGER,
   idempotency_key TEXT UNIQUE,
   created_at INTEGER,
+  voided INTEGER NOT NULL DEFAULT 0,
+  due_date INTEGER,
+  bill_image_path TEXT,
+  corrects_journal TEXT,
   CHECK(debit_paisa + credit_paisa > 0),
   CHECK(debit_paisa = 0 OR credit_paisa = 0),
   FOREIGN KEY(reversed_by_id) REFERENCES ledger_entries(id) ON DELETE RESTRICT

@@ -269,7 +269,7 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String backup_errorUnsupportedVersion(String version) {
-    return 'غیر تعاون یافتہ بیک اپ ورژن: $version۔';
+    return 'غیر معاون بیک اپ ورژن: $version۔';
   }
 
   @override
@@ -472,10 +472,10 @@ class AppLocalizationsUr extends AppLocalizations {
   String get customers_date => 'تاریخ';
 
   @override
-  String get customers_editCustomer => 'گاہک کی تدوین';
+  String get customers_editCustomer => 'گاہک میں ترمیم کریں';
 
   @override
-  String get customers_editSupplier => 'سپلائر کی تدوین';
+  String get customers_editSupplier => 'سپلائر میں ترمیم کریں';
 
   @override
   String get customers_englishVersion => 'انگریزی';
@@ -576,7 +576,7 @@ class AppLocalizationsUr extends AppLocalizations {
   String get customers_reminder => 'یاد دہانی';
 
   @override
-  String get customers_reminderTitle => 'ادائیگی کی یاددہانی';
+  String get customers_reminderTitle => 'ادائیگی کی یاد دہانی';
 
   @override
   String get customers_saved => 'محفوظ ہو گیا';
@@ -976,7 +976,7 @@ class AppLocalizationsUr extends AppLocalizations {
   String get inventory_reorderLevel => 'دوبارہ آرڈر کی حد';
 
   @override
-  String get inventory_salePrice => 'طے شدہ فروخت قیمت (اختیاری)';
+  String get inventory_salePrice => 'ڈیفالٹ فروخت قیمت (اختیاری)';
 
   @override
   String get inventory_searchHint => 'مصنوعات تلاش کریں';
@@ -1199,7 +1199,8 @@ class AppLocalizationsUr extends AppLocalizations {
   }
 
   @override
-  String get production_batchAuto => 'بیچ پوسٹ کرتے وقت خود بن جائے گا';
+  String get production_batchAuto =>
+      'بیچ پوسٹ کرتے وقت خودکار طور پر بن جائے گا';
 
   @override
   String get production_batchNo => 'بیچ نمبر';
@@ -1600,7 +1601,7 @@ class AppLocalizationsUr extends AppLocalizations {
   String get reports_onHand => 'موجودہ اسٹاک';
 
   @override
-  String get reports_copyReminder => 'یاددہانی نقل کریں';
+  String get reports_copyReminder => 'یاد دہانی نقل کریں';
 
   @override
   String get reports_copied => 'کلپ بورڈ میں نقل ہو گیا';
@@ -1729,7 +1730,7 @@ class AppLocalizationsUr extends AppLocalizations {
   String get reports_doc_receivedFrom => 'موصول از';
 
   @override
-  String get reports_doc_paidTo => 'ادا شدہ بہ';
+  String get reports_doc_paidTo => 'وصول کنندہ';
 
   @override
   String get reports_doc_account => 'اکاؤنٹ';
@@ -1794,7 +1795,7 @@ class AppLocalizationsUr extends AppLocalizations {
   String get reports_doc_period => 'مدت';
 
   @override
-  String get reports_doc_oilCake => 'تیل کی کھلی';
+  String get reports_doc_oilCake => 'کھل';
 
   @override
   String get reports_doc_byProduct => 'ذیلی پیداوار';
@@ -1924,7 +1925,7 @@ class AppLocalizationsUr extends AppLocalizations {
   String get transactions_credit => 'کریڈٹ';
 
   @override
-  String get transactions_customRange => 'مرضی کی مدت';
+  String get transactions_customRange => 'اپنی مدت';
 
   @override
   String transactions_customRangeHint(String from, String to) {
@@ -2005,7 +2006,7 @@ class AppLocalizationsUr extends AppLocalizations {
   String get transactions_notes => 'نوٹس';
 
   @override
-  String get transactions_paidAmount => 'ابھی ادائیگی';
+  String get transactions_paidAmount => 'ابھی ادا شدہ';
 
   @override
   String get transactions_paymentAccount => 'اکاؤنٹ';
@@ -2091,7 +2092,7 @@ class AppLocalizationsUr extends AppLocalizations {
   String get transactions_submitReturn => 'واپسی درج کریں';
 
   @override
-  String get transactions_subtotal => 'ذیلی کل';
+  String get transactions_subtotal => 'ذیلی میزان';
 
   @override
   String get transactions_tax => 'ٹیکس';
@@ -2119,4 +2120,468 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get udhaar_title => 'ادھار دیں';
+
+  @override
+  String get security_title => 'سیکیورٹی اور ایپ لاک';
+
+  @override
+  String get security_pinLock => 'پن لاک';
+
+  @override
+  String get security_pinLockDesc => 'ایپ کھولتے وقت 4 ہندسوں کا پن مانگیں';
+
+  @override
+  String get security_biometric => 'فنگر پرنٹ / فیس لاک';
+
+  @override
+  String get security_biometricDesc => 'ایپ کھولتے وقت بائیومیٹرک تصدیق';
+
+  @override
+  String get security_changePin => 'پن تبدیل کریں';
+
+  @override
+  String get security_setupPin => 'پن سیٹ کریں';
+
+  @override
+  String get security_enterPin => 'اپنا 4 ہندسوں کا پن درج کریں';
+
+  @override
+  String get security_confirmPin => 'پن کی تصدیق کریں';
+
+  @override
+  String get security_pinMismatch => 'پن میچ نہیں ہوا۔ دوبارہ کوشش کریں۔';
+
+  @override
+  String get security_pinSet => 'پن سیٹ ہو گیا';
+
+  @override
+  String get security_pinRemoved => 'پن لاک بند کر دیا گیا';
+
+  @override
+  String get security_wrongPin => 'غلط پن۔ دوبارہ کوشش کریں۔';
+
+  @override
+  String get security_forgotPin => 'پن بھول گئے؟';
+
+  @override
+  String get security_forgotPinMsg =>
+      'پن ری سیٹ کرنے سے ایپ کا لاک ختم ہو جائے گا۔ جاری رکھیں؟';
+
+  @override
+  String get security_autoLock => 'آٹو لاک وقفہ';
+
+  @override
+  String get security_autoLockImmediate => 'فوری';
+
+  @override
+  String get security_autoLock1min => '1 منٹ بعد';
+
+  @override
+  String get security_autoLock5min => '5 منٹ بعد';
+
+  @override
+  String get security_biometricNotAvailable =>
+      'اس ڈیوائس پر بائیومیٹرک دستیاب نہیں ہے';
+
+  @override
+  String get security_unlockWithBiometric => 'بائیومیٹرک سے کھولیں';
+
+  @override
+  String get security_usePinInstead => 'پن استعمال کریں';
+
+  @override
+  String get langRomanUrdu => 'رومن اردو';
+
+  @override
+  String get langSindhi => 'سندھی';
+
+  @override
+  String get settings_hisaabMode => 'حساب کا موڈ';
+
+  @override
+  String get settings_hisaabBusiness => 'کاروبار';
+
+  @override
+  String get settings_hisaabPersonal => 'ذاتی';
+}
+
+/// The translations for Urdu, using the Latin script (`ur_Latn`).
+class AppLocalizationsUrLatn extends AppLocalizationsUr {
+  AppLocalizationsUrLatn() : super('ur_Latn');
+
+  @override
+  String get about_appName => 'Namt Oil Mil';
+
+  @override
+  String get about_offline =>
+      '100% offline — aap ka tamam data sirf isi device par mehfooz rehta hai.';
+
+  @override
+  String about_version(String version) {
+    return 'Version $version';
+  }
+
+  @override
+  String get appTagline => 'Aap ka Digital Khata';
+
+  @override
+  String get appTitle => 'Namt Oil Mil';
+
+  @override
+  String get common_add => 'Shamil karein';
+
+  @override
+  String get common_amount => 'Raqam';
+
+  @override
+  String get common_back => 'Wapas';
+
+  @override
+  String get common_balance => 'Balance';
+
+  @override
+  String get common_cancel => 'Mansookh karein';
+
+  @override
+  String get common_close => 'Band karein';
+
+  @override
+  String get common_date => 'Tareekh';
+
+  @override
+  String get common_delete => 'Hazaf karein';
+
+  @override
+  String get common_edit => 'Tarmeem karein';
+
+  @override
+  String get common_no => 'Nahi';
+
+  @override
+  String get common_notes => 'Notes';
+
+  @override
+  String get common_ok => 'Theek hai';
+
+  @override
+  String get common_retry => 'Dobara koshish karein';
+
+  @override
+  String get common_save => 'Mehfooz karein';
+
+  @override
+  String get common_search => 'Talash karein';
+
+  @override
+  String get common_total => 'Kul';
+
+  @override
+  String get common_yes => 'Ji haan';
+
+  @override
+  String get confirmDelete_message =>
+      'Kya aap waqai isay hazaf karna chahte hain? Ye amal wapas nahi ho sakta.';
+
+  @override
+  String get confirmDelete_title => 'Hazaf ki tasdeeq';
+
+  @override
+  String get dateFilter_all => 'Tamam';
+
+  @override
+  String get dateFilter_month => 'Is mah';
+
+  @override
+  String get dateFilter_today => 'Aaj';
+
+  @override
+  String get dateFilter_week => 'Is haftay';
+
+  @override
+  String get empty_default => 'Abhi koi record nahi hai';
+
+  @override
+  String get error_generic => 'Kuch ghalat ho gaya. Dobara koshish karein.';
+
+  @override
+  String get langEnglish => 'English';
+
+  @override
+  String get langUrdu => 'Urdu';
+
+  @override
+  String get more_about => 'App ke baare mein';
+
+  @override
+  String get more_backup => 'Backup aur Bahali';
+
+  @override
+  String get more_cashbook => 'Cashbook';
+
+  @override
+  String get more_expensesIncome => 'Akhrajaat aur Aamdani';
+
+  @override
+  String get more_inventory => 'Stock';
+
+  @override
+  String get more_production => 'Pedawar';
+
+  @override
+  String get more_purchases => 'Kharidari';
+
+  @override
+  String get more_sales => 'Farokht';
+
+  @override
+  String get more_settings => 'Tarteebat';
+
+  @override
+  String get nav_home => 'Dashboard';
+
+  @override
+  String get nav_khata => 'Khata';
+
+  @override
+  String get nav_more => 'Mazeed';
+
+  @override
+  String get nav_reports => 'Reports';
+
+  @override
+  String get nav_transactions => 'Len den';
+
+  @override
+  String get settings_about => 'App ke baare mein';
+
+  @override
+  String get settings_address => 'Pata';
+
+  @override
+  String get settings_businessName => 'Karobar ka naam';
+
+  @override
+  String get settings_businessProfile => 'Karobari profile';
+
+  @override
+  String get settings_language => 'Zaban';
+
+  @override
+  String get settings_phone => 'Phone number';
+
+  @override
+  String get settings_saved => 'Tarteebat mehfooz ho gayin';
+
+  @override
+  String get settings_theme => 'Theme';
+
+  @override
+  String get settings_title => 'Tarteebat';
+
+  @override
+  String get themeDark => 'Tareek';
+
+  @override
+  String get themeLight => 'Roshan';
+
+  @override
+  String get themeSystem => 'System ke mutabiq';
+
+  @override
+  String get backup_title => 'Backup aur Bahali';
+
+  @override
+  String get backup_create => 'Backup banayein';
+
+  @override
+  String get backup_restore => 'Backup bahaal karein';
+
+  @override
+  String get cashbook_addPayment => 'Adayegi shamil karein';
+
+  @override
+  String get cashbook_addReceipt => 'Raseed shamil karein';
+
+  @override
+  String get cashbook_balance => 'Balance';
+
+  @override
+  String get cashbook_in => 'Aamad';
+
+  @override
+  String get cashbook_openingBalance => 'Ibtedayi balance';
+
+  @override
+  String get cashbook_out => 'Kharch';
+
+  @override
+  String get cashbook_supplier => 'Supplier';
+
+  @override
+  String get cashbook_title => 'Cashbook';
+
+  @override
+  String get cashbook_totalIn => 'Kul aamad';
+
+  @override
+  String get cashbook_totalOut => 'Kul kharch';
+
+  @override
+  String get customers_account => 'Account';
+
+  @override
+  String get customers_addCustomer => 'Naya gahak';
+
+  @override
+  String get customers_addSupplier => 'Naya supplier';
+
+  @override
+  String get customers_address => 'Pata';
+
+  @override
+  String get customers_amount => 'Raqam (Rupay)';
+
+  @override
+  String get customers_date => 'Tareekh';
+
+  @override
+  String get customers_editCustomer => 'Gahak mein tarmeem karein';
+
+  @override
+  String get customers_ledgerTitle => 'Ledger';
+
+  @override
+  String get customers_phone => 'Phone';
+
+  @override
+  String get customers_searchHint => 'Naam, phone ya code talash karein';
+
+  @override
+  String get customers_supplierTitle => 'Suppliers';
+
+  @override
+  String get customers_title => 'Gahak';
+
+  @override
+  String get dashboard_cashInHand => 'Naqad raqam';
+
+  @override
+  String get dashboard_lowStock => 'Kam stock alerts';
+
+  @override
+  String get dashboard_title => 'Dashboard';
+
+  @override
+  String get dashboard_todayPurchases => 'Aaj ki kharidari';
+
+  @override
+  String get dashboard_todaySales => 'Aaj ki farokht';
+
+  @override
+  String get dashboard_totalPayable => 'Ada karna hai';
+
+  @override
+  String get dashboard_totalReceivable => 'Wasool karna hai';
+
+  @override
+  String get khata_customers => 'Gahak';
+
+  @override
+  String get khata_suppliers => 'Suppliers';
+
+  @override
+  String get khata_title => 'Khata';
+
+  @override
+  String get sales_customer => 'Gahak';
+
+  @override
+  String get sales_newSale => 'Nayi farokht';
+
+  @override
+  String get sales_title => 'Farokht';
+
+  @override
+  String get transactions_title => 'Len den';
+
+  @override
+  String get udhaar_saved => 'Udhaar darj kar diya gaya';
+
+  @override
+  String get udhaar_title => 'Udhaar dein';
+
+  @override
+  String get security_title => 'Security aur App Lock';
+
+  @override
+  String get security_pinLock => 'PIN lock';
+
+  @override
+  String get security_pinLockDesc => 'App kholnay par 4-hindsay ka PIN mangen';
+
+  @override
+  String get security_biometric => 'Fingerprint / Face lock';
+
+  @override
+  String get security_biometricDesc => 'App kholnay par biometric tasdeeq';
+
+  @override
+  String get security_changePin => 'PIN tabdeel karein';
+
+  @override
+  String get security_setupPin => 'PIN set karein';
+
+  @override
+  String get security_enterPin => 'Apna 4-hindsay ka PIN darj karein';
+
+  @override
+  String get security_confirmPin => 'PIN ki tasdeeq karein';
+
+  @override
+  String get security_pinMismatch =>
+      'PIN match nahi hua. Dobara koshish karein.';
+
+  @override
+  String get security_pinSet => 'PIN set ho gaya';
+
+  @override
+  String get security_pinRemoved => 'PIN lock band kar diya gaya';
+
+  @override
+  String get security_wrongPin => 'Ghalat PIN. Dobara koshish karein.';
+
+  @override
+  String get security_forgotPin => 'PIN bhool gaye?';
+
+  @override
+  String get security_forgotPinMsg =>
+      'PIN reset karne se app ka lock khatam ho jayega. Jari rakhein?';
+
+  @override
+  String get security_autoLock => 'Auto-lock waqfa';
+
+  @override
+  String get security_autoLockImmediate => 'Foran';
+
+  @override
+  String get security_autoLock1min => '1 minute baad';
+
+  @override
+  String get security_autoLock5min => '5 minute baad';
+
+  @override
+  String get security_biometricNotAvailable =>
+      'Is device par biometric dastiyab nahi hai';
+
+  @override
+  String get security_unlockWithBiometric => 'Biometric se kholein';
+
+  @override
+  String get security_usePinInstead => 'PIN istemal karein';
+
+  @override
+  String get langRomanUrdu => 'Roman Urdu';
+
+  @override
+  String get langSindhi => 'Sindhi';
 }

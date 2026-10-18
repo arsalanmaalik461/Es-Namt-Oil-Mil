@@ -1,153 +1,565 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart' hide TextDirection;
 
 import 'package:namt_oil_mil/l10n/fragment_strings.dart';
 import 'package:namt_oil_mil/l10n/gen/app_localizations.dart';
 import 'package:namt_oil_mil/navigation/routes.dart';
+import 'package:namt_oil_mil/services/reminder_texts.dart';
+import 'package:namt_oil_mil/theme/app_theme.dart';
+import 'package:namt_oil_mil/utils/money.dart';
+import 'package:namt_oil_mil/widgets/app_search_bar.dart';
+import 'package:namt_oil_mil/widgets/bottom_cta_button.dart';
 import 'package:namt_oil_mil/widgets/empty_state.dart';
 import 'package:namt_oil_mil/widgets/error_state.dart';
 import 'package:namt_oil_mil/widgets/loading_state.dart';
-import 'package:namt_oil_mil/widgets/section_header.dart';
-import 'package:namt_oil_mil/widgets/summary_card.dart';
 import 'khata_providers.dart';
+import 'party_form_sheet.dart';
 
-/// Khata hub: outstanding receivable / payable summary plus entry points
-/// into the customer and supplier ledgers.
-class KhataHubScreen extends ConsumerWidget {
+/// Khata home in the v2 "soft khata" style.
+///
+/// Business header, TOTAL BALANCE with pastel lene/dene cards, a reminders
+/// row, party search, a Customers/Suppliers toggle with the party list,
+/// and a black "Add customer / Add supplier" CTA — the same workflow as
+/// the reference screens, with original Namt Oil Mil branding.
+class KhataHubScreen extends ConsumerStatefulWidget {
   const KhataHubScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context);
+  ConsumerState<KhataHubScreen> createState() => _KhataHubScreenState();
+}
+
+class _KhataHubScreenState extends ConsumerState<KhataHubScreen> {
+  bool _showSuppliers = false;
+  final _searchController = TextEditingController();
+  String _search = '';
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final t = FragmentStrings.of(context);
+    final l10n = AppLocalizations.of(context);
     final summaryAsync = ref.watch(khataSummaryProvider);
+    final query = PartyListQuery(search: _search);
+    final listAsync = _showSuppliers
+        ? ref.watch(supplierListProvider(query))
+        : ref.watch(customerListProvider(query));
 
     return Scaffold(
-      appBar: AppBar(title: Text(t.khata_title)),
-      body: RefreshIndicator(
-        onRefresh: () async {
-          ref.invalidate(khataSummaryProvider);
-          await ref.read(khataSummaryProvider.future);
-        },
-        child: summaryAsync.when(
-          data: (summary) => _buildBody(context, summary),
-          loading: () => const LoadingState(),
-          error: (e, _) => ErrorState(
-            message: l10n.error_generic,
-            onRetry: () => ref.invalidate(khataSummaryProvider),
+      body: SafeArea(
+        child: RefreshIndicator(
+          onRefresh: () async {
+            ref.invalidate(khataSummaryProvider);
+            setState(() {});
+          },
+          child: CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(child: _buildHeader(context)),
+              SliverToBoxAdapter(
+                child: summaryAsync.when(
+                  data: (s) => _buildBalance(context, s),
+                  loading: () => const SizedBox.shrink(),
+                  error: (_, __) => const SizedBox.shrink(),
+                ),
+              ),
+              SliverToBoxAdapter(
+                child: summaryAsync.when(
+                  data: (s) => _buildRemindersRow(context, s),
+                  loading: () => const SizedBox.shrink(),
+                  error: (_, __) => const SizedBox.shrink(),
+                ),
+              ),
+              SliverToBoxAdapter(child: _buildSearch(context)),
+              SliverToBoxAdapter(child: _buildToggle(context)),
+              listAsync.when(
+                data: (parties) => _buildPartySliver(context, parties),
+                loading: () => const SliverToBoxAdapter(
+                  child: Padding(
+                    padding: EdgeInsets.all(32),
+                    child: LoadingState(),
+                  ),
+                ),
+                error: (e, _) => SliverToBoxAdapter(
+                  child: ErrorState(
+                    message: l10n.error_generic,
+                    onRetry: () => setState(() {}),
+                  ),
+                ),
+              ),
+              const SliverToBoxAdapter(child: SizedBox(height: 96)),
+            ],
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: BottomCtaButton(
+          icon: Icons.add,
+          label: _showSuppliers ? t.khata_addSupplierBtn : t.khata_addCustomerBtn,
+          onPressed: () async {
+            final saved = await showPartyFormSheet(
+              context,
+              ref,
+              kind: _showSuppliers ? PartyKind.supplier : PartyKind.customer,
+            );
+            if (saved && mounted) setState(() {});
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHeader(BuildContext context) {
+    final t = FragmentStrings.of(context);
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 12, 20, 4),
+      child: Row(
+        children: [
+          Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: const Color(0xFF1B1B1B),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Icon(Icons.storefront, color: Colors.white, size: 26),
+          ),
+          const SizedBox(width: 12),
+          Text(
+            t.khata_businessName.toUpperCase(),
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 2.5,
+                ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBalance(BuildContext context, KhataSummary s) {
+    final t = FragmentStrings.of(context);
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(
+                t.khata_totalBalance,
+                style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                      letterSpacing: 1.2,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black54,
+                    ),
+              ),
+              const SizedBox(width: 8),
+              const Icon(Icons.remove_red_eye_outlined,
+                  size: 18, color: Colors.black45),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Row(
+            children: [
+              Expanded(
+                child: _MiniBalanceCard(
+                  amount: formatPkr(s.receivablePaisa),
+                  caption: t.khata_maineLeneHain,
+                  background: AppColors.pastelPink,
+                  foreground: AppColors.pastelPinkText,
+                  icon: Icons.arrow_downward,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _MiniBalanceCard(
+                  amount: formatPkr(s.payablePaisa),
+                  caption: t.khata_maineDeneHain,
+                  background: AppColors.pastelGreen,
+                  foreground: AppColors.pastelGreenText,
+                  icon: Icons.arrow_upward,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRemindersRow(BuildContext context, KhataSummary s) {
+    final t = FragmentStrings.of(context);
+    final overdue = s.receivableCount + s.payableCount;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(14),
+        onTap: () => _showRemindersDialog(context),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: Colors.black12),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.notifications_outlined, size: 20),
+              const SizedBox(width: 8),
+              Text(
+                t.khata_remindersCount(count: '$overdue'),
+                style: Theme.of(context)
+                    .textTheme
+                    .titleSmall
+                    ?.copyWith(fontWeight: FontWeight.w600),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 
-  Widget _buildBody(BuildContext context, KhataSummary summary) {
+  Widget _buildSearch(BuildContext context) {
     final t = FragmentStrings.of(context);
-    final hasDues = summary.receivablePaisa > 0 || summary.payablePaisa > 0;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
+      child: AppSearchBar(
+        controller: _searchController,
+        onChanged: (v) => setState(() => _search = v.trim()),
+        hint: _showSuppliers ? t.khata_searchSupplier : t.khata_searchCustomer,
+      ),
+    );
+  }
 
-    return ListView(
-      padding: const EdgeInsets.only(bottom: 24),
-      children: [
-        SectionHeader(title: t.khata_title),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              final twoCol = constraints.maxWidth > 420;
-              final cards = [
-                SummaryCard(
-                  label: t.khata_toReceive,
-                  paisa: summary.receivablePaisa,
-                  icon: Icons.arrow_downward,
-                  positive: true,
-                  onTap: () => Navigator.pushNamed(context, Routes.customers),
+  Widget _buildToggle(BuildContext context) {
+    final t = FragmentStrings.of(context);
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
+      child: Row(
+        children: [
+          Text(
+            (_showSuppliers ? t.khata_suppliers : t.khata_customers)
+                .toUpperCase(),
+            style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                  letterSpacing: 1.2,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black54,
                 ),
-                SummaryCard(
-                  label: t.khata_toPay,
-                  paisa: summary.payablePaisa,
-                  icon: Icons.arrow_upward,
-                  positive: false,
-                  onTap: () => Navigator.pushNamed(context, Routes.suppliers),
-                ),
-              ];
-              if (twoCol) {
-                return Row(
-                  children: [
-                    Expanded(child: cards[0]),
-                    const SizedBox(width: 12),
-                    Expanded(child: cards[1]),
-                  ],
-                );
-              }
-              return Column(
-                children: [
-                  cards[0],
-                  const SizedBox(height: 12),
-                  cards[1],
-                ],
-              );
-            },
           ),
-        ),
-        if (!hasDues)
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: EmptyState(
-              icon: Icons.check_circle_outline,
-              title: t.khata_noDues,
-              message: t.khata_noDuesHint,
+          const Spacer(),
+          SegmentedButton<bool>(
+            style: SegmentedButton.styleFrom(
+              visualDensity: VisualDensity.compact,
             ),
+            segments: [
+              ButtonSegment(
+                value: false,
+                label: Text(t.khata_customers),
+                icon: const Icon(Icons.people_outline, size: 16),
+              ),
+              ButtonSegment(
+                value: true,
+                label: Text(t.khata_suppliers),
+                icon: const Icon(Icons.local_shipping_outlined, size: 16),
+              ),
+            ],
+            selected: {_showSuppliers},
+            onSelectionChanged: (sel) =>
+                setState(() => _showSuppliers = sel.first),
           ),
-        SectionHeader(title: t.khata_title),
-        _HubTile(
-          icon: Icons.people_outline,
-          title: t.khata_customers,
-          trailing: Text('${summary.receivableCount}'),
-          onTap: () => Navigator.pushNamed(context, Routes.customers),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPartySliver(BuildContext context, List<dynamic> parties) {
+    final t = FragmentStrings.of(context);
+    if (parties.isEmpty) {
+      return SliverToBoxAdapter(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: EmptyState(
+            icon: Icons.people_outline,
+            title: _showSuppliers
+                ? t.customers_noSuppliers
+                : t.customers_noCustomers,
+          ),
         ),
-        _HubTile(
-          icon: Icons.local_shipping_outlined,
-          title: t.khata_suppliers,
-          trailing: Text('${summary.payableCount}'),
-          onTap: () => Navigator.pushNamed(context, Routes.suppliers),
+      );
+    }
+    return SliverPadding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      sliver: SliverList.separated(
+        itemCount: parties.length,
+        separatorBuilder: (_, __) => const SizedBox(height: 10),
+        itemBuilder: (context, index) {
+          final p = parties[index];
+          final name = p.name as String;
+          final balance = p.balancePaisa as int;
+          final updated = p.updatedAt as DateTime?;
+          final dateLabel = updated == null
+              ? ''
+              : t.khata_lastTransacted(
+                  date: DateFormat.yMMMd(
+                          Localizations.localeOf(context).toLanguageTag())
+                      .format(updated));
+          return _PartyRow(
+            name: name,
+            subtitle: dateLabel,
+            balancePaisa: balance,
+            isSupplier: _showSuppliers,
+            onTap: () => Navigator.pushNamed(
+              context,
+              _showSuppliers ? Routes.supplierDetail : Routes.customerDetail,
+              arguments: p.id as int,
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Future<void> _showRemindersDialog(BuildContext context) async {
+    final t = FragmentStrings.of(context);
+    final l10n = AppLocalizations.of(context);
+    final query = const PartyListQuery(filter: PartyBalanceFilter.positive);
+    final customers = await ref.read(customerListProvider(query).future);
+    if (!context.mounted) return;
+    await showDialog(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(t.khata_remindersCount(count: '${customers.length}')),
+        content: SizedBox(
+          width: double.maxFinite,
+          child: customers.isEmpty
+              ? Text(t.khata_hisaabClear)
+              : ListView.separated(
+                  shrinkWrap: true,
+                  itemCount: customers.length,
+                  separatorBuilder: (_, __) => const Divider(height: 1),
+                  itemBuilder: (_, i) {
+                    final c = customers[i];
+                    return ListTile(
+                      dense: true,
+                      title: Text(c.name,
+                          maxLines: 1, overflow: TextOverflow.ellipsis),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            formatPkr(c.balancePaisa),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.pastelPinkText,
+                              fontFeatures: [FontFeature.tabularFigures()],
+                            ),
+                            textDirection: TextDirection.ltr,
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.copy, size: 18),
+                            tooltip: t.customers_copyText,
+                            onPressed: () async {
+                              final en = buildReminderEn(
+                                  partyName: c.name,
+                                  balancePaisa: c.balancePaisa);
+                              final ur = buildReminderUr(
+                                  partyName: c.name,
+                                  balancePaisa: c.balancePaisa);
+                              await Clipboard.setData(
+                                  ClipboardData(text: '$en\n\n$ur'));
+                              if (!dialogContext.mounted) return;
+                              ScaffoldMessenger.of(dialogContext).showSnackBar(
+                                SnackBar(content: Text(t.customers_copied)),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                      onTap: () {
+                        Navigator.of(dialogContext).pop();
+                        Navigator.pushNamed(
+                          context,
+                          Routes.customerDetail,
+                          arguments: c.id,
+                        );
+                      },
+                    );
+                  },
+                ),
         ),
-      ],
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(),
+            child: Text(l10n.common_close),
+          ),
+        ],
+      ),
     );
   }
 }
 
-class _HubTile extends StatelessWidget {
+class _MiniBalanceCard extends StatelessWidget {
+  final String amount;
+  final String caption;
+  final Color background;
+  final Color foreground;
   final IconData icon;
-  final String title;
-  final Widget? trailing;
+
+  const _MiniBalanceCard({
+    required this.amount,
+    required this.caption,
+    required this.background,
+    required this.foreground,
+    required this.icon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: background,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 34,
+            height: 34,
+            decoration: BoxDecoration(
+              color: foreground,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, color: Colors.white, size: 18),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  amount,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w800,
+                        color: foreground,
+                        fontFeatures: const [FontFeature.tabularFigures()],
+                      ),
+                  textDirection: TextDirection.ltr,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  caption,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall
+                      ?.copyWith(color: foreground.withValues(alpha: 0.9)),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _PartyRow extends StatelessWidget {
+  final String name;
+  final String subtitle;
+  final int balancePaisa;
+  final bool isSupplier;
   final VoidCallback onTap;
 
-  const _HubTile({
-    required this.icon,
-    required this.title,
-    this.trailing,
+  const _PartyRow({
+    required this.name,
+    required this.subtitle,
+    required this.balancePaisa,
+    required this.isSupplier,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-      child: ListTile(
-        leading: CircleAvatar(
-          backgroundColor: scheme.primary.withValues(alpha: 0.12),
-          child: Icon(icon, color: scheme.primary),
+    // For customers: +balance = they owe us (pink). For suppliers the
+    // payable side is mirrored so "dene hain" stays pink as well.
+    final owesUs = isSupplier ? balancePaisa < 0 : balancePaisa > 0;
+    final color = balancePaisa == 0
+        ? Colors.black54
+        : (owesUs ? AppColors.pastelPinkText : AppColors.pastelGreenText);
+    final prefix = balancePaisa == 0
+        ? ''
+        : (owesUs ? '- ' : '+ ');
+    return InkWell(
+      borderRadius: BorderRadius.circular(16),
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Colors.black12),
         ),
-        title: Text(title, style: Theme.of(context).textTheme.titleMedium),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
+        child: Row(
           children: [
-            if (trailing != null) trailing!,
-            const Icon(Icons.chevron_right),
+            CircleAvatar(
+              backgroundColor:
+                  Theme.of(context).colorScheme.surfaceContainerHighest,
+              child: Text(
+                name.isEmpty ? '?' : name.characters.first.toUpperCase(),
+                style: const TextStyle(fontWeight: FontWeight.w700),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall
+                        ?.copyWith(fontWeight: FontWeight.w600),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  if (subtitle.isNotEmpty)
+                    Text(
+                      subtitle,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall
+                          ?.copyWith(color: Colors.black45),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                ],
+              ),
+            ),
+            Text(
+              '$prefix${formatPkr(balancePaisa.abs())}',
+              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: color,
+                    fontFeatures: const [FontFeature.tabularFigures()],
+                  ),
+              textDirection: TextDirection.ltr,
+            ),
           ],
         ),
-        onTap: onTap,
       ),
     );
   }
