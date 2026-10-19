@@ -60,12 +60,26 @@ class DatabaseHelper {
 
   Database? _db;
 
+  /// In-flight open future. Stored (not just awaited) so concurrent callers
+  /// awaiting [database] during first open all share ONE openDatabase call.
+  /// Without this, two callers racing on a cold start each ran openDatabase
+  /// on the same file -> "database is locked" (SqliteException code 5)
+  /// during CREATE TABLE. Reported by user 2026-10-20, fixed same day.
+  Future<Database>? _openFuture;
+
   /// The shared database connection, opened (and seeded) on first use.
-  Future<Database> get database async {
+  Future<Database> get database {
     final db = _db;
-    if (db != null && db.isOpen) return db;
-    _db = await _open();
-    return _db!;
+    if (db != null && db.isOpen) return Future.value(db);
+    return _openFuture ??= _open().then((opened) {
+      _db = opened;
+      _openFuture = null;
+      return opened;
+    }).catchError((Object e) {
+      // Let the next caller retry a fresh open instead of caching failure.
+      _openFuture = null;
+      throw e;
+    });
   }
 
   /// Runs [action] inside a single SQLite transaction.
@@ -84,6 +98,7 @@ class DatabaseHelper {
   Future<void> resetForTesting() async {
     final db = _db;
     _db = null;
+    _openFuture = null;
     await db?.close();
     final dir = await getDatabasesPath();
     final file = File(p.join(dir, dbFileName));
@@ -184,6 +199,7 @@ class DatabaseHelper {
   Future<void> close() async {
     final db = _db;
     _db = null;
+    _openFuture = null;
     if (db != null && db.isOpen) {
       await db.close();
     }

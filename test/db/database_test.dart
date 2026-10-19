@@ -25,6 +25,34 @@ void main() {
     accounting = await freshAccountingService();
   });
 
+  group('concurrent initialization', () {
+    test('many simultaneous database getters share one open (no lock race)',
+        () async {
+      // Regression test for the 2026-10-20 startup crash:
+      // "SqliteException(5): database is locked" during CREATE TABLE.
+      // Root cause: the `database` getter awaited _open() without sharing
+      // the in-flight future, so N concurrent callers ran N openDatabase
+      // calls on the same file. All callers must now get the SAME instance.
+      await DatabaseHelper.instance.resetForTesting();
+
+      final dbs = await Future.wait(
+        List.generate(20, (_) => DatabaseHelper.instance.database),
+      );
+      final first = dbs.first;
+      for (final db in dbs) {
+        expect(identical(db, first), isTrue,
+            reason: 'concurrent getters must share one connection');
+      }
+      expect(first.isOpen, isTrue);
+
+      // And the schema must be fully created exactly once.
+      final tables = await first.rawQuery(
+        "SELECT name FROM sqlite_master WHERE type='table' AND name='customers'",
+      );
+      expect(tables.length, 1);
+    });
+  });
+
   group('CRUD', () {
     test('customer insert -> get -> update -> archive -> search', () async {
       final db = await DatabaseHelper.instance.database;
