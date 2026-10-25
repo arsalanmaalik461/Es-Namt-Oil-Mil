@@ -66,10 +66,15 @@ class _BottomCtaButtonState extends State<BottomCtaButton> {
                   const SizedBox(width: 8),
                 ],
                 Flexible(
-                  child: Text(
-                    widget.label,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                  // Scale the label down to fit instead of ellipsizing it
+                  // ("Mainey D..." / "Mainey L...") on small phones.
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      widget.label,
+                      maxLines: 1,
+                      softWrap: false,
+                    ),
                   ),
                 ),
               ],

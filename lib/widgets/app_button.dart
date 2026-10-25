@@ -74,19 +74,19 @@ class _Label extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (icon == null) return Text(label);
+    // Scale the label down to fit the button instead of clipping it when
+    // the button sits in a tight row on a small phone.
+    final fittedLabel = FittedBox(
+      fit: BoxFit.scaleDown,
+      child: Text(label, maxLines: 1, softWrap: false),
+    );
+    if (icon == null) return fittedLabel;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         Icon(icon, size: 20),
         const SizedBox(width: 8),
-        Flexible(
-          child: Text(
-            label,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
+        Flexible(child: fittedLabel),
       ],
     );
   }

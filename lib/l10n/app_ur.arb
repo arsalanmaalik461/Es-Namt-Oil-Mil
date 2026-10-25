@@ -921,9 +921,201 @@
   "security_biometricNotAvailable": "اس ڈیوائس پر بائیومیٹرک دستیاب نہیں ہے",
   "security_unlockWithBiometric": "بائیومیٹرک سے کھولیں",
   "security_usePinInstead": "پن استعمال کریں",
-  "langRomanUrdu": "رومن اردو",
   "langSindhi": "سندھی",
   "settings_hisaabMode": "حساب کا موڈ",
   "settings_hisaabBusiness": "کاروبار",
-  "settings_hisaabPersonal": "ذاتی"
+  "settings_hisaabPersonal": "ذاتی",
+  "backup_driveTitle": "گوگل ڈرائیو بیک اپ",
+  "@backup_driveTitle": {
+    "description": "Settings Google Drive section: backup_driveTitle"
+  },
+  "backup_driveConnected": "گوگل سے منسلک ہو گیا: {email}",
+  "@backup_driveConnected": {
+    "description": "Settings Google Drive section: backup_driveConnected",
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_driveDisconnectTitle": "گوگل منقطع کریں؟",
+  "@backup_driveDisconnectTitle": {
+    "description": "Settings Google Drive section: backup_driveDisconnectTitle"
+  },
+  "backup_driveDisconnectMessage": "خودکار بیک اپ بند ہو جائے گا۔ ڈرائیو پر پہلے سے محفوظ بیک اپ وہیں رہیں گے۔",
+  "@backup_driveDisconnectMessage": {
+    "description": "Settings Google Drive section: backup_driveDisconnectMessage"
+  },
+  "backup_driveDisconnect": "منقطع کریں",
+  "@backup_driveDisconnect": {
+    "description": "Settings Google Drive section: backup_driveDisconnect"
+  },
+  "backup_driveConnectIntro": "گوگل سے منسلک کریں تاکہ آپ کا ڈیٹا خود بخود ڈرائیو پر بیک اپ ہو۔",
+  "@backup_driveConnectIntro": {
+    "description": "Settings Google Drive section: backup_driveConnectIntro"
+  },
+  "backup_driveConnect": "گوگل سے منسلک کریں",
+  "@backup_driveConnect": {
+    "description": "Settings Google Drive section: backup_driveConnect"
+  },
+  "backup_driveNoBackupYet": "ابھی تک کوئی بیک اپ نہیں ہوا",
+  "@backup_driveNoBackupYet": {
+    "description": "Settings Google Drive section: backup_driveNoBackupYet"
+  },
+  "backup_driveLastBackup": "آخری بیک اپ: {date}",
+  "@backup_driveLastBackup": {
+    "description": "Settings Google Drive section: backup_driveLastBackup",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_driveAutoBackup": "24 گھنٹے خودکار بیک اپ",
+  "@backup_driveAutoBackup": {
+    "description": "Settings Google Drive section: backup_driveAutoBackup"
+  },
+  "backup_driveAutoBackupHint": "ہر 24 گھنٹے بعد پورے دن کا ڈیٹا خود بخود ڈرائیو پر اپ لوڈ ہو جائے گا۔",
+  "@backup_driveAutoBackupHint": {
+    "description": "Settings Google Drive section: backup_driveAutoBackupHint"
+  },
+  "backup_driveBackupNow": "ابھی بیک اپ کریں",
+  "@backup_driveBackupNow": {
+    "description": "Settings Google Drive section: backup_driveBackupNow"
+  },
+  "backup_driveExportRange": "برآمد — حسبِ منشا تاریخ کی حد",
+  "@backup_driveExportRange": {
+    "description": "Settings Google Drive section: backup_driveExportRange"
+  },
+  "customers_whatsappNumber": "واٹس ایپ نمبر",
+  "@customers_whatsappNumber": {
+    "description": "Customer WhatsApp actions: customers_whatsappNumber"
+  },
+  "customers_waAddTitle": "واٹس ایپ نمبر شامل کریں",
+  "@customers_waAddTitle": {
+    "description": "Customer WhatsApp actions: customers_waAddTitle"
+  },
+  "customers_waAddMessage": "{name} کا واٹس ایپ نمبر محفوظ کریں تاکہ حساب سیدھا ان کی چیٹ میں بھیجا جا سکے۔",
+  "@customers_waAddMessage": {
+    "description": "Customer WhatsApp actions: customers_waAddMessage",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "customers_waAdd": "شامل کریں",
+  "@customers_waAdd": {
+    "description": "Customer WhatsApp actions: customers_waAdd"
+  },
+  "customers_waOpenChat": "چیٹ کھولیں",
+  "@customers_waOpenChat": {
+    "description": "Customer WhatsApp actions: customers_waOpenChat"
+  },
+  "customers_waSendStatement": "اسٹیٹمنٹ PDF بھیجیں",
+  "@customers_waSendStatement": {
+    "description": "Customer WhatsApp actions: customers_waSendStatement"
+  },
+  "customers_waSendStatementHint": "حساب کتاب کی PDF بن کر شیئر ہو گی۔",
+  "@customers_waSendStatementHint": {
+    "description": "Customer WhatsApp actions: customers_waSendStatementHint"
+  },
+  "customers_waOpenFailed": "واٹس ایپ نہیں کھل سکا۔ نمبر چیک کریں یا واٹس ایپ انسٹال کریں۔",
+  "@customers_waOpenFailed": {
+    "description": "Customer WhatsApp actions: customers_waOpenFailed"
+  },
+  "customers_waStatementText": "{name} — کھاتہ اسٹیٹمنٹ",
+  "@customers_waStatementText": {
+    "description": "Customer WhatsApp actions: customers_waStatementText",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_driveBackupFailed": "بیک اپ ناکام ہو گیا: {error}",
+  "@backup_driveBackupFailed": {
+    "description": "Settings Google Drive section: backup_driveBackupFailed",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_driveBackupSaved": "بیک اپ ڈرائیو پر محفوظ ہو گیا: {name}",
+  "@backup_driveBackupSaved": {
+    "description": "Settings Google Drive section: backup_driveBackupSaved",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_driveConnectFailed": "گوگل سے منسلک نہیں ہو سکا۔ پہلے سیٹنگز سے منسلک کریں۔",
+  "@backup_driveConnectFailed": {
+    "description": "Settings Google Drive section: backup_driveConnectFailed"
+  },
+  "backup_driveExportFailed": "ایکسپورٹ ناکام ہو گیا: {error}",
+  "@backup_driveExportFailed": {
+    "description": "Settings Google Drive section: backup_driveExportFailed",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_driveExportSaved": "ایکسپورٹ ڈرائیو پر محفوظ ہو گیا: {name}",
+  "@backup_driveExportSaved": {
+    "description": "Settings Google Drive section: backup_driveExportSaved",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "khata_errorDriveConnectFailed": "گوگل سے منسلک نہیں ہو سکا۔ انٹرنیٹ چیک کر کے دوبارہ کوشش کریں۔",
+  "@khata_errorDriveConnectFailed": {
+    "description": "Khata errors: khata_errorDriveConnectFailed"
+  },
+  "khata_errorDriveSignInCanceled": "گوگل سائن اِن منسوخ کر دیا گیا۔",
+  "@khata_errorDriveSignInCanceled": {
+    "description": "Khata errors: khata_errorDriveSignInCanceled"
+  },
+  "khata_errorDriveSignInInterrupted": "سائن اِن ادھورا رہ گیا — دوبارہ کوشش کریں۔",
+  "@khata_errorDriveSignInInterrupted": {
+    "description": "Khata errors: khata_errorDriveSignInInterrupted"
+  },
+  "khata_errorSmsChannelMissing": "SMS چینل دستیاب نہیں — بھیجنے کے لیے SMS ایپ کھولیں۔",
+  "@khata_errorSmsChannelMissing": {
+    "description": "Khata errors: khata_errorSmsChannelMissing"
+  },
+  "khata_errorSmsEmptyMessage": "پیغام خالی ہے۔",
+  "@khata_errorSmsEmptyMessage": {
+    "description": "Khata errors: khata_errorSmsEmptyMessage"
+  },
+  "khata_errorSmsGeneric": "SMS بھیجنے میں مسئلہ ہوا۔",
+  "@khata_errorSmsGeneric": {
+    "description": "Khata errors: khata_errorSmsGeneric"
+  },
+  "khata_errorSmsNoNumber": "فون نمبر موجود نہیں ہے۔",
+  "@khata_errorSmsNoNumber": {
+    "description": "Khata errors: khata_errorSmsNoNumber"
+  },
+  "khata_errorSmsNotAvailable": "اس ڈیوائس پر SMS بھیجنا ممکن نہیں۔",
+  "@khata_errorSmsNotAvailable": {
+    "description": "Khata errors: khata_errorSmsNotAvailable"
+  },
+  "khata_errorSmsPermissionDenied": "SMS کی اجازت نہیں ملی۔ سیٹنگز میں SMS کی اجازت دیں۔",
+  "@khata_errorSmsPermissionDenied": {
+    "description": "Khata errors: khata_errorSmsPermissionDenied"
+  },
+  "khata_errorSmsSendFailed": "SMS نہیں بھیجا جا سکا۔ {details}",
+  "@khata_errorSmsSendFailed": {
+    "description": "Khata errors: khata_errorSmsSendFailed",
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  }
 }

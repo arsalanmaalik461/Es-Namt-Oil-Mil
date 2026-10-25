@@ -63,24 +63,32 @@ class BalanceBanner extends StatelessWidget {
           ),
           const SizedBox(width: 12),
           Expanded(
-            child: Text.rich(
-              TextSpan(
-                children: [
-                  TextSpan(
-                    text: '$amountText  ',
-                    style: const TextStyle(fontWeight: FontWeight.w800),
-                  ),
-                  TextSpan(
-                    text: caption,
-                    style: const TextStyle(fontWeight: FontWeight.w500),
-                  ),
-                ],
+            // Amount + caption stay on one line; scale down rather than
+            // wrap the amount mid-number on narrow phones.
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: AlignmentDirectional.centerStart,
+              child: Text.rich(
+                TextSpan(
+                  children: [
+                    TextSpan(
+                      text: '$amountText  ',
+                      style: const TextStyle(fontWeight: FontWeight.w800),
+                    ),
+                    TextSpan(
+                      text: caption,
+                      style: const TextStyle(fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                ),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: fg,
+                      fontFeatures: const [FontFeature.tabularFigures()],
+                    ),
+                textDirection: TextDirection.ltr,
+                maxLines: 1,
+                softWrap: false,
               ),
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: fg,
-                    fontFeatures: const [FontFeature.tabularFigures()],
-                  ),
-              textDirection: TextDirection.ltr,
             ),
           ),
         ],

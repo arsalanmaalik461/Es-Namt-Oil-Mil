@@ -14,7 +14,7 @@ import 'package:namt_oil_mil/services/accounting_service.dart';
 import 'package:namt_oil_mil/services/pdf/pdf_service.dart';
 import 'package:namt_oil_mil/services/whatsapp_service.dart';
 import 'package:namt_oil_mil/utils/error_text.dart';
-import 'package:namt_oil_mil/utils/money.dart';
+import 'package:namt_oil_mil/widgets/amount_text.dart';
 import 'package:namt_oil_mil/widgets/app_search_bar.dart';
 import 'package:namt_oil_mil/widgets/date_filter_chips.dart';
 import 'package:namt_oil_mil/widgets/empty_state.dart';
@@ -103,27 +103,27 @@ class _PartyLedgerViewState extends ConsumerState<PartyLedgerView> {
   /// WhatsApp button on the customer ledger (user-requested 2026-10-18).
   ///
   /// * No WhatsApp number saved → prompt to add it (opens the edit sheet).
-  /// * Number saved → bottom sheet: "Chat kholein" (opens the customer's
-  ///   WhatsApp chat directly) or "Statement PDF bhejein" (generates the
+  /// * Number saved → bottom sheet: "Open chat" (opens the customer's
+  ///   WhatsApp chat directly) or "Send statement PDF" (generates the
   ///   customer statement PDF and opens the share sheet).
   Future<void> _onWhatsAppTap(Customer customer) async {
+    final t = FragmentStrings.of(context);
     final wa = ref.read(whatsAppServiceProvider);
     final number = wa.normalizeNumber(customer.whatsappNumber);
     if (number == null) {
       final add = await showDialog<bool>(
         context: context,
         builder: (c) => AlertDialog(
-          title: const Text('WhatsApp number add karein'),
-          content: Text(
-              '${customer.name} ka WhatsApp number save karein taake hisaab seedha unki chat mein bheja ja sake.'),
+          title: Text(t.customers_waAddTitle),
+          content: Text(t.customers_waAddMessage(name: customer.name)),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(c, false),
-              child: const Text('Cancel'),
+              child: Text(t.common_cancel),
             ),
             TextButton(
               onPressed: () => Navigator.pop(c, true),
-              child: const Text('Add karein'),
+              child: Text(t.customers_waAdd),
             ),
           ],
         ),
@@ -149,14 +149,14 @@ class _PartyLedgerViewState extends ConsumerState<PartyLedgerView> {
           children: [
             ListTile(
               leading: const Icon(Icons.chat_outlined),
-              title: const Text('Chat kholein'),
+              title: Text(t.customers_waOpenChat),
               subtitle: Text(number),
               onTap: () => Navigator.pop(c, _WaAction.openChat),
             ),
             ListTile(
               leading: const Icon(Icons.picture_as_pdf_outlined),
-              title: const Text('Statement PDF bhejein'),
-              subtitle: const Text('Hisaab-kitaab PDF ban kar share hoga'),
+              title: Text(t.customers_waSendStatement),
+              subtitle: Text(t.customers_waSendStatementHint),
               onTap: () => Navigator.pop(c, _WaAction.sharePdf),
             ),
             const SizedBox(height: 8),
@@ -170,9 +170,7 @@ class _PartyLedgerViewState extends ConsumerState<PartyLedgerView> {
         final ok = await wa.openChat(customer.whatsappNumber);
         if (!ok && mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-                content: Text(
-                    'WhatsApp nahi khul saka. Number check karein ya WhatsApp install karein.')),
+            SnackBar(content: Text(t.customers_waOpenFailed)),
           );
         }
       case _WaAction.sharePdf:
@@ -203,7 +201,7 @@ class _PartyLedgerViewState extends ConsumerState<PartyLedgerView> {
       await ref.read(whatsAppServiceProvider).shareStatementPdf(
             pdfBytes: bytes,
             fileName: fileName,
-            text: '${customer.name} — khaata statement',
+            text: t.customers_waStatementText(name: customer.name),
           );
     } catch (e) {
       if (!mounted) return;
@@ -351,7 +349,10 @@ class _PartyLedgerViewState extends ConsumerState<PartyLedgerView> {
               widget.isCustomer ? entry.debitPaisa > 0 : entry.creditPaisa > 0;
           final paisa =
               entry.debitPaisa > 0 ? entry.debitPaisa : entry.creditPaisa;
-          final dateLabel = DateFormat.yMMMd(localeTag).format(entry.date);
+          // Date AND time on every row (user-requested 2026-10-25), e.g.
+          // "Oct 22, 2026 · 11:39 AM" — was date-only before.
+          final dateLabel =
+              '${DateFormat.yMMMd(localeTag).format(entry.date)} · ${DateFormat.jm(localeTag).format(entry.date)}';
           return LedgerRow(
             title: _entryTitle(entry),
             dateLabel: dateLabel,
@@ -395,13 +396,9 @@ class _OpeningRow extends StatelessWidget {  final int openingPaisa;
                 fontWeight: FontWeight.w600,
               ),
         ),
-        trailing: Text(
-          formatPkr(openingPaisa),
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            fontWeight: FontWeight.w700,
-            fontFeatures: const [FontFeature.tabularFigures()],
-          ),
-          textDirection: TextDirection.ltr,
+        trailing: AmountText(
+          paisa: openingPaisa,
+          style: Theme.of(context).textTheme.bodyMedium,
         ),
       ),
     );

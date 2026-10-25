@@ -67,13 +67,32 @@ class _UdhaarSheetState extends ConsumerState<_UdhaarSheet> {
   }
 
   Future<void> _pickDate() async {
-    final picked = await showDatePicker(
+    // Date picker chained into a time picker (same fix as
+    // party_txn_sheet): picking a date must not silently reset the entry
+    // to midnight — entries record date AND time.
+    final pickedDate = await showDatePicker(
       context: context,
       initialDate: _date,
       firstDate: DateTime(2000),
       lastDate: DateTime.now().add(const Duration(days: 365 * 5)),
     );
-    if (picked != null) setState(() => _date = picked);
+    if (pickedDate == null || !mounted) return;
+    final pickedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.fromDateTime(_date),
+    );
+    if (!mounted) return;
+    // Time picker dismissed -> keep the previous time of day.
+    final time = pickedTime ?? TimeOfDay.fromDateTime(_date);
+    setState(() {
+      _date = DateTime(
+        pickedDate.year,
+        pickedDate.month,
+        pickedDate.day,
+        time.hour,
+        time.minute,
+      );
+    });
   }
 
   void _invalidate() {
@@ -134,9 +153,10 @@ class _UdhaarSheetState extends ConsumerState<_UdhaarSheet> {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
+    // Date AND time, e.g. "Oct 22, 2026 · 11:39 AM".
+    final localeTag = Localizations.localeOf(context).toLanguageTag();
     final dateLabel =
-        DateFormat.yMMMd(Localizations.localeOf(context).toLanguageTag())
-            .format(_date);
+        '${DateFormat.yMMMd(localeTag).format(_date)} · ${DateFormat.jm(localeTag).format(_date)}';
 
     final accountsAsync = ref.watch(cashAccountRepositoryProvider);
 

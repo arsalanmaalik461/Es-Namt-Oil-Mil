@@ -2,17 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
+import 'package:namt_oil_mil/l10n/fragment_strings.dart';
 import 'package:namt_oil_mil/services/drive_backup_service.dart';
 import 'package:namt_oil_mil/services/google_drive_service.dart';
+import 'package:namt_oil_mil/utils/error_text.dart';
 import 'package:namt_oil_mil/widgets/app_button.dart';
 import 'package:namt_oil_mil/widgets/section_header.dart';
 
 /// Settings section: Google Drive backup (user-requested 2026-10-18).
 ///
-/// * "Google se connect karein" → Google account picker + Drive consent.
+/// * "Connect with Google" → Google account picker + Drive consent.
 /// * Auto-backup toggle → WorkManager 24h periodic upload (network only).
 /// * "Backup now" → immediate full-database upload.
-/// * "Export date range" → from/to picker → hisaab-kitaab JSON for that
+/// * "Export date range" → from/to picker → accounts JSON for that
 ///   range uploaded to Drive.
 ///
 /// Fully opt-in: with no connection the section only shows the connect
@@ -58,18 +60,39 @@ class _GoogleDriveSectionState extends ConsumerState<GoogleDriveSection> {
     });
   }
 
+  /// Resolves a [DriveBackupResult]'s localisable message key + params
+  /// into text for the current locale.
+  String _resultText(FragmentStrings t, DriveBackupResult result) {
+    switch (result.messageKey) {
+      case 'backup_driveBackupSaved':
+        return t.backup_driveBackupSaved(name: result.params['name'] ?? '');
+      case 'backup_driveBackupFailed':
+        return t.backup_driveBackupFailed(
+            error: result.params['error'] ?? '');
+      case 'backup_driveExportSaved':
+        return t.backup_driveExportSaved(name: result.params['name'] ?? '');
+      case 'backup_driveExportFailed':
+        return t.backup_driveExportFailed(
+            error: result.params['error'] ?? '');
+      case 'backup_driveConnectFailed':
+      default:
+        return t.backup_driveConnectFailed;
+    }
+  }
+
   Future<void> _connect() async {
+    final t = FragmentStrings.of(context);
     setState(() => _busy = true);
     try {
       final email = await ref.read(googleDriveServiceProvider).signIn();
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Google connect ho gaya: $email')),
+        SnackBar(content: Text(t.backup_driveConnected(email: email))),
       );
     } on GoogleDriveException catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(e.message)));
+          .showSnackBar(SnackBar(content: Text(errorText(context, e))));
     } finally {
       if (mounted) {
         setState(() => _busy = false);
@@ -79,20 +102,20 @@ class _GoogleDriveSectionState extends ConsumerState<GoogleDriveSection> {
   }
 
   Future<void> _disconnect() async {
+    final t = FragmentStrings.of(context);
     final confirm = await showDialog<bool>(
       context: context,
       builder: (c) => AlertDialog(
-        title: const Text('Google disconnect karein?'),
-        content: const Text(
-            'Auto-backup band ho jayega. Drive par pehle se saved backups wahi rahenge.'),
+        title: Text(t.backup_driveDisconnectTitle),
+        content: Text(t.backup_driveDisconnectMessage),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(c, false),
-            child: const Text('Cancel'),
+            child: Text(t.common_cancel),
           ),
           TextButton(
             onPressed: () => Navigator.pop(c, true),
-            child: const Text('Disconnect'),
+            child: Text(t.backup_driveDisconnect),
           ),
         ],
       ),
@@ -111,6 +134,7 @@ class _GoogleDriveSectionState extends ConsumerState<GoogleDriveSection> {
   }
 
   Future<void> _toggleAutoBackup(bool value) async {
+    final t = FragmentStrings.of(context);
     final drive = ref.read(googleDriveServiceProvider);
     final backup = ref.read(driveBackupServiceProvider);
     setState(() => _busy = true);
@@ -123,7 +147,7 @@ class _GoogleDriveSectionState extends ConsumerState<GoogleDriveSection> {
             await backup.runFullBackupNow(interactive: true);
         if (mounted) {
           ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(result.message)));
+              .showSnackBar(SnackBar(content: Text(_resultText(t, result))));
         }
       } else {
         await backup.cancelDailyScheduler();
@@ -137,6 +161,7 @@ class _GoogleDriveSectionState extends ConsumerState<GoogleDriveSection> {
   }
 
   Future<void> _backupNow() async {
+    final t = FragmentStrings.of(context);
     setState(() => _busy = true);
     try {
       final result = await ref
@@ -144,7 +169,7 @@ class _GoogleDriveSectionState extends ConsumerState<GoogleDriveSection> {
           .runFullBackupNow(interactive: true);
       if (!mounted) return;
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(result.message)));
+          .showSnackBar(SnackBar(content: Text(_resultText(t, result))));
     } finally {
       if (mounted) {
         setState(() => _busy = false);
@@ -154,6 +179,7 @@ class _GoogleDriveSectionState extends ConsumerState<GoogleDriveSection> {
   }
 
   Future<void> _exportDateRange() async {
+    final t = FragmentStrings.of(context);
     final now = DateTime.now();
     final picked = await showDateRangePicker(
       context: context,
@@ -175,7 +201,7 @@ class _GoogleDriveSectionState extends ConsumerState<GoogleDriveSection> {
               );
       if (!mounted) return;
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(result.message)));
+          .showSnackBar(SnackBar(content: Text(_resultText(t, result))));
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -184,10 +210,11 @@ class _GoogleDriveSectionState extends ConsumerState<GoogleDriveSection> {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
+    final t = FragmentStrings.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const SectionHeader(title: 'Google Drive Backup'),
+        SectionHeader(title: t.backup_driveTitle),
         if (!_loaded)
           const Padding(
             padding: EdgeInsets.all(16),
@@ -200,14 +227,14 @@ class _GoogleDriveSectionState extends ConsumerState<GoogleDriveSection> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  'Google se connect karein taake aap ka data khud-ba-khud Drive par backup ho.',
+                  t.backup_driveConnectIntro,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color: scheme.onSurfaceVariant,
                       ),
                 ),
                 const SizedBox(height: 12),
                 AppButton(
-                  label: 'Google se connect karein',
+                  label: t.backup_driveConnect,
                   icon: Icons.cloud_upload_outlined,
                   onPressed: _busy ? null : _connect,
                   isLoading: _busy,
@@ -222,17 +249,17 @@ class _GoogleDriveSectionState extends ConsumerState<GoogleDriveSection> {
             leading: Icon(Icons.cloud_done_outlined, color: scheme.primary),
             title: Text(_email!),
             subtitle: Text(_lastBackup == null
-                ? 'Abhi tak koi backup nahi hua'
-                : 'Aakhri backup: ${DateFormat.yMMMd().add_jm().format(_lastBackup!)}'),
+                ? t.backup_driveNoBackupYet
+                : t.backup_driveLastBackup(
+                    date: DateFormat.yMMMd().add_jm().format(_lastBackup!))),
             trailing: TextButton(
               onPressed: _busy ? null : _disconnect,
-              child: const Text('Disconnect'),
+              child: Text(t.backup_driveDisconnect),
             ),
           ),
           SwitchListTile(
-            title: const Text('24 ghantay auto-backup'),
-            subtitle: const Text(
-                'Har 24 ghantay baad pooray din ka data khud Drive par upload ho jayega'),
+            title: Text(t.backup_driveAutoBackup),
+            subtitle: Text(t.backup_driveAutoBackupHint),
             value: _autoBackup,
             onChanged: _busy ? null : _toggleAutoBackup,
           ),
@@ -242,7 +269,7 @@ class _GoogleDriveSectionState extends ConsumerState<GoogleDriveSection> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 AppButton(
-                  label: 'Backup now',
+                  label: t.backup_driveBackupNow,
                   icon: Icons.backup_outlined,
                   variant: AppButtonVariant.secondary,
                   onPressed: _busy ? null : _backupNow,
@@ -251,7 +278,7 @@ class _GoogleDriveSectionState extends ConsumerState<GoogleDriveSection> {
                 ),
                 const SizedBox(height: 8),
                 AppButton(
-                  label: 'Export — custom date range',
+                  label: t.backup_driveExportRange,
                   icon: Icons.date_range_outlined,
                   variant: AppButtonVariant.secondary,
                   onPressed: _busy ? null : _exportDateRange,

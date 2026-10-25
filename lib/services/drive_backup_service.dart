@@ -45,8 +45,9 @@ class DriveBackupService {
   /// Exports the full database and uploads it to Drive.
   ///
   /// When [interactive] is true the user just tapped a button, so sign-in
-  /// UI is allowed; otherwise everything stays silent. Returns a
-  /// user-readable result message.
+  /// UI is allowed; otherwise everything stays silent. Returns a result
+  /// carrying a localisable message key (the UI resolves it via
+  /// FragmentStrings).
   Future<DriveBackupResult> runFullBackupNow(
       {required bool interactive}) async {
     final api = interactive
@@ -55,8 +56,7 @@ class DriveBackupService {
     if (api == null) {
       return const DriveBackupResult(
         ok: false,
-        message:
-            'Google se connect nahi ho saka. Pehle Settings mein "Google se connect karein".',
+        messageKey: 'backup_driveConnectFailed',
       );
     }
     try {
@@ -67,10 +67,14 @@ class DriveBackupService {
       await _drive.uploadBackup(api: api, fileName: name, bytes: bytes);
       await _drive.recordBackupAt(DateTime.now());
       return DriveBackupResult(
-          ok: true, message: 'Backup Drive par save ho gaya: $name');
+          ok: true,
+          messageKey: 'backup_driveBackupSaved',
+          params: {'name': name});
     } catch (e) {
       return DriveBackupResult(
-          ok: false, message: 'Backup fail ho gaya: ${_shortError(e)}');
+          ok: false,
+          messageKey: 'backup_driveBackupFailed',
+          params: {'error': _shortError(e)});
     }
   }
 
@@ -86,8 +90,7 @@ class DriveBackupService {
     if (api == null) {
       return const DriveBackupResult(
         ok: false,
-        message:
-            'Google se connect nahi ho saka. Pehle Settings mein "Google se connect karein".',
+        messageKey: 'backup_driveConnectFailed',
       );
     }
     try {
@@ -99,10 +102,14 @@ class DriveBackupService {
           'namt-oil-mil_${fmt.format(from)}_to_${fmt.format(to)}.json';
       await _drive.uploadBackup(api: api, fileName: name, bytes: bytes);
       return DriveBackupResult(
-          ok: true, message: 'Export Drive par save ho gaya: $name');
+          ok: true,
+          messageKey: 'backup_driveExportSaved',
+          params: {'name': name});
     } catch (e) {
       return DriveBackupResult(
-          ok: false, message: 'Export fail ho gaya: ${_shortError(e)}');
+          ok: false,
+          messageKey: 'backup_driveExportFailed',
+          params: {'error': _shortError(e)});
     }
   }
 
@@ -196,7 +203,7 @@ class DriveBackupService {
     // trigger will retry automatically.
     if (!result.ok) {
       // ignore: avoid_print
-      print('[DriveBackup] daily backup skipped: ${result.message}');
+      print('[DriveBackup] daily backup skipped: ${result.messageKey}');
     }
   }
 
@@ -206,11 +213,18 @@ class DriveBackupService {
   }
 }
 
-/// Outcome of one backup/export attempt, with a user-readable message.
+/// Outcome of one backup/export attempt. [messageKey] is a FragmentStrings
+/// key (`backup_drive*`) and [params] its interpolation values; the UI
+/// resolves the pair into a localised message — never show the key raw.
 class DriveBackupResult {
   final bool ok;
-  final String message;
-  const DriveBackupResult({required this.ok, required this.message});
+  final String messageKey;
+  final Map<String, Object?> params;
+  const DriveBackupResult({
+    required this.ok,
+    required this.messageKey,
+    this.params = const {},
+  });
 }
 
 /// Riverpod access to [DriveBackupService].

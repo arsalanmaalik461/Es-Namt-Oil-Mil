@@ -16,17 +16,29 @@ final sharedPreferencesProvider = Provider<SharedPreferences>(
 const _localeKey = 'settings.locale';
 const _defaultLocaleCode = 'en';
 
+/// Language codes the app ships: English, Urdu (proper script) and Sindhi.
+/// Roman Urdu was removed in v5 (user instruction: English + Urdu script
+/// only). Stored preferences from older versions may still hold removed
+/// codes — those fall back to English instead of breaking locale lookup.
+const _supportedLocaleCodes = <String>{'en', 'ur', 'sd'};
+
+String _normalizeLocaleCode(String? raw) =>
+    raw != null && _supportedLocaleCodes.contains(raw)
+        ? raw
+        : _defaultLocaleCode;
+
 class LocaleNotifier extends Notifier<Locale> {
   @override
   Locale build() {
     final prefs = ref.watch(sharedPreferencesProvider);
-    return Locale(prefs.getString(_localeKey) ?? _defaultLocaleCode);
+    return Locale(_normalizeLocaleCode(prefs.getString(_localeKey)));
   }
 
   Future<void> setLocale(String languageCode) async {
+    final code = _normalizeLocaleCode(languageCode);
     final prefs = ref.read(sharedPreferencesProvider);
-    await prefs.setString(_localeKey, languageCode);
-    state = Locale(languageCode);
+    await prefs.setString(_localeKey, code);
+    state = Locale(code);
   }
 }
 

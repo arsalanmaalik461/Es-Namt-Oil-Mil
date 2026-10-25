@@ -191,14 +191,16 @@ class AppTheme {
         backgroundColor: Colors.white,
         indicatorColor: AppColors.emeraldLight,
         labelTextStyle: WidgetStateProperty.resolveWith((states) {
+          // 11px so long labels ("Transactions") fit on ONE line in a
+          // 72px-wide destination on 360px phones — no two-line wrap.
           if (states.contains(WidgetState.selected)) {
             return const TextStyle(
-              fontSize: 12,
+              fontSize: 11,
               fontWeight: FontWeight.w600,
               color: AppColors.emerald,
             );
           }
-          return const TextStyle(fontSize: 12, color: Colors.grey);
+          return const TextStyle(fontSize: 11, color: Colors.grey);
         }),
         iconTheme: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
@@ -385,14 +387,15 @@ class AppTheme {
         backgroundColor: AppColors.charcoalCard,
         indicatorColor: const Color(0xFF0B3B29),
         labelTextStyle: WidgetStateProperty.resolveWith((states) {
+          // 11px: see light theme — labels must fit one line at 360px.
           if (states.contains(WidgetState.selected)) {
             return const TextStyle(
-              fontSize: 12,
+              fontSize: 11,
               fontWeight: FontWeight.w600,
               color: AppColors.emeraldOnDark,
             );
           }
-          return const TextStyle(fontSize: 12, color: Colors.grey);
+          return const TextStyle(fontSize: 11, color: Colors.grey);
         }),
         iconTheme: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {

@@ -90,14 +90,34 @@ class _PartyTxnSheetState extends ConsumerState<_PartyTxnSheet> {
     super.dispose();
   }
 
+  /// Manual date+time picker (user-requested 2026-10-25). The entry
+  /// defaults to the REAL current date/time; the user can backdate the
+  /// entry and also set the exact time. Previously this was a date-only
+  /// picker that silently reset the time to midnight.
   Future<void> _pickDate() async {
-    final picked = await showDatePicker(
+    final pickedDate = await showDatePicker(
       context: context,
       initialDate: _date,
       firstDate: DateTime(2000),
       lastDate: DateTime.now().add(const Duration(days: 365 * 5)),
     );
-    if (picked != null) setState(() => _date = picked);
+    if (pickedDate == null || !mounted) return;
+    final pickedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.fromDateTime(_date),
+    );
+    if (!mounted) return;
+    // Time picker dismissed -> keep the previous time of day.
+    final time = pickedTime ?? TimeOfDay.fromDateTime(_date);
+    setState(() {
+      _date = DateTime(
+        pickedDate.year,
+        pickedDate.month,
+        pickedDate.day,
+        time.hour,
+        time.minute,
+      );
+    });
   }
 
   Future<void> _pickBillImage() async {
@@ -301,9 +321,10 @@ class _PartyTxnSheetState extends ConsumerState<_PartyTxnSheet> {
                     child: OutlinedButton.icon(
                       icon: const Icon(Icons.calendar_month_outlined, size: 20),
                       label: Text(
-                        DateFormat('d MMM, yy',
-                                Localizations.localeOf(context).toLanguageTag())
-                            .format(_date),
+                        // Date AND time (user-requested 2026-10-25).
+                        '${DateFormat('d MMM, yy', Localizations.localeOf(context).toLanguageTag()).format(_date)} · ${DateFormat.jm(Localizations.localeOf(context).toLanguageTag()).format(_date)}',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                       onPressed: _pickDate,
                       style: OutlinedButton.styleFrom(

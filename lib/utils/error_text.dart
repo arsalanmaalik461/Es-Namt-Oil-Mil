@@ -98,6 +98,26 @@ String errorText(BuildContext context, AppException e) {
       return t.khata_errorCategoryInactive;
     case 'error.accountInactive':
       return t.khata_errorAccountInactive;
+    case 'error.driveSignInCanceled':
+      return t.khata_errorDriveSignInCanceled;
+    case 'error.driveSignInInterrupted':
+      return t.khata_errorDriveSignInInterrupted;
+    case 'error.driveConnectFailed':
+      return t.khata_errorDriveConnectFailed;
+    case 'error.smsNoNumber':
+      return t.khata_errorSmsNoNumber;
+    case 'error.smsEmptyMessage':
+      return t.khata_errorSmsEmptyMessage;
+    case 'error.smsChannelMissing':
+      return t.khata_errorSmsChannelMissing;
+    case 'error.smsPermissionDenied':
+      return t.khata_errorSmsPermissionDenied;
+    case 'error.smsNotAvailable':
+      return t.khata_errorSmsNotAvailable;
+    case 'error.smsSendFailed':
+      return t.khata_errorSmsSendFailed(details: e.params['details'] ?? '');
+    case 'error.smsGeneric':
+      return t.khata_errorSmsGeneric;
     default:
       return AppLocalizations.of(context).error_generic;
   }

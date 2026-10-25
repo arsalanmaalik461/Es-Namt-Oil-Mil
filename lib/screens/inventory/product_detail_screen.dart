@@ -425,11 +425,19 @@ class _Stat extends StatelessWidget {
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color: Theme.of(context).colorScheme.onSurfaceVariant)),
         const SizedBox(height: 2),
-        Text(value,
-            style: Theme.of(context)
-                .textTheme
-                .titleMedium
-                ?.copyWith(fontWeight: FontWeight.w700)),
+        // Half-width stat column: a long amount must scale down, never
+        // wrap mid-number (e.g. "Rs 1,1 / 00.00").
+        FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: AlignmentDirectional.centerStart,
+          child: Text(value,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium
+                  ?.copyWith(fontWeight: FontWeight.w700),
+              maxLines: 1,
+              softWrap: false),
+        ),
       ],
     );
   }

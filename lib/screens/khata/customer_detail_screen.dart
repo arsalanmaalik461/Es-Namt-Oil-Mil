@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart' hide TextDirection;
-import 'package:share_plus/share_plus.dart';
 
 import 'package:namt_oil_mil/core/app_exception.dart';
 import 'package:namt_oil_mil/l10n/fragment_strings.dart';
@@ -10,8 +9,16 @@ import 'package:namt_oil_mil/l10n/gen/app_localizations.dart';
 import 'package:namt_oil_mil/models/ledger_entry.dart';
 import 'package:namt_oil_mil/navigation/routes.dart';
 import 'package:namt_oil_mil/providers/db_providers.dart';
+import 'package:namt_oil_mil/providers/settings_provider.dart';
+import 'package:namt_oil_mil/screens/purchases/buy_from_customer_sheet.dart';
+import 'package:namt_oil_mil/screens/reports/document_data.dart';
+import 'package:namt_oil_mil/screens/reports/report_definitions.dart';
 import 'package:namt_oil_mil/services/accounting_service.dart';
+import 'package:namt_oil_mil/services/pdf/pdf_service.dart';
+import 'package:namt_oil_mil/services/reminder_service.dart';
 import 'package:namt_oil_mil/services/reminder_texts.dart';
+import 'package:namt_oil_mil/services/sms_service.dart';
+import 'package:namt_oil_mil/services/whatsapp_service.dart';
 import 'package:namt_oil_mil/theme/app_theme.dart';
 import 'package:namt_oil_mil/utils/error_text.dart';
 import 'package:namt_oil_mil/utils/money.dart';
@@ -21,7 +28,6 @@ import 'package:namt_oil_mil/widgets/confirm_dialog.dart';
 import 'package:namt_oil_mil/widgets/empty_state.dart';
 import 'package:namt_oil_mil/widgets/error_state.dart';
 import 'package:namt_oil_mil/widgets/loading_state.dart';
-import 'package:namt_oil_mil/widgets/whatsapp_share.dart';
 import 'khata_providers.dart';
 import 'party_form_sheet.dart';
 import 'party_txn_sheet.dart';
@@ -94,6 +100,12 @@ class _CustomerDetailScreenState extends ConsumerState<CustomerDetailScreen> {
         slivers: [
           SliverToBoxAdapter(child: _buildHeader(context, data)),
           SliverToBoxAdapter(child: _buildBanner(context, data)),
+          SliverToBoxAdapter(
+            child: statementAsync.maybeWhen(
+              data: (statement) => _buildTotals(context, statement),
+              orElse: () => const SizedBox.shrink(),
+            ),
+          ),
           SliverToBoxAdapter(child: _buildActions(context, data)),
           SliverToBoxAdapter(child: _buildSearch(context, data)),
           SliverToBoxAdapter(child: _buildColumnHeader(context)),
@@ -166,6 +178,11 @@ class _CustomerDetailScreenState extends ConsumerState<CustomerDetailScreen> {
                 child: Text(t.customers_statement),
               ),
               PopupMenuItem(
+                value: 'buy',
+                child: Text(
+                    AppLocalizations.of(context).purchases_newPurchase),
+              ),
+              PopupMenuItem(
                 value: 'edit',
                 child: Text(AppLocalizations.of(context).common_edit),
               ),
@@ -200,6 +217,50 @@ class _CustomerDetailScreenState extends ConsumerState<CustomerDetailScreen> {
                   : t.customers_filterAdvance,
               isReceivable: balance > 0,
             ),
+    );
+  }
+
+  /// Both gross totals for THIS customer (user-requested 2026-10-25): the
+  /// banner above shows only the net balance, so the detail screen also
+  /// shows total "Mainey Diye" (Σ ledger debits — udhaar + credit sales)
+  /// and total "Mainey Liye" (Σ ledger credits — payments received) side
+  /// by side. Summed from the same authoritative statement lines the list
+  /// below renders; voided entries never count toward totals.
+  Widget _buildTotals(BuildContext context, LedgerStatement statement) {
+    final t = FragmentStrings.of(context);
+    var diye = 0;
+    var liye = 0;
+    for (final line in statement.lines) {
+      if (line.entry.voided) continue;
+      diye += line.entry.debitPaisa;
+      liye += line.entry.creditPaisa;
+    }
+    if (diye == 0 && liye == 0) return const SizedBox.shrink();
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
+      child: Row(
+        children: [
+          Expanded(
+            child: _TotalChip(
+              label: t.khata_maineyDiye,
+              amountText: formatPkr(diye),
+              background: AppColors.pastelPink,
+              foreground: AppColors.pastelPinkText,
+              icon: Icons.arrow_upward,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: _TotalChip(
+              label: t.khata_maineyLiye,
+              amountText: formatPkr(liye),
+              background: AppColors.pastelGreen,
+              foreground: AppColors.pastelGreenText,
+              icon: Icons.arrow_downward,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -250,14 +311,7 @@ class _CustomerDetailScreenState extends ConsumerState<CustomerDetailScreen> {
           _SquareIconButton(
             icon: Icons.picture_as_pdf_outlined,
             tooltip: t.customers_statement,
-            onTap: () => Navigator.pushNamed(
-              context,
-              Routes.reportDetail,
-              arguments: {
-                'report': 'customerStatement',
-                'partyId': data.customer.id,
-              },
-            ),
+            onTap: () => _openStatement(context, data.customer.id!),
           ),
         ],
       ),
@@ -362,10 +416,16 @@ class _CustomerDetailScreenState extends ConsumerState<CustomerDetailScreen> {
                       const Icon(Icons.arrow_upward, size: 20),
                       const SizedBox(width: 6),
                       Flexible(
-                        child: Text(
-                          t.khata_maineyDiye,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                        // Scale the label down to fit instead of
+                        // ellipsizing it ("Mainey D...") on small phones
+                        // — same treatment as the shared BottomCtaButton.
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            t.khata_maineyDiye,
+                            maxLines: 1,
+                            softWrap: false,
+                          ),
                         ),
                       ),
                     ],
@@ -407,10 +467,16 @@ class _CustomerDetailScreenState extends ConsumerState<CustomerDetailScreen> {
                       const Icon(Icons.arrow_downward, size: 20),
                       const SizedBox(width: 6),
                       Flexible(
-                        child: Text(
-                          t.khata_maineyLiye,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                        // Scale the label down to fit instead of
+                        // ellipsizing it ("Mainey L...") on small phones
+                        // — same treatment as the shared BottomCtaButton.
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            t.khata_maineyLiye,
+                            maxLines: 1,
+                            softWrap: false,
+                          ),
                         ),
                       ),
                     ],
@@ -424,16 +490,97 @@ class _CustomerDetailScreenState extends ConsumerState<CustomerDetailScreen> {
     );
   }
 
+  /// Opens the customer statement (PDF preview with Save/Share/Print).
+  ///
+  /// BUG FIX (2026-10-25): this used to navigate with
+  /// `{'report': 'customerStatement', 'partyId': id}`. But
+  /// 'customerStatement' is a DOCUMENT key, not an analytical report key:
+  /// the report screen's loader has no case for it and always returned an
+  /// empty result, so the screen showed date filters over a permanent
+  /// "no data" state — picking a date range never showed the ledger.
+  /// Statements are documents: pick the period here, then navigate in
+  /// document mode with an explicit [from, to) window; the statement
+  /// builder renders exactly those entries plus the opening balance.
+  Future<void> _openStatement(BuildContext context, int id) async {
+    final t = FragmentStrings.of(context);
+    final choice = await showModalBottomSheet<String>(
+      context: context,
+      builder: (sheetContext) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.all_inclusive_outlined),
+              title: Text(t.reports_all),
+              onTap: () => Navigator.of(sheetContext).pop('all'),
+            ),
+            ListTile(
+              leading: const Icon(Icons.calendar_month_outlined),
+              title: Text(t.dashboard_thisMonth),
+              onTap: () => Navigator.of(sheetContext).pop('month'),
+            ),
+            ListTile(
+              leading: const Icon(Icons.date_range_outlined),
+              title: Text(t.customers_customRange),
+              onTap: () => Navigator.of(sheetContext).pop('custom'),
+            ),
+            const SizedBox(height: 8),
+          ],
+        ),
+      ),
+    );
+    if (choice == null || !context.mounted) return;
+
+    final now = DateTime.now();
+    final DateTime from;
+    final DateTime to;
+    switch (choice) {
+      case 'month':
+        from = DateTime(now.year, now.month, 1);
+        to = DateTime(now.year, now.month + 1, 1);
+      case 'custom':
+        final picked = await showDateRangePicker(
+          context: context,
+          firstDate: DateTime(2000),
+          lastDate: DateTime(now.year + 5, 12, 31),
+        );
+        if (picked == null || !context.mounted) return;
+        from = DateTime(
+            picked.start.year, picked.start.month, picked.start.day);
+        final end = picked.end;
+        to = DateTime(end.year, end.month, end.day + 1);
+      default: // 'all' — explicit wide window (builder defaults to 90 days)
+        from = DateTime(2000, 1, 1);
+        to = DateTime(2100, 1, 1);
+    }
+    if (!context.mounted) return;
+    Navigator.pushNamed(
+      context,
+      Routes.reportDetail,
+      arguments: {
+        'document': 'customerStatement',
+        'id': id,
+        'from': from,
+        'to': to,
+      },
+    );
+  }
+
   Future<void> _onMenu(
       BuildContext context, CustomerDetailData data, String value) async {
     final id = data.customer.id!;
     switch (value) {
       case 'statement':
-        Navigator.pushNamed(
+        _openStatement(context, id);
+      case 'buy':
+        // Buy goods FROM this customer: posts the payable onto this
+        // customer's own ledger via postPurchaseFromCustomer.
+        final posted = await showBuyFromCustomerSheet(
           context,
-          Routes.reportDetail,
-          arguments: {'report': 'customerStatement', 'partyId': id},
+          ref,
+          customer: data.customer,
         );
+        if (posted) ref.invalidate(customerDetailProvider(id));
       case 'edit':
         final saved = await showPartyFormSheet(
           context,
@@ -512,6 +659,20 @@ class _CustomerDetailScreenState extends ConsumerState<CustomerDetailScreen> {
         ),
         actions: [
           TextButton(
+            onPressed: () {
+              Navigator.of(dialogContext).pop();
+              _shareWhatsApp(context, data);
+            },
+            child: Text(t.khata_whatsapp),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(dialogContext).pop();
+              _shareSms(context, data);
+            },
+            child: Text(t.khata_sms),
+          ),
+          TextButton(
             onPressed: () async {
               await Clipboard.setData(ClipboardData(text: '$en\n\n$ur'));
               if (!dialogContext.mounted) return;
@@ -530,10 +691,126 @@ class _CustomerDetailScreenState extends ConsumerState<CustomerDetailScreen> {
     );
   }
 
+  /// The customer's FULL ledger statement PDF bytes (every entry): the
+  /// statement builder defaults to the last 90 days, so an explicit
+  /// 2000→2100 window is passed — same as [_openStatement]'s "All".
+  Future<Uint8List> _statementPdfBytes(CustomerDetailData data) async {
+    final t = FragmentStrings.of(context);
+    final business = ref.read(businessProfileProvider);
+    final localeCode = Localizations.localeOf(context).languageCode;
+    final l10n = AppLocalizations.of(context);
+    String fmt(DateTime d) => DateFormat.yMMMd(localeCode).format(d);
+    final doc = await buildDocumentData(
+      ref: ref,
+      documentType: DocumentKeys.customerStatement,
+      id: data.customer.id!,
+      t: t,
+      business: business,
+      formatDate: fmt,
+      from: DateTime(2000, 1, 1),
+      to: DateTime(2100, 1, 1),
+    );
+    return ref.read(pdfServiceProvider).buildPdf(document: doc, l10n: l10n);
+  }
+
+  /// After an SMS reminder, offers the customer's FULL statement PDF and
+  /// shares it through the system share sheet when accepted.
+  Future<void> _offerStatementPdf(
+      BuildContext context, CustomerDetailData data,
+      {String? text}) async {
+    final t = FragmentStrings.of(context);
+    final share = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(t.customers_statement),
+        content:
+            Text('${data.customer.name} • ${formatPkr(data.balancePaisa)}'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: Text(t.common_cancel),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(dialogContext, true),
+            child: Text(t.reminders_send),
+          ),
+        ],
+      ),
+    );
+    if (share != true || !context.mounted) return;
+    try {
+      final bytes = await _statementPdfBytes(data);
+      if (!context.mounted) return;
+      final safeName =
+          data.customer.name.replaceAll(RegExp(r'[^\w\- ]'), '_');
+      await SmsService.shareStatementPdf(
+        pdfBytes: bytes,
+        fileName: 'namt-oil-mil-statement-$safeName.pdf',
+        text: text,
+      );
+    } catch (e) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text(e is AppException
+                ? errorText(context, e)
+                : AppLocalizations.of(context).error_generic)),
+      );
+    }
+  }
+
   Future<void> _shareSms(BuildContext context, CustomerDetailData data) async {
-    final en = buildReminderEn(
-        partyName: data.customer.name, balancePaisa: data.balancePaisa);
-    await SharePlus.instance.share(ShareParams(text: en));
+    final t = FragmentStrings.of(context);
+    final phone = data.customer.phone;
+    if (phone == null || phone.trim().isEmpty) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(t.khata_noPhone)),
+      );
+      return;
+    }
+    final isUr = Localizations.localeOf(context).languageCode == 'ur';
+    final base = isUr
+        ? buildReminderUr(
+            partyName: data.customer.name, balancePaisa: data.balancePaisa)
+        : buildReminderEn(
+            partyName: data.customer.name, balancePaisa: data.balancePaisa);
+    try {
+      // SMS cannot attach files: the body carries the compact ledger
+      // summary, and the full statement PDF is offered right after.
+      final body = await ReminderService.smsTextWithLedgerSummary(
+        customerId: data.customer.id!,
+        reminderText: base,
+        balancePaisa: data.balancePaisa,
+        script: isUr ? 'ur' : 'en',
+      );
+      // Prefer direct send; fall back to the SMS app.
+      final direct = await SmsService.canSendDirect();
+      bool ok;
+      if (direct) {
+        try {
+          ok = await SmsService.sendDirect(phoneNumber: phone, message: body);
+        } on SmsException {
+          ok = await SmsService.openSmsApp(phoneNumber: phone, message: body);
+        }
+      } else {
+        ok = await SmsService.openSmsApp(phoneNumber: phone, message: body);
+      }
+      if (!context.mounted) return;
+      if (ok) await _offerStatementPdf(context, data, text: body);
+    } on SmsException catch (e) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(errorText(context, e))));
+    } catch (e) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text(e is AppException
+                ? errorText(context, e)
+                : AppLocalizations.of(context).error_generic)),
+      );
+    }
   }
 
   Future<void> _shareWhatsApp(
@@ -551,9 +828,89 @@ class _CustomerDetailScreenState extends ConsumerState<CustomerDetailScreen> {
         partyName: data.customer.name, balancePaisa: data.balancePaisa);
     final ur = buildReminderUr(
         partyName: data.customer.name, balancePaisa: data.balancePaisa);
-    // Team 3 upgrades this to open the customer's WhatsApp chat directly;
-    // today it shares through the system sheet.
-    await WhatsAppShare.shareText('$en\n\n$ur');
+    try {
+      // The reminder goes WITH the customer's full ledger statement PDF
+      // (user-requested 2026-10-25): wa.me links cannot attach files, so
+      // the PDF and the reminder text travel together through the share
+      // sheet and the user picks the customer's WhatsApp chat.
+      final bytes = await _statementPdfBytes(data);
+      if (!context.mounted) return;
+      await ref.read(whatsAppServiceProvider).shareReminderWithStatement(
+            pdfBytes: bytes,
+            customerName: data.customer.name,
+            message: '$en\n\n$ur',
+          );
+    } catch (e) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text(e is AppException
+                ? errorText(context, e)
+                : AppLocalizations.of(context).error_generic)),
+      );
+    }
+  }
+}
+
+/// One gross-total figure (Total Diye / Total Liye) on the detail screen.
+class _TotalChip extends StatelessWidget {
+  final String label;
+  final String amountText;
+  final Color background;
+  final Color foreground;
+  final IconData icon;
+
+  const _TotalChip({
+    required this.label,
+    required this.amountText,
+    required this.background,
+    required this.foreground,
+    required this.icon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      decoration: BoxDecoration(
+        color: background,
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(icon, size: 16, color: foreground),
+              const SizedBox(width: 6),
+              Expanded(
+                child: Text(
+                  label,
+                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                        color: foreground,
+                        fontWeight: FontWeight.w600,
+                      ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          Text(
+            amountText,
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              color: foreground,
+              fontWeight: FontWeight.w800,
+              fontFeatures: const [FontFeature.tabularFigures()],
+            ),
+            textDirection: TextDirection.ltr,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -643,13 +1000,12 @@ class _TxnRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = FragmentStrings.of(context);
     final localeTag = Localizations.localeOf(context).toLanguageTag();
-    final now = DateTime.now();
     final d = entry.date;
-    final isToday =
-        d.year == now.year && d.month == now.month && d.day == now.day;
-    final dateLabel = isToday
-        ? 'Today ${DateFormat.jm(localeTag).format(d)}'
-        : DateFormat.yMMMd(localeTag).format(d);
+    // Every row shows date AND time (user-requested 2026-10-25), e.g.
+    // "Oct 22, 2026 · 11:39 AM" — previously only today's rows showed a
+    // time and all other days showed the date alone.
+    final dateLabel =
+        '${DateFormat.yMMMd(localeTag).format(d)} · ${DateFormat.jm(localeTag).format(d)}';
 
     // For customers: debit = udhaar given (DIYE, red), credit = received (LIYE, green).
     final isDiye = entry.debitPaisa > 0;

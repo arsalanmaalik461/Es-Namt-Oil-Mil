@@ -86,5 +86,65 @@
         "type": "String"
       }
     }
+  },
+  "backup_driveTitle": "Google Drive Backup",
+  "backup_driveConnected": "Connected to Google: {email}",
+  "@backup_driveConnected": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_driveDisconnectTitle": "Disconnect Google?",
+  "backup_driveDisconnectMessage": "Auto-backup will be turned off. Backups already saved on Drive will stay there.",
+  "backup_driveDisconnect": "Disconnect",
+  "backup_driveConnectIntro": "Connect with Google so your data is automatically backed up to Drive.",
+  "backup_driveConnect": "Connect with Google",
+  "backup_driveNoBackupYet": "No backup yet",
+  "backup_driveLastBackup": "Last backup: {date}",
+  "@backup_driveLastBackup": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_driveAutoBackup": "24-hour auto-backup",
+  "backup_driveAutoBackupHint": "Every 24 hours, the full day's data is automatically uploaded to Drive.",
+  "backup_driveBackupNow": "Backup now",
+  "backup_driveExportRange": "Export — custom date range",
+  "backup_driveConnectFailed": "Could not connect to Google. Please connect from Settings first.",
+  "backup_driveBackupSaved": "Backup saved to Drive: {name}",
+  "@backup_driveBackupSaved": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_driveBackupFailed": "Backup failed: {error}",
+  "@backup_driveBackupFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_driveExportSaved": "Export saved to Drive: {name}",
+  "@backup_driveExportSaved": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_driveExportFailed": "Export failed: {error}",
+  "@backup_driveExportFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
   }
 }

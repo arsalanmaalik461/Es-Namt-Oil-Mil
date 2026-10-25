@@ -431,6 +431,34 @@ class AccountingService {
     return rows.map(LedgerEntry.fromMap).toList();
   }
 
+  /// Compact item summary for ledger descriptions, e.g.
+  /// "Sarson Oil 40 kg, Khal 2 bag (+1 more)".
+  ///
+  /// Party ledgers must show WHAT was bought/sold — not just an invoice
+  /// number — so the customer/supplier can see the reference behind every
+  /// balance change (user-requested 2026-10-25). Names/symbols are resolved
+  /// inside the posting transaction. At most 3 items are spelled out.
+  Future<String> _itemSummary(
+    Transaction txn,
+    List<_ItemSummaryLine> lines,
+  ) async {
+    final products = ProductRepository(txn);
+    final units = UnitRepository(txn);
+    final parts = <String>[];
+    for (final line in lines.take(3)) {
+      final product = await products.getById(line.productId);
+      final unit = await units.getById(line.unitId);
+      final name = product?.name ?? '#${line.productId}';
+      final qty = line.qty == line.qty.roundToDouble()
+          ? line.qty.toInt().toString()
+          : line.qty.toStringAsFixed(2);
+      final symbol = unit?.symbol ?? '';
+      parts.add(symbol.isEmpty ? '$name x$qty' : '$name x$qty $symbol');
+    }
+    if (lines.length > 3) parts.add('+${lines.length - 3} more');
+    return parts.join(', ');
+  }
+
   // ------------------------------------------------------------------ sales
 
   Future<SalesInvoice> _postSaleInTxn(
@@ -562,6 +590,17 @@ class AccountingService {
     // Ledger: debit customer / credit income(sales). Skip when total is 0
     // (nothing owed, nothing earned).
     if (total > 0) {
+      // The customer's ledger line names the items sold, so the balance
+      // change carries its reference (user-requested 2026-10-25).
+      final itemsSummary = await _itemSummary(
+        txn,
+        calcs
+            .map((c) => _ItemSummaryLine(
+                productId: c.input.productId,
+                qty: c.input.qty,
+                unitId: c.input.unitId))
+            .toList(),
+      );
       await _postJournal(
         txn,
         date: date,
@@ -575,7 +614,7 @@ class AccountingService {
             category: 'sales',
             referenceType: ReferenceTypes.sale,
             referenceId: invoice.id,
-            description: 'Sale $invoiceNo to ${customer.name}',
+            description: 'Sale $invoiceNo: $itemsSummary',
           ),
           _JournalLine(
             accountType: AccountType.income,
@@ -880,6 +919,17 @@ class AccountingService {
 
     // Ledger: debit expense(purchases) / credit supplier.
     if (total > 0) {
+      // The supplier's ledger line names the items bought, so the payable
+      // carries its reference (user-requested 2026-10-25).
+      final itemsSummary = await _itemSummary(
+        txn,
+        calcs
+            .map((c) => _ItemSummaryLine(
+                productId: c.input.productId,
+                qty: c.input.qty,
+                unitId: c.input.unitId))
+            .toList(),
+      );
       await _postJournal(
         txn,
         date: date,
@@ -893,7 +943,7 @@ class AccountingService {
             category: 'purchase',
             referenceType: ReferenceTypes.purchase,
             referenceId: invoice.id,
-            description: 'Purchase $invoiceNo from ${supplier.name}',
+            description: 'Purchase $invoiceNo: $itemsSummary',
           ),
           _JournalLine(
             accountType: AccountType.supplier,
@@ -902,7 +952,7 @@ class AccountingService {
             category: 'purchase',
             referenceType: ReferenceTypes.purchase,
             referenceId: invoice.id,
-            description: 'Purchase $invoiceNo from ${supplier.name}',
+            description: 'Purchase $invoiceNo: $itemsSummary',
           ),
         ],
       );
@@ -1048,6 +1098,194 @@ class AccountingService {
           notes: draft.notes,
           invoiceNoOverride: draft.invoiceNo,
         );
+      });
+    });
+  }
+
+  /// Buys goods from a person who is registered as a CUSTOMER (not a
+  /// supplier) — user-requested 2026-10-25.
+  ///
+  /// `purchase_invoices.supplier_id` is a NOT NULL FK to suppliers, so a
+  /// purchase invoice row cannot reference a customer. This posting
+  /// therefore mirrors [_postPurchaseInTxn]'s economics without an invoice
+  /// row, in ONE transaction:
+  /// * stock IN at weighted-average cost (+ inventory movements,
+  ///   referenceType 'purchase', referenceId null),
+  /// * journal: debit expense(purchases) / credit CUSTOMER — the customer's
+  ///   balance moves negative (= the business now owes them), and their
+  ///   ledger line names the items bought: "Purchase: (items) — payable to
+  ///   (name)", so their khata shows exactly what was bought from them and
+  ///   that the amount is now payable to them.
+  ///
+  /// The payable is settled later with the normal customer payment flows.
+  /// Returns the journal key (also when [total] is 0 and only stock moved).
+  /// Idempotent via [idempotencyKey] (stamped on the customer leg, the
+  /// same pattern as [postCustomerUdhaar]).
+  Future<String> postPurchaseFromCustomer({
+    required int customerId,
+    required DateTime date,
+    required List<PurchaseLineInput> lines,
+    num discountPercent = 0,
+    int taxPaisa = 0,
+    String? notes,
+    String? idempotencyKey,
+  }) {
+    return repo.guard('ledger_entries', () async {
+      if (lines.isEmpty) throw ValidationException('error.emptyInvoice');
+      if (taxPaisa < 0) throw ValidationException('error.negativeTax');
+      return _helper.transaction((txn) async {
+        if (idempotencyKey != null) {
+          final existing = await txn.query(
+            'ledger_entries',
+            columns: ['journal_key'],
+            where: "category = 'purchase' AND account_type = 'customer' "
+                'AND idempotency_key = ?',
+            whereArgs: [idempotencyKey],
+            limit: 1,
+          );
+          if (existing.isNotEmpty) {
+            return existing.first['journal_key'] as String;
+          }
+        }
+
+        final customers = CustomerRepository(txn);
+        final products = ProductRepository(txn);
+        final units = UnitRepository(txn);
+        final inventory = InventoryRepository(txn);
+
+        final customer = await customers.getById(customerId);
+        if (customer == null) {
+          throw ValidationException(
+              'error.customerNotFound', {'id': customerId});
+        }
+        if (customer.isArchived) {
+          throw ValidationException(
+              'error.customerArchived', {'name': customer.name});
+        }
+
+        // Validate lines + compute totals (mirrors _postPurchaseInTxn).
+        final calcs = <_PurchaseLineCalc>[];
+        var subtotal = 0;
+        for (final line in lines) {
+          if (line.qty <= 0) {
+            throw ValidationException('error.invalidQty', {'qty': line.qty});
+          }
+          if (line.unitPricePaisa < 0) {
+            throw ValidationException('error.negativePrice');
+          }
+          final product = await products.getById(line.productId);
+          if (product == null) {
+            throw ValidationException(
+                'error.productNotFound', {'id': line.productId});
+          }
+          if (product.isArchived) {
+            throw ValidationException(
+                'error.productArchived', {'name': product.name});
+          }
+          final unit = await units.getById(line.unitId);
+          if (unit == null) {
+            throw ValidationException(
+                'error.unitNotFound', {'id': line.unitId});
+          }
+          final qtyBase =
+              await units.convertQty(line.qty, line.unitId, product.baseUnitId);
+          final lineTotal = lineTotalPaisa(
+            unitPricePaisa: line.unitPricePaisa,
+            qty: line.qty,
+            discountPercent: line.discountPercent,
+          );
+          subtotal += lineTotal;
+          calcs.add(_PurchaseLineCalc(
+              input: line,
+              product: product,
+              qtyBase: qtyBase,
+              lineTotalPaisa: lineTotal));
+        }
+        final discountPaisa = percentOf(subtotal, discountPercent);
+        final total = subtotal - discountPaisa + taxPaisa;
+        if (total < 0) throw ValidationException('error.negativeTotal');
+        final costValues = _allocateProportionally(subtotal - discountPaisa,
+            calcs.map((c) => c.lineTotalPaisa).toList());
+
+        // Stock in + weighted-average cost (re-read per line, like
+        // _postPurchaseInTxn, so multi-line same-product invoices compound).
+        for (var i = 0; i < calcs.length; i++) {
+          final c = calcs[i];
+          await inventory.insertMovement(InventoryMovement(
+            date: date,
+            productId: c.input.productId,
+            qtyChange: c.input.qty,
+            qtyChangeBase: c.qtyBase,
+            unitId: c.input.unitId,
+            movementType: MovementTypes.purchase,
+            referenceType: ReferenceTypes.purchase,
+            referenceId: null,
+            notes: 'Purchase from customer ${customer.name}',
+          ));
+          final current = await products.getById(c.input.productId);
+          final newAvg = weightedAverageCostPaisa(
+            oldQtyBase: current?.stockQty ?? c.product.stockQty,
+            oldAvgCostPaisa: current?.avgCostPaisa ?? c.product.avgCostPaisa,
+            addedQtyBase: c.qtyBase,
+            addedValuePaisa: costValues[i],
+          );
+          await products.adjustStockAndCost(
+              txn, c.input.productId, c.qtyBase, newAvg);
+        }
+
+        final journalKey = newJournalKey();
+        if (total > 0) {
+          final itemsSummary = await _itemSummary(
+            txn,
+            calcs
+                .map((c) => _ItemSummaryLine(
+                    productId: c.input.productId,
+                    qty: c.input.qty,
+                    unitId: c.input.unitId))
+                .toList(),
+          );
+          final noteSuffix =
+              (notes != null && notes.trim().isNotEmpty) ? ' — $notes' : '';
+          await _postJournal(
+            txn,
+            date: date,
+            journalKey: journalKey,
+            auditAction: 'post',
+            auditEntity: 'ledger_entries',
+            lines: [
+              _JournalLine(
+                accountType: AccountType.expense,
+                accountId: purchaseExpenseAccountId,
+                debitPaisa: total,
+                category: 'purchase',
+                referenceType: ReferenceTypes.purchase,
+                description:
+                    'Purchase from customer ${customer.name}: $itemsSummary$noteSuffix',
+              ),
+              _JournalLine(
+                accountType: AccountType.customer,
+                accountId: customerId,
+                creditPaisa: total,
+                category: 'purchase',
+                referenceType: ReferenceTypes.purchase,
+                description:
+                    'Purchase: $itemsSummary — payable to ${customer.name}$noteSuffix',
+              ),
+            ],
+          );
+          if (idempotencyKey != null) {
+            // Stamp the key on the customer (credit) leg only — the column
+            // is UNIQUE, one marked leg per journal is enough.
+            await txn.update(
+              'ledger_entries',
+              {'idempotency_key': idempotencyKey},
+              where:
+                  'journal_key = ? AND account_type = ? AND credit_paisa > 0',
+              whereArgs: [journalKey, AccountType.customer.dbValue],
+            );
+          }
+        }
+        return journalKey;
       });
     });
   }
@@ -2206,6 +2444,15 @@ class AccountingService {
         }
 
         if (total > 0) {
+          final itemsSummary = await _itemSummary(
+            txn,
+            calcs
+                .map((c) => _ItemSummaryLine(
+                    productId: c.input.productId,
+                    qty: c.input.qty,
+                    unitId: c.input.unitId))
+                .toList(),
+          );
           await _postJournal(
             txn,
             date: date,
@@ -2219,7 +2466,7 @@ class AccountingService {
                 category: 'sales_returns',
                 referenceType: ReferenceTypes.salesReturn,
                 referenceId: ret.id,
-                description: 'Sales return $returnNo from ${customer.name}',
+                description: 'Sales return $returnNo: $itemsSummary',
               ),
               _JournalLine(
                 accountType: AccountType.income,
@@ -2408,6 +2655,15 @@ class AccountingService {
         }
 
         if (total > 0) {
+          final itemsSummary = await _itemSummary(
+            txn,
+            calcs
+                .map((c) => _ItemSummaryLine(
+                    productId: c.input.productId,
+                    qty: c.input.qty,
+                    unitId: c.input.unitId))
+                .toList(),
+          );
           await _postJournal(
             txn,
             date: date,
@@ -2421,7 +2677,7 @@ class AccountingService {
                 category: 'purchase_returns',
                 referenceType: ReferenceTypes.purchaseReturn,
                 referenceId: ret.id,
-                description: 'Purchase return $returnNo to ${supplier.name}',
+                description: 'Purchase return $returnNo: $itemsSummary',
               ),
               _JournalLine(
                 accountType: AccountType.expense,
@@ -2834,6 +3090,18 @@ class _ReturnLineCalc {
     required this.input,
     required this.qtyBase,
     required this.lineTotalPaisa,
+  });
+}
+
+/// One line of an [_itemSummary] call (product + qty + unit to resolve).
+class _ItemSummaryLine {
+  final int productId;
+  final double qty;
+  final int unitId;
+  const _ItemSummaryLine({
+    required this.productId,
+    required this.qty,
+    required this.unitId,
   });
 }
 

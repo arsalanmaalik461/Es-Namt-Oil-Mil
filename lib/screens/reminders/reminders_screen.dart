@@ -1,12 +1,24 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart' hide TextDirection;
+import 'package:share_plus/share_plus.dart';
 
+import 'package:namt_oil_mil/core/app_exception.dart';
 import 'package:namt_oil_mil/l10n/fragment_strings.dart';
+import 'package:namt_oil_mil/l10n/gen/app_localizations.dart';
 import 'package:namt_oil_mil/providers/db_providers.dart';
+import 'package:namt_oil_mil/providers/settings_provider.dart';
 import 'package:namt_oil_mil/repositories/customer_repository.dart';
+import 'package:namt_oil_mil/screens/reports/document_data.dart';
+import 'package:namt_oil_mil/screens/reports/report_definitions.dart';
+import 'package:namt_oil_mil/services/pdf/pdf_service.dart';
 import 'package:namt_oil_mil/services/reminder_service.dart';
 import 'package:namt_oil_mil/services/reminder_texts.dart';
 import 'package:namt_oil_mil/services/sms_service.dart';
+import 'package:namt_oil_mil/services/whatsapp_service.dart';
+import 'package:namt_oil_mil/utils/error_text.dart';
 import 'package:namt_oil_mil/utils/money.dart';
 import 'package:namt_oil_mil/widgets/empty_state.dart';
 
@@ -14,8 +26,13 @@ import 'package:namt_oil_mil/widgets/empty_state.dart';
 ///
 /// Lists customers with overdue khata balances, sorted by nearest due date.
 /// Each row offers one-tap SMS / WhatsApp reminders using the ready-made
-/// templates (EN / UR / Roman-Urdu) — the user can edit the text before
-/// sending.
+/// templates (EN / UR script — Roman Urdu was removed) — the user can edit
+/// the text before sending.
+///
+/// A reminder never goes out as bare text (user-requested 2026-10-25):
+/// WhatsApp sends the customer's FULL ledger statement PDF with the text
+/// via the share sheet; SMS carries a compact ledger summary in its body
+/// and the full PDF is offered through the share sheet right after.
 class RemindersScreen extends ConsumerStatefulWidget {
   const RemindersScreen({super.key});
 
@@ -181,7 +198,34 @@ class _ReminderRow {
   });
 }
 
-class _ReminderTile extends StatelessWidget {
+/// Builds the customer's FULL ledger statement PDF (every entry, not a
+/// partial page): the statement builder defaults to the last 90 days, so
+/// an explicit 2000→2100 window is passed (same as the customer detail
+/// screen's "All" period).
+Future<Uint8List> _fullStatementPdfBytes(
+  WidgetRef ref,
+  BuildContext context, {
+  required int customerId,
+  required FragmentStrings t,
+}) async {
+  final business = ref.read(businessProfileProvider);
+  final localeCode = Localizations.localeOf(context).languageCode;
+  final l10n = AppLocalizations.of(context);
+  String fmt(DateTime d) => DateFormat.yMMMd(localeCode).format(d);
+  final data = await buildDocumentData(
+    ref: ref,
+    documentType: DocumentKeys.customerStatement,
+    id: customerId,
+    t: t,
+    business: business,
+    formatDate: fmt,
+    from: DateTime(2000, 1, 1),
+    to: DateTime(2100, 1, 1),
+  );
+  return ref.read(pdfServiceProvider).buildPdf(document: data, l10n: l10n);
+}
+
+class _ReminderTile extends ConsumerWidget {
   final _ReminderRow row;
   final bool isOverdue;
   final VoidCallback onSent;
@@ -193,7 +237,7 @@ class _ReminderTile extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final t = FragmentStrings.of(context);
     final dueLabel = isOverdue
         ? t.reminders_daysOverdue(days: row.daysOverdue)
@@ -225,12 +269,12 @@ class _ReminderTile extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.sms_outlined),
             tooltip: t.reminders_sendSms,
-            onPressed: () => _sendSms(context, t),
+            onPressed: () => _sendSms(context, ref, t),
           ),
           IconButton(
             icon: const Icon(Icons.send_outlined),
             tooltip: t.reminders_sendWhatsapp,
-            onPressed: () => _sendWhatsapp(context, t),
+            onPressed: () => _sendWhatsapp(context, ref, t),
           ),
         ],
       ),
@@ -238,41 +282,27 @@ class _ReminderTile extends StatelessWidget {
   }
 
   String _message(FragmentStrings t, String script) {
+    // English and Urdu (script) only — Roman Urdu was removed (user
+    // instruction 2026-10-25); any legacy 'roman' value falls back to the
+    // Urdu-script builders.
     if (isOverdue) {
-      switch (script) {
-        case 'ur':
-          return buildOverdueReminderUr(
+      return script == 'en'
+          ? buildOverdueReminderEn(
+              partyName: row.name,
+              balancePaisa: row.overduePaisa,
+              daysOverdue: row.daysOverdue)
+          : buildOverdueReminderUr(
               partyName: row.name,
               balancePaisa: row.overduePaisa,
               daysOverdue: row.daysOverdue);
-        case 'en':
-          return buildOverdueReminderEn(
-              partyName: row.name,
-              balancePaisa: row.overduePaisa,
-              daysOverdue: row.daysOverdue);
-        case 'roman':
-        default:
-          return buildOverdueReminderRomanUrdu(
-              partyName: row.name,
-              balancePaisa: row.overduePaisa,
-              daysOverdue: row.daysOverdue);
-      }
     }
-    switch (script) {
-      case 'ur':
-        return buildReminderUr(
-            partyName: row.name, balancePaisa: row.overduePaisa);
-      case 'en':
-        return buildReminderEn(
-            partyName: row.name, balancePaisa: row.overduePaisa);
-      case 'roman':
-      default:
-        return buildReminderRomanUrdu(
-            partyName: row.name, balancePaisa: row.overduePaisa);
-    }
+    return script == 'en'
+        ? buildReminderEn(partyName: row.name, balancePaisa: row.overduePaisa)
+        : buildReminderUr(partyName: row.name, balancePaisa: row.overduePaisa);
   }
 
-  Future<void> _sendSms(BuildContext context, FragmentStrings t) async {
+  Future<void> _sendSms(
+      BuildContext context, WidgetRef ref, FragmentStrings t) async {
     if (row.phone.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(t.reminders_noPhone(name: row.name))),
@@ -281,7 +311,25 @@ class _ReminderTile extends StatelessWidget {
     }
     final script = await _pickScript(context, t);
     if (script == null || !context.mounted) return;
-    final message = _message(t, script);
+    // The SMS body carries the compact ledger summary (walked back from
+    // the customer's CURRENT balance so the running balances are right);
+    // the full statement PDF is offered right after the send.
+    var balancePaisa = row.overduePaisa;
+    try {
+      final repo = await ref.read(customerRepositoryProvider.future);
+      final customer = await repo.getById(row.customerId);
+      if (customer != null) balancePaisa = customer.balancePaisa;
+    } catch (_) {
+      // Fall back to the overdue total if the fresh balance can't load.
+    }
+    if (!context.mounted) return;
+    final message = await ReminderService.smsTextWithLedgerSummary(
+      customerId: row.customerId,
+      reminderText: _message(t, script),
+      balancePaisa: balancePaisa,
+      script: script,
+    );
+    if (!context.mounted) return;
     final edited = await _editMessage(context, t, message);
     if (edited == null || !context.mounted) return;
     try {
@@ -300,46 +348,109 @@ class _ReminderTile extends StatelessWidget {
         ok = await SmsService.openSmsApp(
             phoneNumber: row.phone, message: edited);
       }
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(ok ? t.reminders_sent : t.reminders_failed)));
-        if (ok) onSent();
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(ok ? t.reminders_sent : t.reminders_failed)));
+      if (ok) {
+        onSent();
+        // SMS cannot attach files — offer the full ledger PDF via the
+        // share sheet so the reminder still delivers the complete khata.
+        await _offerStatementPdf(context, ref, t, text: edited);
       }
     } on SmsException catch (e) {
       if (context.mounted) {
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(e.message)));
+            .showSnackBar(SnackBar(content: Text(errorText(context, e))));
       }
     }
   }
 
-  Future<void> _sendWhatsapp(BuildContext context, FragmentStrings t) async {
-    // WhatsApp deep-link is owned by Team 3's WhatsappService; until it
-    // lands, share the text via the platform share sheet.
+  /// After an SMS reminder, offers the customer's FULL statement PDF and
+  /// shares it through the system share sheet when accepted.
+  Future<void> _offerStatementPdf(
+      BuildContext context, WidgetRef ref, FragmentStrings t,
+      {String? text}) async {
+    final share = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(t.customers_statement),
+        content: Text('${row.name} • ${formatPkr(row.overduePaisa)}'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: Text(t.common_cancel),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(dialogContext, true),
+            child: Text(t.reminders_send),
+          ),
+        ],
+      ),
+    );
+    if (share != true || !context.mounted) return;
+    try {
+      final bytes = await _fullStatementPdfBytes(ref, context,
+          customerId: row.customerId, t: t);
+      if (!context.mounted) return;
+      final safeName = row.name.replaceAll(RegExp(r'[^\w\- ]'), '_');
+      await SmsService.shareStatementPdf(
+        pdfBytes: bytes,
+        fileName: 'namt-oil-mil-statement-$safeName.pdf',
+        text: text,
+      );
+    } catch (e) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(e is AppException
+              ? errorText(context, e)
+              : AppLocalizations.of(context).error_generic)));
+    }
+  }
+
+  Future<void> _sendWhatsapp(
+      BuildContext context, WidgetRef ref, FragmentStrings t) async {
     final script = await _pickScript(context, t);
     if (script == null || !context.mounted) return;
     final message = _message(t, script);
     final edited = await _editMessage(context, t, message);
     if (edited == null || !context.mounted) return;
-    // TODO(team3): replace with WhatsappService.openChatWithText once
-    // lib/services/whatsapp_service.dart lands.
-    if (context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(t.reminders_whatsappSoon)),
-      );
+    try {
+      // The reminder goes WITH the customer's FULL ledger statement PDF
+      // (user-requested 2026-10-25): wa.me links cannot attach files, so
+      // the PDF and the reminder text travel together through the share
+      // sheet and the user picks the customer's WhatsApp chat.
+      final bytes = await _fullStatementPdfBytes(ref, context,
+          customerId: row.customerId, t: t);
+      if (!context.mounted) return;
+      final status =
+          await ref.read(whatsAppServiceProvider).shareReminderWithStatement(
+                pdfBytes: bytes,
+                customerName: row.name,
+                message: edited,
+              );
+      if (!context.mounted) return;
+      if (status == ShareResultStatus.success) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(t.reminders_sent)));
+        onSent();
+      }
+    } catch (e) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(e is AppException
+              ? errorText(context, e)
+              : AppLocalizations.of(context).error_generic)));
     }
   }
 
   Future<String?> _pickScript(BuildContext context, FragmentStrings t) {
+    // English + Urdu (script) only — the Roman Urdu option was removed
+    // (user instruction 2026-10-25).
     return showDialog<String>(
       context: context,
       builder: (ctx) => SimpleDialog(
         title: Text(t.reminders_pickScript),
         children: [
-          SimpleDialogOption(
-            onPressed: () => Navigator.pop(ctx, 'roman'),
-            child: Text(t.reminders_scriptRoman),
-          ),
           SimpleDialogOption(
             onPressed: () => Navigator.pop(ctx, 'ur'),
             child: Text(t.reminders_scriptUrdu),

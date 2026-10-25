@@ -63,12 +63,18 @@ class LedgerRow extends StatelessWidget {
             style: Theme.of(context).textTheme.titleSmall,
           ),
           if (runningBalancePaisa != null)
-            Text(
-              '${l10n.common_balance}: ${formatPkr(runningBalancePaisa!)}',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: scheme.onSurfaceVariant,
-                  ),
-              textDirection: TextDirection.ltr,
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerRight,
+              child: Text(
+                '${l10n.common_balance}: ${formatPkr(runningBalancePaisa!)}',
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: scheme.onSurfaceVariant,
+                    ),
+                textDirection: TextDirection.ltr,
+                maxLines: 1,
+                softWrap: false,
+              ),
             ),
         ],
       ),

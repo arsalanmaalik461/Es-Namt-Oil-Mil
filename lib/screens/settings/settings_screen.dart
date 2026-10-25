@@ -93,10 +93,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   value: 'ur',
                 ),
                 RadioListTile<String>(
-                  title: Text(l10n.langRomanUrdu),
-                  value: 'romanur',
-                ),
-                RadioListTile<String>(
                   title: Text(l10n.langSindhi),
                   value: 'sd',
                 ),

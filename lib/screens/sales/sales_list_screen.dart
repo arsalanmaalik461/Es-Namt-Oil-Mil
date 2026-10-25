@@ -243,7 +243,10 @@ class _SalesListScreenState extends ConsumerState<SalesListScreen> {
           const SizedBox(width: 8),
           OutlinedButton.icon(
             icon: const Icon(Icons.calendar_month_outlined, size: 18),
-            label: Text(t.sales_apniMarzi),
+            label: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(t.sales_apniMarzi, maxLines: 1, softWrap: false),
+            ),
             style: OutlinedButton.styleFrom(
               visualDensity: VisualDensity.compact,
               backgroundColor:
@@ -488,23 +491,35 @@ class _SalesListScreenState extends ConsumerState<SalesListScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text(
-                            formatPkr(r.totalPaisa),
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontFeatures: [FontFeature.tabularFigures()],
-                            ),
-                            textDirection: TextDirection.ltr,
-                          ),
-                          if (due > 0)
-                            Text(
-                              formatPkr(due),
+                          FittedBox(
+                            fit: BoxFit.scaleDown,
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              formatPkr(r.totalPaisa),
                               style: const TextStyle(
-                                fontSize: 12,
-                                color: AppColors.pastelPinkText,
+                                fontWeight: FontWeight.w700,
                                 fontFeatures: [FontFeature.tabularFigures()],
                               ),
                               textDirection: TextDirection.ltr,
+                              maxLines: 1,
+                              softWrap: false,
+                            ),
+                          ),
+                          if (due > 0)
+                            FittedBox(
+                              fit: BoxFit.scaleDown,
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                formatPkr(due),
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: AppColors.pastelPinkText,
+                                  fontFeatures: [FontFeature.tabularFigures()],
+                                ),
+                                textDirection: TextDirection.ltr,
+                                maxLines: 1,
+                                softWrap: false,
+                              ),
                             ),
                         ],
                       ),

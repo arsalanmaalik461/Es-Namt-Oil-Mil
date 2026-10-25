@@ -86,5 +86,65 @@
         "type": "String"
       }
     }
+  },
+  "backup_driveTitle": "گوگل ڈرائیو بیک اپ",
+  "backup_driveConnected": "گوگل سے منسلک ہو گیا: {email}",
+  "@backup_driveConnected": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_driveDisconnectTitle": "گوگل منقطع کریں؟",
+  "backup_driveDisconnectMessage": "خودکار بیک اپ بند ہو جائے گا۔ ڈرائیو پر پہلے سے محفوظ بیک اپ وہیں رہیں گے۔",
+  "backup_driveDisconnect": "منقطع کریں",
+  "backup_driveConnectIntro": "گوگل سے منسلک کریں تاکہ آپ کا ڈیٹا خود بخود ڈرائیو پر بیک اپ ہو۔",
+  "backup_driveConnect": "گوگل سے منسلک کریں",
+  "backup_driveNoBackupYet": "ابھی تک کوئی بیک اپ نہیں ہوا",
+  "backup_driveLastBackup": "آخری بیک اپ: {date}",
+  "@backup_driveLastBackup": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_driveAutoBackup": "24 گھنٹے خودکار بیک اپ",
+  "backup_driveAutoBackupHint": "ہر 24 گھنٹے بعد پورے دن کا ڈیٹا خود بخود ڈرائیو پر اپ لوڈ ہو جائے گا۔",
+  "backup_driveBackupNow": "ابھی بیک اپ کریں",
+  "backup_driveExportRange": "برآمد — حسبِ منشا تاریخ کی حد",
+  "backup_driveConnectFailed": "گوگل سے منسلک نہیں ہو سکا۔ پہلے سیٹنگز سے منسلک کریں۔",
+  "backup_driveBackupSaved": "بیک اپ ڈرائیو پر محفوظ ہو گیا: {name}",
+  "@backup_driveBackupSaved": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_driveBackupFailed": "بیک اپ ناکام ہو گیا: {error}",
+  "@backup_driveBackupFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_driveExportSaved": "ایکسپورٹ ڈرائیو پر محفوظ ہو گیا: {name}",
+  "@backup_driveExportSaved": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_driveExportFailed": "ایکسپورٹ ناکام ہو گیا: {error}",
+  "@backup_driveExportFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
   }
 }

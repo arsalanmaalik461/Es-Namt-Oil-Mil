@@ -55,6 +55,11 @@ class WhatsAppService {
     }
   }
 
+  /// Opens the customer's WhatsApp chat with [message] prefilled
+  /// (text-only path; named for the reminders screen's wiring).
+  Future<bool> openChatWithText(String? rawNumber, String message) =>
+      openChat(rawNumber, message: message);
+
   /// Shares [pdfBytes] as [fileName] through the system share sheet
   /// (user picks WhatsApp). Returns the share result status.
   Future<ShareResultStatus> shareStatementPdf({
@@ -73,6 +78,30 @@ class WhatsAppService {
       ),
     );
     return result.status;
+  }
+
+  /// Sends a payment reminder WITH the customer's full ledger statement
+  /// PDF attached (user-requested 2026-10-25: reminders must carry the
+  /// ledger PDF, not text alone).
+  ///
+  /// WhatsApp deep links (wa.me) cannot attach files, so the PDF and the
+  /// reminder text go together through the system share sheet — the user
+  /// picks the customer's WhatsApp chat and both arrive in one message.
+  /// [pdfBytes] come from the customer-statement PDF builder (reports/PDF
+  /// module); [message] is the reminder text (see reminder_texts.dart),
+  /// sent as the share text alongside the PDF.
+  Future<ShareResultStatus> shareReminderWithStatement({
+    required Uint8List pdfBytes,
+    required String customerName,
+    required String message,
+  }) {
+    final safeCustomer =
+        customerName.replaceAll(RegExp(r'[^\w\- ]'), '_').trim();
+    return shareStatementPdf(
+      pdfBytes: pdfBytes,
+      fileName: 'namt-oil-mil-statement-$safeCustomer.pdf',
+      text: message,
+    );
   }
 }
 

@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:namt_oil_mil/core/app_exception.dart';
 import 'package:namt_oil_mil/l10n/fragment_strings.dart';
 import 'package:namt_oil_mil/models/payment.dart';
@@ -326,6 +327,13 @@ Future<PdfDocumentData> _supplierPaymentVoucher(
 
 // ---------------------------------------------------------------- statements
 
+/// Statement rows carry date AND time (entries record a time of day —
+/// user-requested 2026-10-25), e.g. "Oct 22, 2026 · 11:39 AM".
+/// [formatDate] stays the caller's locale-aware date format; the time is
+/// appended in `h:mm a` form.
+String _fmtDateTime(String Function(DateTime) formatDate, DateTime d) =>
+    '${formatDate(d)} · ${DateFormat.jm().format(d)}';
+
 Future<PdfDocumentData> _statementDoc({
   required WidgetRef ref,
   required int partyId,
@@ -367,7 +375,7 @@ Future<PdfDocumentData> _statementDoc({
   for (final line in statement.lines) {
     final e = line.entry;
     rows.add([
-      formatDate(e.date),
+      _fmtDateTime(formatDate, e.date),
       e.description ?? e.entryNo,
       e.debitPaisa > 0 ? formatPkr(e.debitPaisa) : '—',
       e.creditPaisa > 0 ? formatPkr(e.creditPaisa) : '—',

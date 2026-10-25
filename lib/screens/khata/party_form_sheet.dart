@@ -91,6 +91,28 @@ class _PartyFormSheetState extends ConsumerState<_PartyFormSheet> {
     _openingBalance = TextEditingController(
       text: opening == 0 ? '' : formatPkr(opening).replaceFirst('Rs ', ''),
     );
+    // Codes are automatic now (user-requested 2026-10-25): on create, show
+    // the next sequential code pre-filled; the repository re-computes and
+    // assigns it at insert time, so this display value is informational.
+    if (!_isEdit) {
+      _loadNextCode();
+    }
+  }
+
+  /// Fetches the next auto code for display in the (read-only) code field.
+  /// Failures are non-fatal — [CustomerRepository.insert] /
+  /// [SupplierRepository.insert] assign the code on save regardless.
+  Future<void> _loadNextCode() async {
+    try {
+      final code = _isCustomer
+          ? await (await ref.read(customerRepositoryProvider.future))
+              .nextCode()
+          : await (await ref.read(supplierRepositoryProvider.future))
+              .nextCode();
+      if (mounted) _code.text = code;
+    } catch (_) {
+      // Display only — the repository assigns the real code on insert.
+    }
   }
 
   @override
@@ -141,7 +163,8 @@ class _PartyFormSheetState extends ConsumerState<_PartyFormSheet> {
             phone: _nullIfEmpty(_phone.text),
             whatsappNumber: _nullIfEmpty(_whatsapp.text),
             address: _nullIfEmpty(_address.text),
-            code: _nullIfEmpty(_code.text),
+            // Code is auto-assigned and immutable — keep the original.
+            code: widget.customer!.code,
             businessName: _nullIfEmpty(_businessName.text),
             notes: _nullIfEmpty(_notes.text),
           ));
@@ -151,7 +174,9 @@ class _PartyFormSheetState extends ConsumerState<_PartyFormSheet> {
             phone: _nullIfEmpty(_phone.text),
             whatsappNumber: _nullIfEmpty(_whatsapp.text),
             address: _nullIfEmpty(_address.text),
-            code: _nullIfEmpty(_code.text),
+            // Null on purpose: the repository assigns the next sequential
+            // code (1, 2, 3, …) inside insert.
+            code: null,
             businessName: _nullIfEmpty(_businessName.text),
             notes: _nullIfEmpty(_notes.text),
             openingBalancePaisa: openingPaisa,
@@ -164,7 +189,8 @@ class _PartyFormSheetState extends ConsumerState<_PartyFormSheet> {
             name: _name.text.trim(),
             phone: _nullIfEmpty(_phone.text),
             address: _nullIfEmpty(_address.text),
-            code: _nullIfEmpty(_code.text),
+            // Code is auto-assigned and immutable — keep the original.
+            code: widget.supplier!.code,
             businessName: _nullIfEmpty(_businessName.text),
             notes: _nullIfEmpty(_notes.text),
           ));
@@ -173,7 +199,9 @@ class _PartyFormSheetState extends ConsumerState<_PartyFormSheet> {
             name: _name.text.trim(),
             phone: _nullIfEmpty(_phone.text),
             address: _nullIfEmpty(_address.text),
-            code: _nullIfEmpty(_code.text),
+            // Null on purpose: the repository assigns the next sequential
+            // code (1, 2, 3, …) inside insert.
+            code: null,
             businessName: _nullIfEmpty(_businessName.text),
             notes: _nullIfEmpty(_notes.text),
             openingBalancePaisa: openingPaisa,
@@ -253,7 +281,7 @@ class _PartyFormSheetState extends ConsumerState<_PartyFormSheet> {
                 const SizedBox(height: 12),
                 AppTextField(
                   controller: _whatsapp,
-                  label: 'WhatsApp number',
+                  label: t.customers_whatsappNumber,
                   keyboardType: TextInputType.phone,
                   validator: AppValidators.phone(context),
                   textInputAction: TextInputAction.next,
@@ -270,6 +298,8 @@ class _PartyFormSheetState extends ConsumerState<_PartyFormSheet> {
               AppTextField(
                 controller: _code,
                 label: t.customers_code,
+                // Auto-assigned sequentially (1, 2, 3, …) — never typed.
+                readOnly: true,
                 textInputAction: TextInputAction.next,
               ),
               const SizedBox(height: 12),

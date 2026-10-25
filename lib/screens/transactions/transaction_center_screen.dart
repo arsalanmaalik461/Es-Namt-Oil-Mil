@@ -438,6 +438,7 @@ class _JournalDetailSheet extends StatelessWidget {
           _DetailRow(
             label: l10n.transactions_total,
             value: formatPkr(g.totalPaisa),
+            fitValue: true,
           ),
           if (g.isReversal || g.isReversed)
             _DetailRow(
@@ -556,15 +557,29 @@ class _DetailRow extends StatelessWidget {
   final String value;
   final bool highlight;
 
+  /// When true, the value is kept on one line and scaled down to fit
+  /// (for money totals, which must never wrap mid-number).
+  final bool fitValue;
+
   const _DetailRow({
     required this.label,
     required this.value,
     this.highlight = false,
+    this.fitValue = false,
   });
 
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
+    final valueText = Text(
+      value,
+      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            fontWeight: highlight ? FontWeight.w700 : null,
+            color: highlight ? scheme.error : null,
+          ),
+      maxLines: fitValue ? 1 : null,
+      softWrap: !fitValue,
+    );
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Row(
@@ -580,13 +595,13 @@ class _DetailRow extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: Text(
-              value,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontWeight: highlight ? FontWeight.w700 : null,
-                    color: highlight ? scheme.error : null,
-                  ),
-            ),
+            child: fitValue
+                ? FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: AlignmentDirectional.centerStart,
+                    child: valueText,
+                  )
+                : valueText,
           ),
         ],
       ),

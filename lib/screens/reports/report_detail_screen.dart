@@ -505,6 +505,12 @@ class _ReportViewState extends ConsumerState<_ReportView> {
     String Function(DateTime) fmt, {
     required bool isCustomer,
   }) async {
+    // Ledger rows show date AND time (user-requested 2026-10-25), e.g.
+    // "Oct 22, 2026 · 11:39 AM" — the shared [fmt] is date-only, so the
+    // time is composed onto it here (same label as the khata screens).
+    final localeTag = Localizations.localeOf(context).toLanguageTag();
+    String fmtDt(DateTime d) =>
+        '${fmt(d)} · ${DateFormat.jm(localeTag).format(d)}';
     final (from, to) = _range();
     final statement = isCustomer
         ? await reports.customerLedger(_partyId!, from: from, to: to)
@@ -526,7 +532,7 @@ class _ReportViewState extends ConsumerState<_ReportView> {
               _Line(
                 icon: Icons.receipt_outlined,
                 title: line.entry.description ?? line.entry.entryNo,
-                subtitle: fmt(line.entry.date),
+                subtitle: fmtDt(line.entry.date),
                 paisa: line.entry.debitPaisa > 0
                     ? line.entry.debitPaisa
                     : line.entry.creditPaisa,
@@ -1739,13 +1745,22 @@ class _ReportViewState extends ConsumerState<_ReportView> {
       trailing: copyButton ??
           (line.trailingText == null
               ? null
-              : Text(
-                  line.trailingText!,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleSmall
-                      ?.copyWith(fontWeight: FontWeight.w700),
-                  textDirection: TextDirection.ltr,
+              : ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 120),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      line.trailingText!,
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleSmall
+                          ?.copyWith(fontWeight: FontWeight.w700),
+                      textDirection: TextDirection.ltr,
+                      maxLines: 1,
+                      softWrap: false,
+                    ),
+                  ),
                 )),
     );
   }
@@ -1781,13 +1796,19 @@ class _KpiCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
             const SizedBox(height: 4),
-            Text(
-              kpi.text ?? '',
-              style: Theme.of(context)
-                  .textTheme
-                  .titleLarge
-                  ?.copyWith(fontWeight: FontWeight.w700),
-              textDirection: TextDirection.ltr,
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: AlignmentDirectional.centerStart,
+              child: Text(
+                kpi.text ?? '',
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge
+                    ?.copyWith(fontWeight: FontWeight.w700),
+                textDirection: TextDirection.ltr,
+                maxLines: 1,
+                softWrap: false,
+              ),
             ),
           ],
         ),
@@ -1981,7 +2002,13 @@ class _DocumentViewState extends ConsumerState<_DocumentView> {
                       child: FilledButton.icon(
                         onPressed: _busy ? null : _savePdf,
                         icon: const Icon(Icons.picture_as_pdf_outlined),
-                        label: Text(t.reports_doc_savePdf),
+                        // FittedBox labels: all three actions stay fully
+                        // readable in ~106px-wide thirds on 360px phones.
+                        label: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(t.reports_doc_savePdf,
+                              maxLines: 1, softWrap: false),
+                        ),
                       ),
                     ),
                     const SizedBox(width: 8),
@@ -1989,7 +2016,11 @@ class _DocumentViewState extends ConsumerState<_DocumentView> {
                       child: OutlinedButton.icon(
                         onPressed: _busy ? null : _sharePdf,
                         icon: const Icon(Icons.share_outlined),
-                        label: Text(t.reports_doc_share),
+                        label: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(t.reports_doc_share,
+                              maxLines: 1, softWrap: false),
+                        ),
                       ),
                     ),
                     const SizedBox(width: 8),
@@ -1997,7 +2028,11 @@ class _DocumentViewState extends ConsumerState<_DocumentView> {
                       child: OutlinedButton.icon(
                         onPressed: _busy ? null : _printPdf,
                         icon: const Icon(Icons.print_outlined),
-                        label: Text(t.reports_doc_print),
+                        label: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(t.reports_doc_print,
+                              maxLines: 1, softWrap: false),
+                        ),
                       ),
                     ),
                   ],
@@ -2103,10 +2138,25 @@ class _DocumentViewState extends ConsumerState<_DocumentView> {
                           for (var i = 0; i < data.columns.length; i++)
                             Padding(
                               padding: const EdgeInsets.all(8),
-                              child: Text(
-                                i < row.length ? row[i] : '',
-                                style: theme.textTheme.bodyMedium,
-                              ),
+                              // Amount columns (i > 0) scale to fit their
+                              // flex width — no mid-number wraps in the
+                              // narrow preview table.
+                              child: i == 0
+                                  ? Text(
+                                      i < row.length ? row[i] : '',
+                                      style: theme.textTheme.bodyMedium,
+                                    )
+                                  : FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      alignment:
+                                          AlignmentDirectional.centerStart,
+                                      child: Text(
+                                        i < row.length ? row[i] : '',
+                                        style: theme.textTheme.bodyMedium,
+                                        maxLines: 1,
+                                        softWrap: false,
+                                      ),
+                                    ),
                             ),
                         ],
                       ),
@@ -2181,13 +2231,20 @@ class AmountTextPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      value,
-      style: Theme.of(context)
-          .textTheme
-          .bodyMedium
-          ?.copyWith(fontWeight: FontWeight.w700),
-      textDirection: TextDirection.ltr,
+    // One line, scaled to fit — totals never wrap mid-number.
+    return FittedBox(
+      fit: BoxFit.scaleDown,
+      alignment: Alignment.centerRight,
+      child: Text(
+        value,
+        style: Theme.of(context)
+            .textTheme
+            .bodyMedium
+            ?.copyWith(fontWeight: FontWeight.w700),
+        textDirection: TextDirection.ltr,
+        maxLines: 1,
+        softWrap: false,
+      ),
     );
   }
 }

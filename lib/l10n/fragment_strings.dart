@@ -18,6 +18,24 @@ const Map<String, String> _fragmentEn = {
   'backup_create': 'Create Backup',
   'backup_created': 'Backup created — {count} records in {tables} tables.',
   'backup_creating': 'Creating backup…',
+  'backup_driveAutoBackup': '24-hour auto-backup',
+  'backup_driveAutoBackupHint': 'Every 24 hours, the full day\'s data is automatically uploaded to Drive.',
+  'backup_driveBackupFailed': 'Backup failed: {error}',
+  'backup_driveBackupNow': 'Backup now',
+  'backup_driveBackupSaved': 'Backup saved to Drive: {name}',
+  'backup_driveConnect': 'Connect with Google',
+  'backup_driveConnectFailed': 'Could not connect to Google. Please connect from Settings first.',
+  'backup_driveConnectIntro': 'Connect with Google so your data is automatically backed up to Drive.',
+  'backup_driveConnected': 'Connected to Google: {email}',
+  'backup_driveDisconnect': 'Disconnect',
+  'backup_driveDisconnectMessage': 'Auto-backup will be turned off. Backups already saved on Drive will stay there.',
+  'backup_driveDisconnectTitle': 'Disconnect Google?',
+  'backup_driveExportFailed': 'Export failed: {error}',
+  'backup_driveExportRange': 'Export — custom date range',
+  'backup_driveExportSaved': 'Export saved to Drive: {name}',
+  'backup_driveLastBackup': 'Last backup: {date}',
+  'backup_driveNoBackupYet': 'No backup yet',
+  'backup_driveTitle': 'Google Drive Backup',
   'backup_errorChecksum': 'Backup data is corrupted (checksum mismatch in {table}).',
   'backup_errorInvalidFile': 'This file is not a valid Namt Oil Mil backup.',
   'backup_errorMissingTables': 'Backup is missing tables: {tables}.',
@@ -77,7 +95,7 @@ const Map<String, String> _fragmentEn = {
   'common_cancel': 'Cancel',
   'customers_account': 'Account',
   'customers_addCustomer': 'New customer',
-  'customers_addFirstHint': 'Add your first customer to track udhaar',
+  'customers_addFirstHint': 'Add your first customer to track credit',
   'customers_addFirstSupplierHint': 'Add your first supplier to track purchases',
   'customers_addSupplier': 'New supplier',
   'customers_address': 'Address',
@@ -103,7 +121,7 @@ const Map<String, String> _fragmentEn = {
   'customers_filterAll': 'All',
   'customers_filterPayable': 'To pay',
   'customers_filterReceivable': 'To receive',
-  'customers_giveUdhaar': 'Give udhaar',
+  'customers_giveUdhaar': 'Give credit',
   'customers_ledgerTitle': 'Ledger',
   'customers_makePayment': 'Make payment',
   'customers_method': 'Method',
@@ -146,6 +164,15 @@ const Map<String, String> _fragmentEn = {
   'customers_unarchive': 'Unarchive',
   'customers_urduVersion': 'Urdu',
   'customers_viewLedger': 'View ledger',
+  'customers_waAdd': 'Add',
+  'customers_waAddMessage': 'Save {name}\'s WhatsApp number so their account statement can be sent straight to their chat.',
+  'customers_waAddTitle': 'Add WhatsApp number',
+  'customers_waOpenChat': 'Open chat',
+  'customers_waOpenFailed': 'WhatsApp could not be opened. Check the number or install WhatsApp.',
+  'customers_waSendStatement': 'Send statement PDF',
+  'customers_waSendStatementHint': 'The account statement PDF will be created and shared.',
+  'customers_waStatementText': '{name} — account statement',
+  'customers_whatsappNumber': 'WhatsApp number',
   'dashboard_activityExpense': 'Expense',
   'dashboard_activityIncome': 'Income',
   'dashboard_activityPaymentIn': 'Payment received',
@@ -168,7 +195,7 @@ const Map<String, String> _fragmentEn = {
   'dashboard_qaAddPurchase': 'Add purchase',
   'dashboard_qaAddSale': 'Add sale',
   'dashboard_qaAddSupplier': 'Add supplier',
-  'dashboard_qaGiveUdhaar': 'Give udhaar',
+  'dashboard_qaGiveUdhaar': 'Give credit',
   'dashboard_qaMakePayment': 'Make payment',
   'dashboard_qaReceivePayment': 'Receive payment',
   'dashboard_qaRecordProduction': 'Record production',
@@ -286,7 +313,7 @@ const Map<String, String> _fragmentEn = {
   'khata_camera': 'Camera',
   'khata_customerSince': 'Customer since {date}',
   'khata_customers': 'Customers',
-  'khata_diye': 'DIYE',
+  'khata_diye': 'GAVE',
   'khata_errorAccountInactive': 'This account is inactive.',
   'khata_errorAccountNotFound': 'Account not found.',
   'khata_errorAlreadyReversed': 'This entry has already been reversed.',
@@ -295,6 +322,9 @@ const Map<String, String> _fragmentEn = {
   'khata_errorCustomerArchived': 'This customer is archived.',
   'khata_errorCustomerNotFound': 'Customer not found.',
   'khata_errorDatabase': 'Database error. Please try again.',
+  'khata_errorDriveConnectFailed': 'Could not connect to Google. Check your internet and try again.',
+  'khata_errorDriveSignInCanceled': 'Google sign-in was canceled.',
+  'khata_errorDriveSignInInterrupted': 'Sign-in was interrupted — please try again.',
   'khata_errorEmptyBatchInputs': 'A batch needs at least one input.',
   'khata_errorEmptyBatchOutputs': 'A batch needs at least one output.',
   'khata_errorEmptyInvoice': 'The invoice has no items.',
@@ -321,20 +351,27 @@ const Map<String, String> _fragmentEn = {
   'khata_errorReasonRequired': 'A reason is required.',
   'khata_errorReturnExceedsBought': 'The return is more than what was bought.',
   'khata_errorReturnExceedsSold': 'The return is more than what was sold.',
+  'khata_errorSmsChannelMissing': 'SMS channel is not available — open the SMS app to send.',
+  'khata_errorSmsEmptyMessage': 'Message is empty.',
+  'khata_errorSmsGeneric': 'Something went wrong while sending the SMS.',
+  'khata_errorSmsNoNumber': 'Phone number is missing.',
+  'khata_errorSmsNotAvailable': 'SMS cannot be sent on this device.',
+  'khata_errorSmsPermissionDenied': 'SMS permission was not granted. Allow SMS permission in Settings.',
+  'khata_errorSmsSendFailed': 'SMS could not be sent. {details}',
   'khata_errorSupplierArchived': 'This supplier is archived.',
   'khata_errorSupplierNotFound': 'Supplier not found.',
   'khata_errorTransferSameAccount': 'Cannot transfer to the same account.',
   'khata_errorUnbalancedJournal': 'The journal is not balanced.',
   'khata_errorUnitNotFound': 'Unit not found.',
   'khata_gallery': 'Gallery',
-  'khata_hisaabClear': 'Hisaab clear hai',
-  'khata_imageAddKarein': 'Image add karein',
+  'khata_hisaabClear': 'Account clear',
+  'khata_imageAddKarein': 'Add image',
   'khata_lastTransacted': 'last transacted on {date}',
-  'khata_liye': 'LIYE',
-  'khata_maineDeneHain': 'Maine dene hain',
-  'khata_maineLeneHain': 'Maine lene hain',
-  'khata_maineyDiye': 'Mainey Diye',
-  'khata_maineyLiye': 'Mainey Liye',
+  'khata_liye': 'RECEIVED',
+  'khata_maineDeneHain': 'I have to pay',
+  'khata_maineLeneHain': 'I have to receive',
+  'khata_maineyDiye': 'I gave',
+  'khata_maineyLiye': 'I received',
   'khata_noCamera': 'Camera is not available on this device right now.',
   'khata_noDues': 'All settled up',
   'khata_noDuesHint': 'No outstanding balances',
@@ -345,7 +382,7 @@ const Map<String, String> _fragmentEn = {
   'khata_sms': 'SMS',
   'khata_supplierSince': 'Supplier since {date}',
   'khata_suppliers': 'Suppliers',
-  'khata_tareekhRakhein': 'Tareekh Rakhein',
+  'khata_tareekhRakhein': 'Set date',
   'khata_time': 'TIME',
   'khata_title': 'Khata',
   'khata_toPay': 'To pay',
@@ -437,7 +474,6 @@ const Map<String, String> _fragmentEn = {
   'reminders_overdue': 'Overdue',
   'reminders_pickScript': 'Choose message language',
   'reminders_scriptEnglish': 'English',
-  'reminders_scriptRoman': 'Roman Urdu',
   'reminders_scriptUrdu': 'Urdu',
   'reminders_send': 'Send',
   'reminders_sendSms': 'Send SMS reminder',
@@ -445,7 +481,6 @@ const Map<String, String> _fragmentEn = {
   'reminders_sent': 'Reminder sent.',
   'reminders_title': 'Payment Reminders',
   'reminders_upcoming': 'Upcoming',
-  'reminders_whatsappSoon': 'WhatsApp sharing is coming in the next update.',
   'reports_accounts': 'Accounts',
   'reports_all': 'All',
   'reports_avgCost': 'Avg. cost',
@@ -574,7 +609,7 @@ const Map<String, String> _fragmentEn = {
   'reports_unpaid': 'Unpaid',
   'reports_value': 'Value',
   'reports_yield': 'Yield',
-  'sales_apniMarzi': 'Apni marzi',
+  'sales_apniMarzi': 'Custom',
   'sales_confirmPost': 'Post this sale? Stock will be reduced.',
   'sales_customer': 'Customer',
   'sales_deleteDraft': 'Delete draft',
@@ -583,36 +618,36 @@ const Map<String, String> _fragmentEn = {
   'sales_draftSaved': 'Draft {invoiceNo} saved',
   'sales_emptyTitle': 'No sales yet',
   'sales_formTitle': 'New sale',
-  'sales_haaliSales': 'HAALI SALES',
-  'sales_hafta': 'Hafta',
+  'sales_haaliSales': 'RECENT SALES',
+  'sales_hafta': 'Week',
   'sales_invoicePdf': 'Invoice PDF',
-  'sales_itemsManage': 'Items manage karein',
-  'sales_itemsManageHint': 'Jo cheezein bechte hain unhe add, update ya remove karein',
-  'sales_kullNaqad': 'KULL NAQAD',
-  'sales_kullOrders': 'KULL ORDERS',
-  'sales_kullSales': 'KULL SALES',
-  'sales_kullUdhaar': 'KULL UDHAAR',
+  'sales_itemsManage': 'Manage items',
+  'sales_itemsManageHint': 'Add, update or remove the items you sell',
+  'sales_kullNaqad': 'TOTAL CASH',
+  'sales_kullOrders': 'TOTAL ORDERS',
+  'sales_kullSales': 'TOTAL SALES',
+  'sales_kullUdhaar': 'TOTAL CREDIT',
   'sales_lineItems': 'Items',
-  'sales_maheena': 'Maheena',
+  'sales_maheena': 'Month',
   'sales_manageItems': 'Manage items',
-  'sales_nataij': '{count} nataij',
+  'sales_nataij': '{count} results',
   'sales_newSale': 'New sale',
   'sales_noCustomerSelected': 'Select a customer first',
   'sales_noItems': 'Add at least one item',
   'sales_noSalesPeriod': 'No sales in this period',
   'sales_payments': 'Payments',
-  'sales_periodCustom': 'is muddat mein',
-  'sales_periodHafta': 'is haftay',
-  'sales_periodMaheena': 'is maheeney',
+  'sales_periodCustom': 'in this period',
+  'sales_periodHafta': 'this week',
+  'sales_periodMaheena': 'this month',
   'sales_postDraft': 'Post draft',
   'sales_postSale': 'Post sale',
   'sales_recordPayment': 'Record payment',
   'sales_returnTitle': 'Sales return',
-  'sales_saleDarjKarein': 'Sale darj karein',
+  'sales_saleDarjKarein': 'Record sale',
   'sales_salePosted': 'Sale {invoiceNo} posted',
   'sales_searchCustomer': 'Search customers…',
   'sales_searchHint': 'Search invoice no. or customer…',
-  'sales_searchSales': 'Naam ya raqam se talash karein',
+  'sales_searchSales': 'Search by name or amount',
   'sales_selectCustomer': 'Select customer',
   'sales_share': 'Share',
   'sales_statusCancelled': 'Cancelled',
@@ -690,8 +725,8 @@ const Map<String, String> _fragmentEn = {
   'transactions_transfer': 'Transfer',
   'transactions_unit': 'Unit',
   'transactions_unitPrice': 'Unit price',
-  'udhaar_saved': 'Udhaar recorded',
-  'udhaar_title': 'Give udhaar',
+  'udhaar_saved': 'Credit recorded',
+  'udhaar_title': 'Give credit',
 };
 
 const Map<String, String> _fragmentUr = {
@@ -702,6 +737,24 @@ const Map<String, String> _fragmentUr = {
   'backup_create': 'بیک اپ بنائیں',
   'backup_created': 'بیک اپ تیار — {tables} ٹیبلز میں {count} ریکارڈ۔',
   'backup_creating': 'بیک اپ بنایا جا رہا ہے…',
+  'backup_driveAutoBackup': '24 گھنٹے خودکار بیک اپ',
+  'backup_driveAutoBackupHint': 'ہر 24 گھنٹے بعد پورے دن کا ڈیٹا خود بخود ڈرائیو پر اپ لوڈ ہو جائے گا۔',
+  'backup_driveBackupFailed': 'بیک اپ ناکام ہو گیا: {error}',
+  'backup_driveBackupNow': 'ابھی بیک اپ کریں',
+  'backup_driveBackupSaved': 'بیک اپ ڈرائیو پر محفوظ ہو گیا: {name}',
+  'backup_driveConnect': 'گوگل سے منسلک کریں',
+  'backup_driveConnectFailed': 'گوگل سے منسلک نہیں ہو سکا۔ پہلے سیٹنگز سے منسلک کریں۔',
+  'backup_driveConnectIntro': 'گوگل سے منسلک کریں تاکہ آپ کا ڈیٹا خود بخود ڈرائیو پر بیک اپ ہو۔',
+  'backup_driveConnected': 'گوگل سے منسلک ہو گیا: {email}',
+  'backup_driveDisconnect': 'منقطع کریں',
+  'backup_driveDisconnectMessage': 'خودکار بیک اپ بند ہو جائے گا۔ ڈرائیو پر پہلے سے محفوظ بیک اپ وہیں رہیں گے۔',
+  'backup_driveDisconnectTitle': 'گوگل منقطع کریں؟',
+  'backup_driveExportFailed': 'ایکسپورٹ ناکام ہو گیا: {error}',
+  'backup_driveExportRange': 'برآمد — حسبِ منشا تاریخ کی حد',
+  'backup_driveExportSaved': 'ایکسپورٹ ڈرائیو پر محفوظ ہو گیا: {name}',
+  'backup_driveLastBackup': 'آخری بیک اپ: {date}',
+  'backup_driveNoBackupYet': 'ابھی تک کوئی بیک اپ نہیں ہوا',
+  'backup_driveTitle': 'گوگل ڈرائیو بیک اپ',
   'backup_errorChecksum': 'بیک اپ ڈیٹا خراب ہے ({table} میں چیک سم مماثل نہیں)۔',
   'backup_errorInvalidFile': 'یہ فائل نمت آئل مل کا درست بیک اپ نہیں ہے۔',
   'backup_errorMissingTables': 'بیک اپ میں یہ ٹیبلز غائب ہیں: {tables}۔',
@@ -830,6 +883,15 @@ const Map<String, String> _fragmentUr = {
   'customers_unarchive': 'بحال کریں',
   'customers_urduVersion': 'اردو',
   'customers_viewLedger': 'لیجر دیکھیں',
+  'customers_waAdd': 'شامل کریں',
+  'customers_waAddMessage': '{name} کا واٹس ایپ نمبر محفوظ کریں تاکہ حساب سیدھا ان کی چیٹ میں بھیجا جا سکے۔',
+  'customers_waAddTitle': 'واٹس ایپ نمبر شامل کریں',
+  'customers_waOpenChat': 'چیٹ کھولیں',
+  'customers_waOpenFailed': 'واٹس ایپ نہیں کھل سکا۔ نمبر چیک کریں یا واٹس ایپ انسٹال کریں۔',
+  'customers_waSendStatement': 'اسٹیٹمنٹ PDF بھیجیں',
+  'customers_waSendStatementHint': 'حساب کتاب کی PDF بن کر شیئر ہو گی۔',
+  'customers_waStatementText': '{name} — کھاتہ اسٹیٹمنٹ',
+  'customers_whatsappNumber': 'واٹس ایپ نمبر',
   'dashboard_activityExpense': 'خرچ',
   'dashboard_activityIncome': 'آمدنی',
   'dashboard_activityPaymentIn': 'ادائیگی موصول',
@@ -979,6 +1041,9 @@ const Map<String, String> _fragmentUr = {
   'khata_errorCustomerArchived': 'یہ گاہک آرکائیو شدہ ہے۔',
   'khata_errorCustomerNotFound': 'گاہک نہیں ملا۔',
   'khata_errorDatabase': 'ڈیٹا بیس میں خرابی۔ دوبارہ کوشش کریں۔',
+  'khata_errorDriveConnectFailed': 'گوگل سے منسلک نہیں ہو سکا۔ انٹرنیٹ چیک کر کے دوبارہ کوشش کریں۔',
+  'khata_errorDriveSignInCanceled': 'گوگل سائن اِن منسوخ کر دیا گیا۔',
+  'khata_errorDriveSignInInterrupted': 'سائن اِن ادھورا رہ گیا — دوبارہ کوشش کریں۔',
   'khata_errorEmptyBatchInputs': 'بیچ کے لیے کم از کم ایک ان پٹ ضروری ہے۔',
   'khata_errorEmptyBatchOutputs': 'بیچ کے لیے کم از کم ایک آؤٹ پٹ ضروری ہے۔',
   'khata_errorEmptyInvoice': 'انوائس میں کوئی آئٹم نہیں۔',
@@ -1005,6 +1070,13 @@ const Map<String, String> _fragmentUr = {
   'khata_errorReasonRequired': 'وجہ بتانا ضروری ہے۔',
   'khata_errorReturnExceedsBought': 'واپسی خریداری سے زیادہ ہے۔',
   'khata_errorReturnExceedsSold': 'واپسی فروخت سے زیادہ ہے۔',
+  'khata_errorSmsChannelMissing': 'SMS چینل دستیاب نہیں — بھیجنے کے لیے SMS ایپ کھولیں۔',
+  'khata_errorSmsEmptyMessage': 'پیغام خالی ہے۔',
+  'khata_errorSmsGeneric': 'SMS بھیجنے میں مسئلہ ہوا۔',
+  'khata_errorSmsNoNumber': 'فون نمبر موجود نہیں ہے۔',
+  'khata_errorSmsNotAvailable': 'اس ڈیوائس پر SMS بھیجنا ممکن نہیں۔',
+  'khata_errorSmsPermissionDenied': 'SMS کی اجازت نہیں ملی۔ سیٹنگز میں SMS کی اجازت دیں۔',
+  'khata_errorSmsSendFailed': 'SMS نہیں بھیجا جا سکا۔ {details}',
   'khata_errorSupplierArchived': 'یہ سپلائر آرکائیو شدہ ہے۔',
   'khata_errorSupplierNotFound': 'سپلائر نہیں ملا۔',
   'khata_errorTransferSameAccount': 'ایک ہی اکاؤنٹ میں منتقلی نہیں ہو سکتی۔',
@@ -1121,7 +1193,6 @@ const Map<String, String> _fragmentUr = {
   'reminders_overdue': 'واجب الادا',
   'reminders_pickScript': 'پیغام کی زبان منتخب کریں',
   'reminders_scriptEnglish': 'انگریزی',
-  'reminders_scriptRoman': 'رومن اردو',
   'reminders_scriptUrdu': 'اردو',
   'reminders_send': 'بھیجیں',
   'reminders_sendSms': 'SMS یاددہانی بھیجیں',
@@ -1129,7 +1200,6 @@ const Map<String, String> _fragmentUr = {
   'reminders_sent': 'یاددہانی بھیج دی گئی۔',
   'reminders_title': 'ادائیگی کی یاددہانی',
   'reminders_upcoming': 'آئندہ',
-  'reminders_whatsappSoon': 'واٹس ایپ شیئرنگ اگلی اپ ڈیٹ میں آ رہی ہے۔',
   'reports_accounts': 'اکاؤنٹس',
   'reports_all': 'تمام',
   'reports_avgCost': 'اوسط لاگت',
@@ -1407,6 +1477,24 @@ class FragmentStrings {
   String get backup_create => _t('backup_create');
   String backup_created({required Object count, required Object tables}) => _f('backup_created', {'count': count, 'tables': tables});
   String get backup_creating => _t('backup_creating');
+  String get backup_driveAutoBackup => _t('backup_driveAutoBackup');
+  String get backup_driveAutoBackupHint => _t('backup_driveAutoBackupHint');
+  String backup_driveBackupFailed({required Object error}) => _f('backup_driveBackupFailed', {'error': error});
+  String get backup_driveBackupNow => _t('backup_driveBackupNow');
+  String backup_driveBackupSaved({required Object name}) => _f('backup_driveBackupSaved', {'name': name});
+  String get backup_driveConnect => _t('backup_driveConnect');
+  String get backup_driveConnectFailed => _t('backup_driveConnectFailed');
+  String get backup_driveConnectIntro => _t('backup_driveConnectIntro');
+  String backup_driveConnected({required Object email}) => _f('backup_driveConnected', {'email': email});
+  String get backup_driveDisconnect => _t('backup_driveDisconnect');
+  String get backup_driveDisconnectMessage => _t('backup_driveDisconnectMessage');
+  String get backup_driveDisconnectTitle => _t('backup_driveDisconnectTitle');
+  String backup_driveExportFailed({required Object error}) => _f('backup_driveExportFailed', {'error': error});
+  String get backup_driveExportRange => _t('backup_driveExportRange');
+  String backup_driveExportSaved({required Object name}) => _f('backup_driveExportSaved', {'name': name});
+  String backup_driveLastBackup({required Object date}) => _f('backup_driveLastBackup', {'date': date});
+  String get backup_driveNoBackupYet => _t('backup_driveNoBackupYet');
+  String get backup_driveTitle => _t('backup_driveTitle');
   String backup_errorChecksum({required Object table}) => _f('backup_errorChecksum', {'table': table});
   String get backup_errorInvalidFile => _t('backup_errorInvalidFile');
   String backup_errorMissingTables({required Object tables}) => _f('backup_errorMissingTables', {'tables': tables});
@@ -1535,6 +1623,15 @@ class FragmentStrings {
   String get customers_unarchive => _t('customers_unarchive');
   String get customers_urduVersion => _t('customers_urduVersion');
   String get customers_viewLedger => _t('customers_viewLedger');
+  String get customers_waAdd => _t('customers_waAdd');
+  String customers_waAddMessage({required Object name}) => _f('customers_waAddMessage', {'name': name});
+  String get customers_waAddTitle => _t('customers_waAddTitle');
+  String get customers_waOpenChat => _t('customers_waOpenChat');
+  String get customers_waOpenFailed => _t('customers_waOpenFailed');
+  String get customers_waSendStatement => _t('customers_waSendStatement');
+  String get customers_waSendStatementHint => _t('customers_waSendStatementHint');
+  String customers_waStatementText({required Object name}) => _f('customers_waStatementText', {'name': name});
+  String get customers_whatsappNumber => _t('customers_whatsappNumber');
   String get dashboard_activityExpense => _t('dashboard_activityExpense');
   String get dashboard_activityIncome => _t('dashboard_activityIncome');
   String get dashboard_activityPaymentIn => _t('dashboard_activityPaymentIn');
@@ -1684,6 +1781,9 @@ class FragmentStrings {
   String get khata_errorCustomerArchived => _t('khata_errorCustomerArchived');
   String get khata_errorCustomerNotFound => _t('khata_errorCustomerNotFound');
   String get khata_errorDatabase => _t('khata_errorDatabase');
+  String get khata_errorDriveConnectFailed => _t('khata_errorDriveConnectFailed');
+  String get khata_errorDriveSignInCanceled => _t('khata_errorDriveSignInCanceled');
+  String get khata_errorDriveSignInInterrupted => _t('khata_errorDriveSignInInterrupted');
   String get khata_errorEmptyBatchInputs => _t('khata_errorEmptyBatchInputs');
   String get khata_errorEmptyBatchOutputs => _t('khata_errorEmptyBatchOutputs');
   String get khata_errorEmptyInvoice => _t('khata_errorEmptyInvoice');
@@ -1710,6 +1810,13 @@ class FragmentStrings {
   String get khata_errorReasonRequired => _t('khata_errorReasonRequired');
   String get khata_errorReturnExceedsBought => _t('khata_errorReturnExceedsBought');
   String get khata_errorReturnExceedsSold => _t('khata_errorReturnExceedsSold');
+  String get khata_errorSmsChannelMissing => _t('khata_errorSmsChannelMissing');
+  String get khata_errorSmsEmptyMessage => _t('khata_errorSmsEmptyMessage');
+  String get khata_errorSmsGeneric => _t('khata_errorSmsGeneric');
+  String get khata_errorSmsNoNumber => _t('khata_errorSmsNoNumber');
+  String get khata_errorSmsNotAvailable => _t('khata_errorSmsNotAvailable');
+  String get khata_errorSmsPermissionDenied => _t('khata_errorSmsPermissionDenied');
+  String khata_errorSmsSendFailed({required Object details}) => _f('khata_errorSmsSendFailed', {'details': details});
   String get khata_errorSupplierArchived => _t('khata_errorSupplierArchived');
   String get khata_errorSupplierNotFound => _t('khata_errorSupplierNotFound');
   String get khata_errorTransferSameAccount => _t('khata_errorTransferSameAccount');
@@ -1826,7 +1933,6 @@ class FragmentStrings {
   String get reminders_overdue => _t('reminders_overdue');
   String get reminders_pickScript => _t('reminders_pickScript');
   String get reminders_scriptEnglish => _t('reminders_scriptEnglish');
-  String get reminders_scriptRoman => _t('reminders_scriptRoman');
   String get reminders_scriptUrdu => _t('reminders_scriptUrdu');
   String get reminders_send => _t('reminders_send');
   String get reminders_sendSms => _t('reminders_sendSms');
@@ -1834,7 +1940,6 @@ class FragmentStrings {
   String get reminders_sent => _t('reminders_sent');
   String get reminders_title => _t('reminders_title');
   String get reminders_upcoming => _t('reminders_upcoming');
-  String get reminders_whatsappSoon => _t('reminders_whatsappSoon');
   String get reports_accounts => _t('reports_accounts');
   String get reports_all => _t('reports_all');
   String get reports_avgCost => _t('reports_avgCost');

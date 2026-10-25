@@ -42,23 +42,9 @@ String buildReminderUr({
       'جزاک اللہ۔';
 }
 
-/// Roman-Urdu reminder (for users who prefer Latin script).
-///
-/// New in v2 — does not affect the frozen EN/UR builders above.
-String buildReminderRomanUrdu({
-  required String partyName,
-  required int balancePaisa,
-}) {
-  final amount = formatPkr(balancePaisa);
-  return 'Assalam-o-Alaikum $partyName,\n\n'
-      'Namt Oil Mil ki taraf se ye ek adabana yaad-dahani hai ke aap ke '
-      'khaate mein is waqt $amount ki raqam baqaya hai.\n\n'
-      'Barah-e-karam jald az jald adaigi ka bandobast farmayein. '
-      'Agar aap pehle hi adaigi kar chuke hain to is paigham ko nazar-andaz kar dein.\n\n'
-      'JazakAllah.';
-}
-
-/// Overdue-specific reminder with days-past-due. Available in all 3 scripts.
+/// Overdue-specific reminder with days-past-due. Available in English
+/// and Urdu (script) — Roman Urdu was removed (user instruction
+/// 2026-10-25: pure English + pure Urdu script only).
 String buildOverdueReminderEn({
   required String partyName,
   required int balancePaisa,
@@ -88,34 +74,80 @@ String buildOverdueReminderUr({
       'جزاک اللہ۔';
 }
 
-String buildOverdueReminderRomanUrdu({
-  required String partyName,
-  required int balancePaisa,
-  required int daysOverdue,
-}) {
-  final amount = formatPkr(balancePaisa);
-  return 'Assalam-o-Alaikum $partyName,\n\n'
-      'Namt Oil Mil ki taraf se yaad-dahani hai ke $amount ki raqam '
-      '$daysOverdue din se wajib-ul-ada hai.\n\n'
-      'Barah-e-karam jald az jald baqaya-jaat ada farmayein taake kisi '
-      'diqqat se bacha ja sake. Agar adaigi ho chuki hai to is paigham ko '
-      'nazar-andaz kar dein.\n\n'
-      'JazakAllah.';
-}
-
 /// Short one-line nudge for SMS (160-char friendly).
+///
+/// [script] is 'en' or 'ur'; a legacy 'roman' value falls back to the
+/// Urdu-script text (Roman Urdu was removed — user instruction
+/// 2026-10-25: English + Urdu script only).
 String buildShortNudge({
   required int balancePaisa,
-  String script = 'roman',
+  String script = 'ur',
 }) {
   final amount = formatPkr(balancePaisa);
   switch (script) {
-    case 'ur':
-      return 'نمت آئل مل: آپ کے ذمے $amount بقایا ہے۔ جلد ادائیگی فرمائیں۔ جزاک اللہ۔';
     case 'en':
       return 'Namt Oil Mil: $amount is outstanding in your khata. Kindly pay soon. JazakAllah.';
-    case 'roman':
+    case 'ur':
     default:
-      return 'Namt Oil Mil: Aap ke zimme $amount baqaya hai. Jald adaigi farmayein. JazakAllah.';
+      return 'نمت آئل مل: آپ کے ذمے $amount بقایا ہے۔ جلد ادائیگی فرمائیں۔ جزاک اللہ۔';
   }
+}
+
+/// One recent ledger line for the compact statement summary that rides
+/// along with a reminder when the full PDF cannot be attached (SMS).
+///
+/// [debitPaisa] is the "Diye" side (goods/money given — the party owes
+/// more), [creditPaisa] the "Liye" side (received — the party owes less),
+/// matching the customer khata's DIYE/LIYE columns. [balanceAfterPaisa] is
+/// the signed customer balance right after this entry (> 0 = party owes).
+class StatementSummaryLine {
+  final DateTime date;
+  final String description;
+  final int debitPaisa;
+  final int creditPaisa;
+  final int balanceAfterPaisa;
+
+  const StatementSummaryLine({
+    required this.date,
+    required this.description,
+    required this.debitPaisa,
+    required this.creditPaisa,
+    required this.balanceAfterPaisa,
+  });
+}
+
+/// Compact plain-text ledger summary appended to an SMS reminder
+/// (user-requested 2026-10-25: a reminder must carry the customer's ledger
+/// with it — SMS cannot attach the PDF, so the SMS carries this summary
+/// and the full statement PDF follows via the share sheet; WhatsApp
+/// reminders attach the PDF directly).
+///
+/// Renders the most recent entries (oldest first) with running balances,
+/// then the closing balance line. [script] is 'en' or 'ur'; a legacy
+/// 'roman' value falls back to Urdu script (Roman Urdu was removed —
+/// user instruction 2026-10-25).
+String buildLedgerSummaryText({
+  required List<StatementSummaryLine> lines,
+  required int closingBalancePaisa,
+  String script = 'ur',
+}) {
+  final (header, diyeLabel, liyeLabel, totalLabel) = switch (script) {
+    'en' => ('Khata Summary — Namt Oil Mil', 'Given', 'Received', 'Total outstanding'),
+    _ => ('کھاتہ خلاصہ — نمت آئل مل', 'دیے', 'لیے', 'کل بقایا'),
+  };
+  final buffer = StringBuffer()
+    ..writeln()
+    ..writeln('--- $header ---');
+  for (final line in lines) {
+    final d = line.date;
+    final dateLabel =
+        '${d.day.toString().padLeft(2, '0')}/${d.month.toString().padLeft(2, '0')}/${d.year}';
+    final amount = line.debitPaisa > 0
+        ? '${formatPkr(line.debitPaisa)} ($diyeLabel)'
+        : '${formatPkr(line.creditPaisa)} ($liyeLabel)';
+    buffer.writeln(
+        '$dateLabel ${line.description}: $amount — Bal ${formatPkr(line.balanceAfterPaisa)}');
+  }
+  buffer.write('$totalLabel: ${formatPkr(closingBalancePaisa)}');
+  return buffer.toString();
 }

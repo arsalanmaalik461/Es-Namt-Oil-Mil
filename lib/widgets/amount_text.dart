@@ -26,14 +26,22 @@ class AmountText extends StatelessWidget {
       false => isDark ? AppColors.debitOnDark : AppColors.debit,
       null => null,
     };
-    return Text(
-      formatPkr(paisa),
-      style: (style ?? Theme.of(context).textTheme.titleMedium)?.copyWith(
-        color: color,
-        fontWeight: FontWeight.w700,
-        fontFeatures: const [FontFeature.tabularFigures()],
+    // Amounts must NEVER wrap mid-number or ellipsize on narrow phones:
+    // render on one line and scale down to fit the available width.
+    return FittedBox(
+      fit: BoxFit.scaleDown,
+      alignment: AlignmentDirectional.centerStart,
+      child: Text(
+        formatPkr(paisa),
+        style: (style ?? Theme.of(context).textTheme.titleMedium)?.copyWith(
+          color: color,
+          fontWeight: FontWeight.w700,
+          fontFeatures: const [FontFeature.tabularFigures()],
+        ),
+        textDirection: TextDirection.ltr,
+        maxLines: 1,
+        softWrap: false,
       ),
-      textDirection: TextDirection.ltr,
     );
   }
 }

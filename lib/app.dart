@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:namt_oil_mil/l10n/gen/app_localizations.dart';
-import 'package:namt_oil_mil/l10n/romanur_delegate.dart';
 import 'package:namt_oil_mil/navigation/routes.dart';
 import 'package:namt_oil_mil/providers/settings_provider.dart';
 import 'package:namt_oil_mil/screens/security/app_lock_screen.dart';
@@ -70,13 +69,9 @@ class _NamtOilMilAppState extends ConsumerState<NamtOilMilApp>
       darkTheme: AppTheme.darkTheme,
       themeMode: themeMode,
       locale: locale,
-      supportedLocales: [
-        ...AppLocalizations.supportedLocales,
-        ...extraSupportedLocales,
-      ],
+      supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: const [
         AppLocalizations.delegate,
-        RomanUrLocalizationsDelegate(),
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,

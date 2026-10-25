@@ -2190,9 +2190,6 @@ class AppLocalizationsUr extends AppLocalizations {
   String get security_usePinInstead => 'پن استعمال کریں';
 
   @override
-  String get langRomanUrdu => 'رومن اردو';
-
-  @override
   String get langSindhi => 'سندھی';
 
   @override
@@ -2203,385 +2200,144 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get settings_hisaabPersonal => 'ذاتی';
-}
-
-/// The translations for Urdu, using the Latin script (`ur_Latn`).
-class AppLocalizationsUrLatn extends AppLocalizationsUr {
-  AppLocalizationsUrLatn() : super('ur_Latn');
 
   @override
-  String get about_appName => 'Namt Oil Mil';
+  String get backup_driveTitle => 'گوگل ڈرائیو بیک اپ';
 
   @override
-  String get about_offline =>
-      '100% offline — aap ka tamam data sirf isi device par mehfooz rehta hai.';
-
-  @override
-  String about_version(String version) {
-    return 'Version $version';
+  String backup_driveConnected(String email) {
+    return 'گوگل سے منسلک ہو گیا: $email';
   }
 
   @override
-  String get appTagline => 'Aap ka Digital Khata';
+  String get backup_driveDisconnectTitle => 'گوگل منقطع کریں؟';
 
   @override
-  String get appTitle => 'Namt Oil Mil';
+  String get backup_driveDisconnectMessage =>
+      'خودکار بیک اپ بند ہو جائے گا۔ ڈرائیو پر پہلے سے محفوظ بیک اپ وہیں رہیں گے۔';
 
   @override
-  String get common_add => 'Shamil karein';
+  String get backup_driveDisconnect => 'منقطع کریں';
 
   @override
-  String get common_amount => 'Raqam';
+  String get backup_driveConnectIntro =>
+      'گوگل سے منسلک کریں تاکہ آپ کا ڈیٹا خود بخود ڈرائیو پر بیک اپ ہو۔';
 
   @override
-  String get common_back => 'Wapas';
+  String get backup_driveConnect => 'گوگل سے منسلک کریں';
 
   @override
-  String get common_balance => 'Balance';
+  String get backup_driveNoBackupYet => 'ابھی تک کوئی بیک اپ نہیں ہوا';
 
   @override
-  String get common_cancel => 'Mansookh karein';
+  String backup_driveLastBackup(String date) {
+    return 'آخری بیک اپ: $date';
+  }
 
   @override
-  String get common_close => 'Band karein';
+  String get backup_driveAutoBackup => '24 گھنٹے خودکار بیک اپ';
 
   @override
-  String get common_date => 'Tareekh';
+  String get backup_driveAutoBackupHint =>
+      'ہر 24 گھنٹے بعد پورے دن کا ڈیٹا خود بخود ڈرائیو پر اپ لوڈ ہو جائے گا۔';
 
   @override
-  String get common_delete => 'Hazaf karein';
+  String get backup_driveBackupNow => 'ابھی بیک اپ کریں';
 
   @override
-  String get common_edit => 'Tarmeem karein';
+  String get backup_driveExportRange => 'برآمد — حسبِ منشا تاریخ کی حد';
 
   @override
-  String get common_no => 'Nahi';
+  String get customers_whatsappNumber => 'واٹس ایپ نمبر';
 
   @override
-  String get common_notes => 'Notes';
+  String get customers_waAddTitle => 'واٹس ایپ نمبر شامل کریں';
 
   @override
-  String get common_ok => 'Theek hai';
+  String customers_waAddMessage(String name) {
+    return '$name کا واٹس ایپ نمبر محفوظ کریں تاکہ حساب سیدھا ان کی چیٹ میں بھیجا جا سکے۔';
+  }
 
   @override
-  String get common_retry => 'Dobara koshish karein';
+  String get customers_waAdd => 'شامل کریں';
 
   @override
-  String get common_save => 'Mehfooz karein';
+  String get customers_waOpenChat => 'چیٹ کھولیں';
 
   @override
-  String get common_search => 'Talash karein';
+  String get customers_waSendStatement => 'اسٹیٹمنٹ PDF بھیجیں';
 
   @override
-  String get common_total => 'Kul';
+  String get customers_waSendStatementHint =>
+      'حساب کتاب کی PDF بن کر شیئر ہو گی۔';
 
   @override
-  String get common_yes => 'Ji haan';
+  String get customers_waOpenFailed =>
+      'واٹس ایپ نہیں کھل سکا۔ نمبر چیک کریں یا واٹس ایپ انسٹال کریں۔';
 
   @override
-  String get confirmDelete_message =>
-      'Kya aap waqai isay hazaf karna chahte hain? Ye amal wapas nahi ho sakta.';
+  String customers_waStatementText(String name) {
+    return '$name — کھاتہ اسٹیٹمنٹ';
+  }
 
   @override
-  String get confirmDelete_title => 'Hazaf ki tasdeeq';
+  String backup_driveBackupFailed(String error) {
+    return 'بیک اپ ناکام ہو گیا: $error';
+  }
 
   @override
-  String get dateFilter_all => 'Tamam';
+  String backup_driveBackupSaved(String name) {
+    return 'بیک اپ ڈرائیو پر محفوظ ہو گیا: $name';
+  }
 
   @override
-  String get dateFilter_month => 'Is mah';
+  String get backup_driveConnectFailed =>
+      'گوگل سے منسلک نہیں ہو سکا۔ پہلے سیٹنگز سے منسلک کریں۔';
 
   @override
-  String get dateFilter_today => 'Aaj';
+  String backup_driveExportFailed(String error) {
+    return 'ایکسپورٹ ناکام ہو گیا: $error';
+  }
 
   @override
-  String get dateFilter_week => 'Is haftay';
+  String backup_driveExportSaved(String name) {
+    return 'ایکسپورٹ ڈرائیو پر محفوظ ہو گیا: $name';
+  }
 
   @override
-  String get empty_default => 'Abhi koi record nahi hai';
+  String get khata_errorDriveConnectFailed =>
+      'گوگل سے منسلک نہیں ہو سکا۔ انٹرنیٹ چیک کر کے دوبارہ کوشش کریں۔';
 
   @override
-  String get error_generic => 'Kuch ghalat ho gaya. Dobara koshish karein.';
+  String get khata_errorDriveSignInCanceled =>
+      'گوگل سائن اِن منسوخ کر دیا گیا۔';
 
   @override
-  String get langEnglish => 'English';
+  String get khata_errorDriveSignInInterrupted =>
+      'سائن اِن ادھورا رہ گیا — دوبارہ کوشش کریں۔';
 
   @override
-  String get langUrdu => 'Urdu';
+  String get khata_errorSmsChannelMissing =>
+      'SMS چینل دستیاب نہیں — بھیجنے کے لیے SMS ایپ کھولیں۔';
 
   @override
-  String get more_about => 'App ke baare mein';
+  String get khata_errorSmsEmptyMessage => 'پیغام خالی ہے۔';
 
   @override
-  String get more_backup => 'Backup aur Bahali';
+  String get khata_errorSmsGeneric => 'SMS بھیجنے میں مسئلہ ہوا۔';
 
   @override
-  String get more_cashbook => 'Cashbook';
+  String get khata_errorSmsNoNumber => 'فون نمبر موجود نہیں ہے۔';
 
   @override
-  String get more_expensesIncome => 'Akhrajaat aur Aamdani';
+  String get khata_errorSmsNotAvailable => 'اس ڈیوائس پر SMS بھیجنا ممکن نہیں۔';
 
   @override
-  String get more_inventory => 'Stock';
+  String get khata_errorSmsPermissionDenied =>
+      'SMS کی اجازت نہیں ملی۔ سیٹنگز میں SMS کی اجازت دیں۔';
 
   @override
-  String get more_production => 'Pedawar';
-
-  @override
-  String get more_purchases => 'Kharidari';
-
-  @override
-  String get more_sales => 'Farokht';
-
-  @override
-  String get more_settings => 'Tarteebat';
-
-  @override
-  String get nav_home => 'Dashboard';
-
-  @override
-  String get nav_khata => 'Khata';
-
-  @override
-  String get nav_more => 'Mazeed';
-
-  @override
-  String get nav_reports => 'Reports';
-
-  @override
-  String get nav_transactions => 'Len den';
-
-  @override
-  String get settings_about => 'App ke baare mein';
-
-  @override
-  String get settings_address => 'Pata';
-
-  @override
-  String get settings_businessName => 'Karobar ka naam';
-
-  @override
-  String get settings_businessProfile => 'Karobari profile';
-
-  @override
-  String get settings_language => 'Zaban';
-
-  @override
-  String get settings_phone => 'Phone number';
-
-  @override
-  String get settings_saved => 'Tarteebat mehfooz ho gayin';
-
-  @override
-  String get settings_theme => 'Theme';
-
-  @override
-  String get settings_title => 'Tarteebat';
-
-  @override
-  String get themeDark => 'Tareek';
-
-  @override
-  String get themeLight => 'Roshan';
-
-  @override
-  String get themeSystem => 'System ke mutabiq';
-
-  @override
-  String get backup_title => 'Backup aur Bahali';
-
-  @override
-  String get backup_create => 'Backup banayein';
-
-  @override
-  String get backup_restore => 'Backup bahaal karein';
-
-  @override
-  String get cashbook_addPayment => 'Adayegi shamil karein';
-
-  @override
-  String get cashbook_addReceipt => 'Raseed shamil karein';
-
-  @override
-  String get cashbook_balance => 'Balance';
-
-  @override
-  String get cashbook_in => 'Aamad';
-
-  @override
-  String get cashbook_openingBalance => 'Ibtedayi balance';
-
-  @override
-  String get cashbook_out => 'Kharch';
-
-  @override
-  String get cashbook_supplier => 'Supplier';
-
-  @override
-  String get cashbook_title => 'Cashbook';
-
-  @override
-  String get cashbook_totalIn => 'Kul aamad';
-
-  @override
-  String get cashbook_totalOut => 'Kul kharch';
-
-  @override
-  String get customers_account => 'Account';
-
-  @override
-  String get customers_addCustomer => 'Naya gahak';
-
-  @override
-  String get customers_addSupplier => 'Naya supplier';
-
-  @override
-  String get customers_address => 'Pata';
-
-  @override
-  String get customers_amount => 'Raqam (Rupay)';
-
-  @override
-  String get customers_date => 'Tareekh';
-
-  @override
-  String get customers_editCustomer => 'Gahak mein tarmeem karein';
-
-  @override
-  String get customers_ledgerTitle => 'Ledger';
-
-  @override
-  String get customers_phone => 'Phone';
-
-  @override
-  String get customers_searchHint => 'Naam, phone ya code talash karein';
-
-  @override
-  String get customers_supplierTitle => 'Suppliers';
-
-  @override
-  String get customers_title => 'Gahak';
-
-  @override
-  String get dashboard_cashInHand => 'Naqad raqam';
-
-  @override
-  String get dashboard_lowStock => 'Kam stock alerts';
-
-  @override
-  String get dashboard_title => 'Dashboard';
-
-  @override
-  String get dashboard_todayPurchases => 'Aaj ki kharidari';
-
-  @override
-  String get dashboard_todaySales => 'Aaj ki farokht';
-
-  @override
-  String get dashboard_totalPayable => 'Ada karna hai';
-
-  @override
-  String get dashboard_totalReceivable => 'Wasool karna hai';
-
-  @override
-  String get khata_customers => 'Gahak';
-
-  @override
-  String get khata_suppliers => 'Suppliers';
-
-  @override
-  String get khata_title => 'Khata';
-
-  @override
-  String get sales_customer => 'Gahak';
-
-  @override
-  String get sales_newSale => 'Nayi farokht';
-
-  @override
-  String get sales_title => 'Farokht';
-
-  @override
-  String get transactions_title => 'Len den';
-
-  @override
-  String get udhaar_saved => 'Udhaar darj kar diya gaya';
-
-  @override
-  String get udhaar_title => 'Udhaar dein';
-
-  @override
-  String get security_title => 'Security aur App Lock';
-
-  @override
-  String get security_pinLock => 'PIN lock';
-
-  @override
-  String get security_pinLockDesc => 'App kholnay par 4-hindsay ka PIN mangen';
-
-  @override
-  String get security_biometric => 'Fingerprint / Face lock';
-
-  @override
-  String get security_biometricDesc => 'App kholnay par biometric tasdeeq';
-
-  @override
-  String get security_changePin => 'PIN tabdeel karein';
-
-  @override
-  String get security_setupPin => 'PIN set karein';
-
-  @override
-  String get security_enterPin => 'Apna 4-hindsay ka PIN darj karein';
-
-  @override
-  String get security_confirmPin => 'PIN ki tasdeeq karein';
-
-  @override
-  String get security_pinMismatch =>
-      'PIN match nahi hua. Dobara koshish karein.';
-
-  @override
-  String get security_pinSet => 'PIN set ho gaya';
-
-  @override
-  String get security_pinRemoved => 'PIN lock band kar diya gaya';
-
-  @override
-  String get security_wrongPin => 'Ghalat PIN. Dobara koshish karein.';
-
-  @override
-  String get security_forgotPin => 'PIN bhool gaye?';
-
-  @override
-  String get security_forgotPinMsg =>
-      'PIN reset karne se app ka lock khatam ho jayega. Jari rakhein?';
-
-  @override
-  String get security_autoLock => 'Auto-lock waqfa';
-
-  @override
-  String get security_autoLockImmediate => 'Foran';
-
-  @override
-  String get security_autoLock1min => '1 minute baad';
-
-  @override
-  String get security_autoLock5min => '5 minute baad';
-
-  @override
-  String get security_biometricNotAvailable =>
-      'Is device par biometric dastiyab nahi hai';
-
-  @override
-  String get security_unlockWithBiometric => 'Biometric se kholein';
-
-  @override
-  String get security_usePinInstead => 'PIN istemal karein';
-
-  @override
-  String get langRomanUrdu => 'Roman Urdu';
-
-  @override
-  String get langSindhi => 'Sindhi';
+  String khata_errorSmsSendFailed(String details) {
+    return 'SMS نہیں بھیجا جا سکا۔ $details';
+  }
 }

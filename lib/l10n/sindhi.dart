@@ -42,7 +42,6 @@ const Map<String, String> sindhiStrings = {
   'error_generic': 'ڪجهه غلط ٿي ويو. مهرباني ڪري ٻيهر ڪوشش ڪريو.',
   'langEnglish': 'English',
   'langUrdu': 'Urdu',
-  'langRomanUrdu': 'Roman Urdu',
   'langSindhi': 'سنڌي',
   'nav_home': 'ڊيش بورڊ',
   'nav_khata': 'کاتو',

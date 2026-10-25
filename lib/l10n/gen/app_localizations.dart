@@ -97,8 +97,7 @@ abstract class AppLocalizations {
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
     Locale('sd'),
-    Locale('ur'),
-    Locale.fromSubtags(languageCode: 'ur', scriptCode: 'Latn')
+    Locale('ur')
   ];
 
   /// About screen: app name
@@ -860,7 +859,7 @@ abstract class AppLocalizations {
   /// No description provided for @customers_addFirstHint.
   ///
   /// In en, this message translates to:
-  /// **'Add your first customer to track udhaar'**
+  /// **'Add your first customer to track credit'**
   String get customers_addFirstHint;
 
   /// No description provided for @customers_addFirstSupplierHint.
@@ -1016,7 +1015,7 @@ abstract class AppLocalizations {
   /// No description provided for @customers_giveUdhaar.
   ///
   /// In en, this message translates to:
-  /// **'Give udhaar'**
+  /// **'Give credit'**
   String get customers_giveUdhaar;
 
   /// No description provided for @customers_ledgerTitle.
@@ -1406,7 +1405,7 @@ abstract class AppLocalizations {
   /// No description provided for @dashboard_qaGiveUdhaar.
   ///
   /// In en, this message translates to:
-  /// **'Give udhaar'**
+  /// **'Give credit'**
   String get dashboard_qaGiveUdhaar;
 
   /// No description provided for @dashboard_qaMakePayment.
@@ -4143,13 +4142,13 @@ abstract class AppLocalizations {
   /// No description provided for @udhaar_saved.
   ///
   /// In en, this message translates to:
-  /// **'Udhaar recorded'**
+  /// **'Credit recorded'**
   String get udhaar_saved;
 
   /// No description provided for @udhaar_title.
   ///
   /// In en, this message translates to:
-  /// **'Give udhaar'**
+  /// **'Give credit'**
   String get udhaar_title;
 
   /// No description provided for @security_title.
@@ -4284,12 +4283,6 @@ abstract class AppLocalizations {
   /// **'Use PIN instead'**
   String get security_usePinInstead;
 
-  /// No description provided for @langRomanUrdu.
-  ///
-  /// In en, this message translates to:
-  /// **'Roman Urdu'**
-  String get langRomanUrdu;
-
   /// No description provided for @langSindhi.
   ///
   /// In en, this message translates to:
@@ -4299,7 +4292,7 @@ abstract class AppLocalizations {
   /// No description provided for @settings_hisaabMode.
   ///
   /// In en, this message translates to:
-  /// **'Hisaab mode'**
+  /// **'Accounting mode'**
   String get settings_hisaabMode;
 
   /// No description provided for @settings_hisaabBusiness.
@@ -4313,6 +4306,228 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Personal'**
   String get settings_hisaabPersonal;
+
+  /// Settings Google Drive section: backup_driveTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Google Drive Backup'**
+  String get backup_driveTitle;
+
+  /// Settings Google Drive section: backup_driveConnected
+  ///
+  /// In en, this message translates to:
+  /// **'Connected to Google: {email}'**
+  String backup_driveConnected(String email);
+
+  /// Settings Google Drive section: backup_driveDisconnectTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Disconnect Google?'**
+  String get backup_driveDisconnectTitle;
+
+  /// Settings Google Drive section: backup_driveDisconnectMessage
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-backup will be turned off. Backups already saved on Drive will stay there.'**
+  String get backup_driveDisconnectMessage;
+
+  /// Settings Google Drive section: backup_driveDisconnect
+  ///
+  /// In en, this message translates to:
+  /// **'Disconnect'**
+  String get backup_driveDisconnect;
+
+  /// Settings Google Drive section: backup_driveConnectIntro
+  ///
+  /// In en, this message translates to:
+  /// **'Connect with Google so your data is automatically backed up to Drive.'**
+  String get backup_driveConnectIntro;
+
+  /// Settings Google Drive section: backup_driveConnect
+  ///
+  /// In en, this message translates to:
+  /// **'Connect with Google'**
+  String get backup_driveConnect;
+
+  /// Settings Google Drive section: backup_driveNoBackupYet
+  ///
+  /// In en, this message translates to:
+  /// **'No backup yet'**
+  String get backup_driveNoBackupYet;
+
+  /// Settings Google Drive section: backup_driveLastBackup
+  ///
+  /// In en, this message translates to:
+  /// **'Last backup: {date}'**
+  String backup_driveLastBackup(String date);
+
+  /// Settings Google Drive section: backup_driveAutoBackup
+  ///
+  /// In en, this message translates to:
+  /// **'24-hour auto-backup'**
+  String get backup_driveAutoBackup;
+
+  /// Settings Google Drive section: backup_driveAutoBackupHint
+  ///
+  /// In en, this message translates to:
+  /// **'Every 24 hours, the full day\'s data is automatically uploaded to Drive.'**
+  String get backup_driveAutoBackupHint;
+
+  /// Settings Google Drive section: backup_driveBackupNow
+  ///
+  /// In en, this message translates to:
+  /// **'Backup now'**
+  String get backup_driveBackupNow;
+
+  /// Settings Google Drive section: backup_driveExportRange
+  ///
+  /// In en, this message translates to:
+  /// **'Export — custom date range'**
+  String get backup_driveExportRange;
+
+  /// Customer WhatsApp actions: customers_whatsappNumber
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp number'**
+  String get customers_whatsappNumber;
+
+  /// Customer WhatsApp actions: customers_waAddTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Add WhatsApp number'**
+  String get customers_waAddTitle;
+
+  /// Customer WhatsApp actions: customers_waAddMessage
+  ///
+  /// In en, this message translates to:
+  /// **'Save {name}\'s WhatsApp number so their account statement can be sent straight to their chat.'**
+  String customers_waAddMessage(String name);
+
+  /// Customer WhatsApp actions: customers_waAdd
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get customers_waAdd;
+
+  /// Customer WhatsApp actions: customers_waOpenChat
+  ///
+  /// In en, this message translates to:
+  /// **'Open chat'**
+  String get customers_waOpenChat;
+
+  /// Customer WhatsApp actions: customers_waSendStatement
+  ///
+  /// In en, this message translates to:
+  /// **'Send statement PDF'**
+  String get customers_waSendStatement;
+
+  /// Customer WhatsApp actions: customers_waSendStatementHint
+  ///
+  /// In en, this message translates to:
+  /// **'The account statement PDF will be created and shared.'**
+  String get customers_waSendStatementHint;
+
+  /// Customer WhatsApp actions: customers_waOpenFailed
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp could not be opened. Check the number or install WhatsApp.'**
+  String get customers_waOpenFailed;
+
+  /// Customer WhatsApp actions: customers_waStatementText
+  ///
+  /// In en, this message translates to:
+  /// **'{name} — account statement'**
+  String customers_waStatementText(String name);
+
+  /// Settings Google Drive section: backup_driveBackupFailed
+  ///
+  /// In en, this message translates to:
+  /// **'Backup failed: {error}'**
+  String backup_driveBackupFailed(String error);
+
+  /// Settings Google Drive section: backup_driveBackupSaved
+  ///
+  /// In en, this message translates to:
+  /// **'Backup saved to Drive: {name}'**
+  String backup_driveBackupSaved(String name);
+
+  /// Settings Google Drive section: backup_driveConnectFailed
+  ///
+  /// In en, this message translates to:
+  /// **'Could not connect to Google. Please connect from Settings first.'**
+  String get backup_driveConnectFailed;
+
+  /// Settings Google Drive section: backup_driveExportFailed
+  ///
+  /// In en, this message translates to:
+  /// **'Export failed: {error}'**
+  String backup_driveExportFailed(String error);
+
+  /// Settings Google Drive section: backup_driveExportSaved
+  ///
+  /// In en, this message translates to:
+  /// **'Export saved to Drive: {name}'**
+  String backup_driveExportSaved(String name);
+
+  /// Khata errors: khata_errorDriveConnectFailed
+  ///
+  /// In en, this message translates to:
+  /// **'Could not connect to Google. Check your internet and try again.'**
+  String get khata_errorDriveConnectFailed;
+
+  /// Khata errors: khata_errorDriveSignInCanceled
+  ///
+  /// In en, this message translates to:
+  /// **'Google sign-in was canceled.'**
+  String get khata_errorDriveSignInCanceled;
+
+  /// Khata errors: khata_errorDriveSignInInterrupted
+  ///
+  /// In en, this message translates to:
+  /// **'Sign-in was interrupted — please try again.'**
+  String get khata_errorDriveSignInInterrupted;
+
+  /// Khata errors: khata_errorSmsChannelMissing
+  ///
+  /// In en, this message translates to:
+  /// **'SMS channel is not available — open the SMS app to send.'**
+  String get khata_errorSmsChannelMissing;
+
+  /// Khata errors: khata_errorSmsEmptyMessage
+  ///
+  /// In en, this message translates to:
+  /// **'Message is empty.'**
+  String get khata_errorSmsEmptyMessage;
+
+  /// Khata errors: khata_errorSmsGeneric
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong while sending the SMS.'**
+  String get khata_errorSmsGeneric;
+
+  /// Khata errors: khata_errorSmsNoNumber
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number is missing.'**
+  String get khata_errorSmsNoNumber;
+
+  /// Khata errors: khata_errorSmsNotAvailable
+  ///
+  /// In en, this message translates to:
+  /// **'SMS cannot be sent on this device.'**
+  String get khata_errorSmsNotAvailable;
+
+  /// Khata errors: khata_errorSmsPermissionDenied
+  ///
+  /// In en, this message translates to:
+  /// **'SMS permission was not granted. Allow SMS permission in Settings.'**
+  String get khata_errorSmsPermissionDenied;
+
+  /// Khata errors: khata_errorSmsSendFailed
+  ///
+  /// In en, this message translates to:
+  /// **'SMS could not be sent. {details}'**
+  String khata_errorSmsSendFailed(String details);
 }
 
 class _AppLocalizationsDelegate
@@ -4333,18 +4548,6 @@ class _AppLocalizationsDelegate
 }
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
-  // Lookup logic when language+script codes are specified.
-  switch (locale.languageCode) {
-    case 'ur':
-      {
-        switch (locale.scriptCode) {
-          case 'Latn':
-            return AppLocalizationsUrLatn();
-        }
-        break;
-      }
-  }
-
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
     case 'en':

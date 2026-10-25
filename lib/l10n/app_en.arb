@@ -388,7 +388,7 @@
   },
   "customers_account": "Account",
   "customers_addCustomer": "New customer",
-  "customers_addFirstHint": "Add your first customer to track udhaar",
+  "customers_addFirstHint": "Add your first customer to track credit",
   "customers_addFirstSupplierHint": "Add your first supplier to track purchases",
   "customers_addSupplier": "New supplier",
   "customers_address": "Address",
@@ -414,7 +414,7 @@
   "customers_filterAll": "All",
   "customers_filterPayable": "To pay",
   "customers_filterReceivable": "To receive",
-  "customers_giveUdhaar": "Give udhaar",
+  "customers_giveUdhaar": "Give credit",
   "customers_ledgerTitle": "Ledger",
   "customers_makePayment": "Make payment",
   "customers_method": "Method",
@@ -503,7 +503,7 @@
   "dashboard_qaAddPurchase": "Add purchase",
   "dashboard_qaAddSale": "Add sale",
   "dashboard_qaAddSupplier": "Add supplier",
-  "dashboard_qaGiveUdhaar": "Give udhaar",
+  "dashboard_qaGiveUdhaar": "Give credit",
   "dashboard_qaMakePayment": "Make payment",
   "dashboard_qaReceivePayment": "Receive payment",
   "dashboard_qaRecordProduction": "Record production",
@@ -1086,8 +1086,8 @@
   "transactions_transfer": "Transfer",
   "transactions_unit": "Unit",
   "transactions_unitPrice": "Unit price",
-  "udhaar_saved": "Udhaar recorded",
-  "udhaar_title": "Give udhaar",
+  "udhaar_saved": "Credit recorded",
+  "udhaar_title": "Give credit",
   "security_title": "Security & App Lock",
   "security_pinLock": "PIN lock",
   "security_pinLockDesc": "Ask for a 4-digit PIN when opening the app",
@@ -1110,9 +1110,201 @@
   "security_biometricNotAvailable": "Biometric is not available on this device",
   "security_unlockWithBiometric": "Unlock with biometric",
   "security_usePinInstead": "Use PIN instead",
-  "langRomanUrdu": "Roman Urdu",
   "langSindhi": "Sindhi",
-  "settings_hisaabMode": "Hisaab mode",
+  "settings_hisaabMode": "Accounting mode",
   "settings_hisaabBusiness": "Business",
-  "settings_hisaabPersonal": "Personal"
+  "settings_hisaabPersonal": "Personal",
+  "backup_driveTitle": "Google Drive Backup",
+  "@backup_driveTitle": {
+    "description": "Settings Google Drive section: backup_driveTitle"
+  },
+  "backup_driveConnected": "Connected to Google: {email}",
+  "@backup_driveConnected": {
+    "description": "Settings Google Drive section: backup_driveConnected",
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_driveDisconnectTitle": "Disconnect Google?",
+  "@backup_driveDisconnectTitle": {
+    "description": "Settings Google Drive section: backup_driveDisconnectTitle"
+  },
+  "backup_driveDisconnectMessage": "Auto-backup will be turned off. Backups already saved on Drive will stay there.",
+  "@backup_driveDisconnectMessage": {
+    "description": "Settings Google Drive section: backup_driveDisconnectMessage"
+  },
+  "backup_driveDisconnect": "Disconnect",
+  "@backup_driveDisconnect": {
+    "description": "Settings Google Drive section: backup_driveDisconnect"
+  },
+  "backup_driveConnectIntro": "Connect with Google so your data is automatically backed up to Drive.",
+  "@backup_driveConnectIntro": {
+    "description": "Settings Google Drive section: backup_driveConnectIntro"
+  },
+  "backup_driveConnect": "Connect with Google",
+  "@backup_driveConnect": {
+    "description": "Settings Google Drive section: backup_driveConnect"
+  },
+  "backup_driveNoBackupYet": "No backup yet",
+  "@backup_driveNoBackupYet": {
+    "description": "Settings Google Drive section: backup_driveNoBackupYet"
+  },
+  "backup_driveLastBackup": "Last backup: {date}",
+  "@backup_driveLastBackup": {
+    "description": "Settings Google Drive section: backup_driveLastBackup",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_driveAutoBackup": "24-hour auto-backup",
+  "@backup_driveAutoBackup": {
+    "description": "Settings Google Drive section: backup_driveAutoBackup"
+  },
+  "backup_driveAutoBackupHint": "Every 24 hours, the full day's data is automatically uploaded to Drive.",
+  "@backup_driveAutoBackupHint": {
+    "description": "Settings Google Drive section: backup_driveAutoBackupHint"
+  },
+  "backup_driveBackupNow": "Backup now",
+  "@backup_driveBackupNow": {
+    "description": "Settings Google Drive section: backup_driveBackupNow"
+  },
+  "backup_driveExportRange": "Export — custom date range",
+  "@backup_driveExportRange": {
+    "description": "Settings Google Drive section: backup_driveExportRange"
+  },
+  "customers_whatsappNumber": "WhatsApp number",
+  "@customers_whatsappNumber": {
+    "description": "Customer WhatsApp actions: customers_whatsappNumber"
+  },
+  "customers_waAddTitle": "Add WhatsApp number",
+  "@customers_waAddTitle": {
+    "description": "Customer WhatsApp actions: customers_waAddTitle"
+  },
+  "customers_waAddMessage": "Save {name}'s WhatsApp number so their account statement can be sent straight to their chat.",
+  "@customers_waAddMessage": {
+    "description": "Customer WhatsApp actions: customers_waAddMessage",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "customers_waAdd": "Add",
+  "@customers_waAdd": {
+    "description": "Customer WhatsApp actions: customers_waAdd"
+  },
+  "customers_waOpenChat": "Open chat",
+  "@customers_waOpenChat": {
+    "description": "Customer WhatsApp actions: customers_waOpenChat"
+  },
+  "customers_waSendStatement": "Send statement PDF",
+  "@customers_waSendStatement": {
+    "description": "Customer WhatsApp actions: customers_waSendStatement"
+  },
+  "customers_waSendStatementHint": "The account statement PDF will be created and shared.",
+  "@customers_waSendStatementHint": {
+    "description": "Customer WhatsApp actions: customers_waSendStatementHint"
+  },
+  "customers_waOpenFailed": "WhatsApp could not be opened. Check the number or install WhatsApp.",
+  "@customers_waOpenFailed": {
+    "description": "Customer WhatsApp actions: customers_waOpenFailed"
+  },
+  "customers_waStatementText": "{name} — account statement",
+  "@customers_waStatementText": {
+    "description": "Customer WhatsApp actions: customers_waStatementText",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_driveBackupFailed": "Backup failed: {error}",
+  "@backup_driveBackupFailed": {
+    "description": "Settings Google Drive section: backup_driveBackupFailed",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_driveBackupSaved": "Backup saved to Drive: {name}",
+  "@backup_driveBackupSaved": {
+    "description": "Settings Google Drive section: backup_driveBackupSaved",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_driveConnectFailed": "Could not connect to Google. Please connect from Settings first.",
+  "@backup_driveConnectFailed": {
+    "description": "Settings Google Drive section: backup_driveConnectFailed"
+  },
+  "backup_driveExportFailed": "Export failed: {error}",
+  "@backup_driveExportFailed": {
+    "description": "Settings Google Drive section: backup_driveExportFailed",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "backup_driveExportSaved": "Export saved to Drive: {name}",
+  "@backup_driveExportSaved": {
+    "description": "Settings Google Drive section: backup_driveExportSaved",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "khata_errorDriveConnectFailed": "Could not connect to Google. Check your internet and try again.",
+  "@khata_errorDriveConnectFailed": {
+    "description": "Khata errors: khata_errorDriveConnectFailed"
+  },
+  "khata_errorDriveSignInCanceled": "Google sign-in was canceled.",
+  "@khata_errorDriveSignInCanceled": {
+    "description": "Khata errors: khata_errorDriveSignInCanceled"
+  },
+  "khata_errorDriveSignInInterrupted": "Sign-in was interrupted — please try again.",
+  "@khata_errorDriveSignInInterrupted": {
+    "description": "Khata errors: khata_errorDriveSignInInterrupted"
+  },
+  "khata_errorSmsChannelMissing": "SMS channel is not available — open the SMS app to send.",
+  "@khata_errorSmsChannelMissing": {
+    "description": "Khata errors: khata_errorSmsChannelMissing"
+  },
+  "khata_errorSmsEmptyMessage": "Message is empty.",
+  "@khata_errorSmsEmptyMessage": {
+    "description": "Khata errors: khata_errorSmsEmptyMessage"
+  },
+  "khata_errorSmsGeneric": "Something went wrong while sending the SMS.",
+  "@khata_errorSmsGeneric": {
+    "description": "Khata errors: khata_errorSmsGeneric"
+  },
+  "khata_errorSmsNoNumber": "Phone number is missing.",
+  "@khata_errorSmsNoNumber": {
+    "description": "Khata errors: khata_errorSmsNoNumber"
+  },
+  "khata_errorSmsNotAvailable": "SMS cannot be sent on this device.",
+  "@khata_errorSmsNotAvailable": {
+    "description": "Khata errors: khata_errorSmsNotAvailable"
+  },
+  "khata_errorSmsPermissionDenied": "SMS permission was not granted. Allow SMS permission in Settings.",
+  "@khata_errorSmsPermissionDenied": {
+    "description": "Khata errors: khata_errorSmsPermissionDenied"
+  },
+  "khata_errorSmsSendFailed": "SMS could not be sent. {details}",
+  "@khata_errorSmsSendFailed": {
+    "description": "Khata errors: khata_errorSmsSendFailed",
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  }
 }

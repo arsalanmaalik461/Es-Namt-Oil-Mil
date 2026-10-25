@@ -39,16 +39,26 @@ class PastelStatCard extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                   color: scheme.onSurfaceVariant,
                 ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
           const SizedBox(height: 10),
-          Text(
-            value,
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.w800,
-                  color: valueColor,
-                  fontFeatures: const [FontFeature.tabularFigures()],
-                ),
-            textDirection: TextDirection.ltr,
+          // Full amount on one line, scaled down to fit — never a
+          // mid-number wrap ("Rs 1,1 / 00.00") on narrow phones.
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: AlignmentDirectional.centerStart,
+            child: Text(
+              value,
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.w800,
+                    color: valueColor,
+                    fontFeatures: const [FontFeature.tabularFigures()],
+                  ),
+              textDirection: TextDirection.ltr,
+              maxLines: 1,
+              softWrap: false,
+            ),
           ),
           const SizedBox(height: 6),
           Text(
@@ -57,6 +67,8 @@ class PastelStatCard extends StatelessWidget {
                 .textTheme
                 .bodySmall
                 ?.copyWith(color: scheme.onSurfaceVariant),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),

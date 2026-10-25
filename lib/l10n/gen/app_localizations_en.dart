@@ -415,7 +415,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get customers_addFirstHint =>
-      'Add your first customer to track udhaar';
+      'Add your first customer to track credit';
 
   @override
   String get customers_addFirstSupplierHint =>
@@ -497,7 +497,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get customers_filterReceivable => 'To receive';
 
   @override
-  String get customers_giveUdhaar => 'Give udhaar';
+  String get customers_giveUdhaar => 'Give credit';
 
   @override
   String get customers_ledgerTitle => 'Ledger';
@@ -699,7 +699,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dashboard_qaAddSupplier => 'Add supplier';
 
   @override
-  String get dashboard_qaGiveUdhaar => 'Give udhaar';
+  String get dashboard_qaGiveUdhaar => 'Give credit';
 
   @override
   String get dashboard_qaMakePayment => 'Make payment';
@@ -2118,10 +2118,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get transactions_unitPrice => 'Unit price';
 
   @override
-  String get udhaar_saved => 'Udhaar recorded';
+  String get udhaar_saved => 'Credit recorded';
 
   @override
-  String get udhaar_title => 'Give udhaar';
+  String get udhaar_title => 'Give credit';
 
   @override
   String get security_title => 'Security & App Lock';
@@ -2194,17 +2194,154 @@ class AppLocalizationsEn extends AppLocalizations {
   String get security_usePinInstead => 'Use PIN instead';
 
   @override
-  String get langRomanUrdu => 'Roman Urdu';
-
-  @override
   String get langSindhi => 'Sindhi';
 
   @override
-  String get settings_hisaabMode => 'Hisaab mode';
+  String get settings_hisaabMode => 'Accounting mode';
 
   @override
   String get settings_hisaabBusiness => 'Business';
 
   @override
   String get settings_hisaabPersonal => 'Personal';
+
+  @override
+  String get backup_driveTitle => 'Google Drive Backup';
+
+  @override
+  String backup_driveConnected(String email) {
+    return 'Connected to Google: $email';
+  }
+
+  @override
+  String get backup_driveDisconnectTitle => 'Disconnect Google?';
+
+  @override
+  String get backup_driveDisconnectMessage =>
+      'Auto-backup will be turned off. Backups already saved on Drive will stay there.';
+
+  @override
+  String get backup_driveDisconnect => 'Disconnect';
+
+  @override
+  String get backup_driveConnectIntro =>
+      'Connect with Google so your data is automatically backed up to Drive.';
+
+  @override
+  String get backup_driveConnect => 'Connect with Google';
+
+  @override
+  String get backup_driveNoBackupYet => 'No backup yet';
+
+  @override
+  String backup_driveLastBackup(String date) {
+    return 'Last backup: $date';
+  }
+
+  @override
+  String get backup_driveAutoBackup => '24-hour auto-backup';
+
+  @override
+  String get backup_driveAutoBackupHint =>
+      'Every 24 hours, the full day\'s data is automatically uploaded to Drive.';
+
+  @override
+  String get backup_driveBackupNow => 'Backup now';
+
+  @override
+  String get backup_driveExportRange => 'Export — custom date range';
+
+  @override
+  String get customers_whatsappNumber => 'WhatsApp number';
+
+  @override
+  String get customers_waAddTitle => 'Add WhatsApp number';
+
+  @override
+  String customers_waAddMessage(String name) {
+    return 'Save $name\'s WhatsApp number so their account statement can be sent straight to their chat.';
+  }
+
+  @override
+  String get customers_waAdd => 'Add';
+
+  @override
+  String get customers_waOpenChat => 'Open chat';
+
+  @override
+  String get customers_waSendStatement => 'Send statement PDF';
+
+  @override
+  String get customers_waSendStatementHint =>
+      'The account statement PDF will be created and shared.';
+
+  @override
+  String get customers_waOpenFailed =>
+      'WhatsApp could not be opened. Check the number or install WhatsApp.';
+
+  @override
+  String customers_waStatementText(String name) {
+    return '$name — account statement';
+  }
+
+  @override
+  String backup_driveBackupFailed(String error) {
+    return 'Backup failed: $error';
+  }
+
+  @override
+  String backup_driveBackupSaved(String name) {
+    return 'Backup saved to Drive: $name';
+  }
+
+  @override
+  String get backup_driveConnectFailed =>
+      'Could not connect to Google. Please connect from Settings first.';
+
+  @override
+  String backup_driveExportFailed(String error) {
+    return 'Export failed: $error';
+  }
+
+  @override
+  String backup_driveExportSaved(String name) {
+    return 'Export saved to Drive: $name';
+  }
+
+  @override
+  String get khata_errorDriveConnectFailed =>
+      'Could not connect to Google. Check your internet and try again.';
+
+  @override
+  String get khata_errorDriveSignInCanceled => 'Google sign-in was canceled.';
+
+  @override
+  String get khata_errorDriveSignInInterrupted =>
+      'Sign-in was interrupted — please try again.';
+
+  @override
+  String get khata_errorSmsChannelMissing =>
+      'SMS channel is not available — open the SMS app to send.';
+
+  @override
+  String get khata_errorSmsEmptyMessage => 'Message is empty.';
+
+  @override
+  String get khata_errorSmsGeneric =>
+      'Something went wrong while sending the SMS.';
+
+  @override
+  String get khata_errorSmsNoNumber => 'Phone number is missing.';
+
+  @override
+  String get khata_errorSmsNotAvailable => 'SMS cannot be sent on this device.';
+
+  @override
+  String get khata_errorSmsPermissionDenied =>
+      'SMS permission was not granted. Allow SMS permission in Settings.';
+
+  @override
+  String khata_errorSmsSendFailed(String details) {
+    return 'SMS could not be sent. $details';
+  }
 }

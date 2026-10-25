@@ -259,16 +259,20 @@ class _KhataHubScreenState extends ConsumerState<KhataHubScreen> {
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
       child: Row(
         children: [
-          Text(
-            (_showSuppliers ? t.khata_suppliers : t.khata_customers)
-                .toUpperCase(),
-            style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                  letterSpacing: 1.2,
-                  fontWeight: FontWeight.w600,
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
+          Flexible(
+            child: Text(
+              (_showSuppliers ? t.khata_suppliers : t.khata_customers)
+                  .toUpperCase(),
+              style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                    letterSpacing: 1.2,
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
-          const Spacer(),
+          const SizedBox(width: 8),
           SegmentedButton<bool>(
             style: SegmentedButton.styleFrom(
               visualDensity: VisualDensity.compact,
@@ -373,14 +377,22 @@ class _KhataHubScreenState extends ConsumerState<KhataHubScreen> {
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(
-                            formatPkr(c.balancePaisa),
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.pastelPinkText,
-                              fontFeatures: [FontFeature.tabularFigures()],
+                          Flexible(
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                formatPkr(c.balancePaisa),
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.pastelPinkText,
+                                  fontFeatures: [FontFeature.tabularFigures()],
+                                ),
+                                textDirection: TextDirection.ltr,
+                                maxLines: 1,
+                                softWrap: false,
+                              ),
                             ),
-                            textDirection: TextDirection.ltr,
                           ),
                           IconButton(
                             icon: const Icon(Icons.copy, size: 18),
@@ -443,7 +455,7 @@ class _MiniBalanceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(14),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: background,
         borderRadius: BorderRadius.circular(16),
@@ -451,38 +463,49 @@ class _MiniBalanceCard extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 34,
-            height: 34,
+            width: 32,
+            height: 32,
             decoration: BoxDecoration(
               color: foreground,
               shape: BoxShape.circle,
             ),
-            child: Icon(icon, color: Colors.white, size: 18),
+            child: Icon(icon, color: Colors.white, size: 17),
           ),
           const SizedBox(width: 10),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  amount,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w800,
-                    color: foreground,
-                    fontFeatures: const [FontFeature.tabularFigures()],
+                // Full amount on one line, scaled to fit — never
+                // "Rs 1,100...." truncation.
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text(
+                    amount,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w800,
+                      color: foreground,
+                      fontFeatures: const [FontFeature.tabularFigures()],
+                    ),
+                    textDirection: TextDirection.ltr,
+                    maxLines: 1,
+                    softWrap: false,
                   ),
-                  textDirection: TextDirection.ltr,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
                 ),
-                Text(
-                  caption,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodySmall
-                      ?.copyWith(color: foreground.withValues(alpha: 0.9)),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                // Caption also scales to fit instead of "Maine lene h...".
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text(
+                    caption,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall
+                        ?.copyWith(color: foreground.withValues(alpha: 0.9)),
+                    maxLines: 1,
+                    softWrap: false,
+                  ),
                 ),
               ],
             ),
@@ -540,6 +563,7 @@ class _PartyRow extends StatelessWidget {
             ),
             const SizedBox(width: 12),
             Expanded(
+              flex: 3,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -564,14 +588,26 @@ class _PartyRow extends StatelessWidget {
                 ],
               ),
             ),
-            Text(
-              '$prefix${formatPkr(balancePaisa.abs())}',
-              style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.w700,
-                color: color,
-                fontFeatures: const [FontFeature.tabularFigures()],
+            const SizedBox(width: 8),
+            // Balance scales down to fit its share of the row instead of
+            // squeezing the name/subtitle or colliding with them.
+            Flexible(
+              flex: 2,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerRight,
+                child: Text(
+                  '$prefix${formatPkr(balancePaisa.abs())}',
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: color,
+                    fontFeatures: const [FontFeature.tabularFigures()],
+                  ),
+                  textDirection: TextDirection.ltr,
+                  maxLines: 1,
+                  softWrap: false,
+                ),
               ),
-              textDirection: TextDirection.ltr,
             ),
           ],
         ),

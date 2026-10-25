@@ -7,10 +7,12 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:googleapis/drive/v3.dart' as drive;
 
+import 'package:namt_oil_mil/core/app_exception.dart';
+
 /// Google Drive backup for Namt Oil Mil (user-requested 2026-10-18).
 ///
 /// 100% OPT-IN: nothing touches Google unless the user taps
-/// "Google se connect karein" in Settings. The app works fully offline
+/// "Connect with Google" in Settings. The app works fully offline
 /// without this; every method degrades gracefully when there is no
 /// network, no Play Services, or the user never connected.
 ///
@@ -69,7 +71,7 @@ class GoogleDriveService {
   /// Interactive sign-in. Shows the Google account picker and the Drive
   /// consent screen. Returns the account email on success.
   ///
-  /// Throws [GoogleDriveException] with a user-readable message on failure
+  /// Throws [GoogleDriveException] with a localisable error key on failure
   /// (including user cancellation).
   Future<String> signIn() async {
     await _ensureInitialized();
@@ -77,12 +79,12 @@ class GoogleDriveService {
     try {
       account = await GoogleSignIn.instance.authenticate();
     } on GoogleSignInException catch (e) {
-      throw GoogleDriveException(_friendlySignInError(e.code.name));
+      throw GoogleDriveException(_signInErrorKey(e.code.name));
     }
     try {
       await account.authorizationClient.authorizeScopes(driveScopes);
     } on GoogleSignInException catch (e) {
-      throw GoogleDriveException(_friendlySignInError(e.code.name));
+      throw GoogleDriveException(_signInErrorKey(e.code.name));
     }
     final email = account.email;
     await _storage.write(key: _keyAccountEmail, value: email);
@@ -207,25 +209,25 @@ class GoogleDriveService {
   Future<void> recordBackupAt(DateTime when) async =>
       _storage.write(key: _keyLastBackupAt, value: when.toIso8601String());
 
-  String _friendlySignInError(String code) {
+  /// Maps a GoogleSignIn failure code to a localisable `error.*` key
+  /// (resolved by the UI via `errorText`).
+  String _signInErrorKey(String code) {
     switch (code) {
       case 'canceled':
-        return 'Google sign-in cancel kar diya gaya.';
+        return 'error.driveSignInCanceled';
       case 'interrupted':
-        return 'Sign-in adhoora reh gaya — dobara koshish karein.';
+        return 'error.driveSignInInterrupted';
       default:
-        return 'Google se connect nahi ho saka. Internet check karke dobara koshish karein.';
+        return 'error.driveConnectFailed';
     }
   }
 }
 
-/// User-readable error from the Google Drive flow.
-class GoogleDriveException implements Exception {
-  final String message;
-  const GoogleDriveException(this.message);
-
-  @override
-  String toString() => message;
+/// Localisable error from the Google Drive flow. Carries an
+/// [AppException.messageKey] (`error.*`); the UI translates it via
+/// `errorText` — never show it raw.
+class GoogleDriveException extends AppException {
+  const GoogleDriveException(super.messageKey, [super.params]);
 }
 
 /// Riverpod access to [GoogleDriveService].

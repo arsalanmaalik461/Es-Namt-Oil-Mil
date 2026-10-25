@@ -12,12 +12,33 @@ class CustomerRepository {
 
   static const String table = 'customers';
 
+  /// The next automatic party code: max existing NUMERIC code + 1, as a
+  /// string ('1' for the very first customer). Non-numeric legacy codes are
+  /// ignored; existing codes are never renumbered.
+  Future<String> nextCode() {
+    return guard(table, () async {
+      final rows = await _db.query(table, columns: ['code']);
+      var max = 0;
+      for (final row in rows) {
+        final parsed = int.tryParse((row['code'] as String?)?.trim() ?? '');
+        if (parsed != null && parsed > max) max = parsed;
+      }
+      return '${max + 1}';
+    });
+  }
+
   Future<int> insert(Customer customer) {
     return guard(table, () async {
+      // Auto-assign the sequential code when the caller didn't supply one
+      // (the form no longer asks the user to type it).
+      var toInsert = customer;
+      if (customer.code == null || customer.code!.trim().isEmpty) {
+        toInsert = customer.copyWith(code: await nextCode());
+      }
       final timestamp = now();
       final id = await _db.insert(
         table,
-        customer.toMap()
+        toInsert.toMap()
           ..remove('id')
           ..['created_at'] = timestamp
           ..['updated_at'] = timestamp,
