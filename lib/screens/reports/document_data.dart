@@ -113,7 +113,9 @@ Future<String> _productLabel(
   final unit = await units.getById(unitId);
   final name = product?.name ?? '#$productId';
   final symbol = unit?.symbol ?? '';
-  return '$name — ${_fmtQty(qty)} $symbol'.trim();
+  // ASCII hyphen, not an em dash: the PDF built-in fonts cannot draw
+  // U+2014 (see pdfSafeText in pdf_service.dart).
+  return '$name - ${_fmtQty(qty)} $symbol'.trim();
 }
 
 // ------------------------------------------------------------------ invoices
@@ -330,7 +332,9 @@ Future<PdfDocumentData> _supplierPaymentVoucher(
 /// Statement rows carry date AND time (entries record a time of day —
 /// user-requested 2026-10-25), e.g. "Oct 22, 2026 · 11:39 AM".
 /// [formatDate] stays the caller's locale-aware date format; the time is
-/// appended in `h:mm a` form.
+/// appended in `h:mm a` form. The `·` separator is U+00B7 — inside the
+/// built-in PDF fonts' Latin-1 coverage (byte-verified), so it is safe
+/// in the PDF too, unlike dashes (see pdfSafeText in pdf_service.dart).
 String _fmtDateTime(String Function(DateTime) formatDate, DateTime d) =>
     '${formatDate(d)} · ${DateFormat.jm().format(d)}';
 
@@ -377,8 +381,8 @@ Future<PdfDocumentData> _statementDoc({
     rows.add([
       _fmtDateTime(formatDate, e.date),
       e.description ?? e.entryNo,
-      e.debitPaisa > 0 ? formatPkr(e.debitPaisa) : '—',
-      e.creditPaisa > 0 ? formatPkr(e.creditPaisa) : '—',
+      e.debitPaisa > 0 ? formatPkr(e.debitPaisa) : '-',
+      e.creditPaisa > 0 ? formatPkr(e.creditPaisa) : '-',
       formatPkr(line.runningBalancePaisa),
     ]);
   }
@@ -392,8 +396,10 @@ Future<PdfDocumentData> _statementDoc({
           partyName),
       if ((partyPhone ?? '').isNotEmpty)
         PdfMetaRow(t.customers_phone, partyPhone!),
+      // "Jan 1, 2000 to Dec 31, 2099" — an en dash (U+2013) cannot be
+      // drawn by the PDF built-in fonts and showed as a broken glyph.
       PdfMetaRow(t.reports_doc_period,
-          '${formatDate(start)} – ${formatDate(end.subtract(const Duration(days: 1)))}'),
+          '${formatDate(start)} to ${formatDate(end.subtract(const Duration(days: 1)))}'),
     ],
     columns: [
       t.reports_doc_date,
@@ -577,7 +583,7 @@ Future<PdfDocumentData> _productionReport(
     PdfMetaRow(
         t.reports_doc_yield,
         batch.yieldPct == null
-            ? '—'
+            ? '-'
             : '${batch.yieldPct!.toStringAsFixed(1)}%'),
   ];
   // Inputs and outputs share one table section each via meta rows is not

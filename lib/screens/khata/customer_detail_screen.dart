@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -1105,7 +1107,99 @@ class _TxnRow extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
         ),
+        // Bill photo attached to this entry (payment/udhaar flows stamp
+        // ledger_entries.bill_image_path): small thumbnail under the
+        // description; tap opens it full-screen.
+        if (entry.billImagePath != null && entry.billImagePath!.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.only(left: 50, top: 8),
+            child: _BillThumb(path: entry.billImagePath!),
+          ),
       ],
     );
   }
+}
+
+/// Compact bill-photo thumbnail for a ledger row; tap opens the
+/// full-screen viewer. Renders nothing when the file no longer exists.
+class _BillThumb extends StatelessWidget {
+  final String path;
+
+  const _BillThumb({required this.path});
+
+  @override
+  Widget build(BuildContext context) {
+    if (!File(path).existsSync()) return const SizedBox.shrink();
+    final t = FragmentStrings.of(context);
+    return InkWell(
+      onTap: () => _showBillImageViewer(context, path),
+      borderRadius: BorderRadius.circular(10),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Image.file(
+              File(path),
+              width: 96,
+              height: 64,
+              fit: BoxFit.cover,
+              errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+            ),
+          ),
+          const SizedBox(width: 8),
+          Flexible(
+            child: Text(
+              t.khata_billAttached,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Full-screen bill photo viewer with pinch zoom.
+void _showBillImageViewer(BuildContext context, String path) {
+  showDialog<void>(
+    context: context,
+    builder: (dialogContext) => Dialog(
+      backgroundColor: Colors.black,
+      insetPadding: EdgeInsets.zero,
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: InteractiveViewer(
+              child: Image.file(
+                File(path),
+                fit: BoxFit.contain,
+                errorBuilder: (_, __, ___) => const Center(
+                  child: Icon(
+                    Icons.broken_image_outlined,
+                    color: Colors.white54,
+                    size: 48,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 8,
+            right: 8,
+            child: SafeArea(
+              child: IconButton(
+                icon: const Icon(Icons.close, color: Colors.white),
+                onPressed: () => Navigator.of(dialogContext).pop(),
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 }

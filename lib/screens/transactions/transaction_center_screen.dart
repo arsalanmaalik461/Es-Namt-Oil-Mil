@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:namt_oil_mil/core/app_exception.dart';
+import 'package:namt_oil_mil/l10n/fragment_strings.dart';
 import 'package:namt_oil_mil/l10n/gen/app_localizations.dart';
 import 'package:namt_oil_mil/models/inventory_movement.dart'
     show ReferenceTypes;
@@ -400,6 +403,17 @@ class _JournalDetailSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final g = group;
+    // Bill photo attached to this transaction: the posting flows stamp
+    // `bill_image_path` on the journal's ledger legs, so the first
+    // non-empty path among the entries is the attachment to show.
+    String? billPath;
+    for (final e in g.entries) {
+      final p = e.billImagePath;
+      if (p != null && p.isNotEmpty) {
+        billPath = p;
+        break;
+      }
+    }
     final refLabel = g.referenceLabel == null
         ? g.referenceType
         : '${g.referenceType} · ${g.referenceLabel}';
@@ -448,6 +462,17 @@ class _JournalDetailSheet extends StatelessWidget {
                   : l10n.transactions_reversed,
               highlight: true,
             ),
+          if (billPath != null) ...[
+            const SizedBox(height: 8),
+            Text(
+              FragmentStrings.of(context).khata_billAttached,
+              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
+            ),
+            const SizedBox(height: 8),
+            _BillThumbnail(path: billPath),
+          ],
           const Divider(height: 24),
           Text(
             l10n.transactions_entryNo,
@@ -633,4 +658,72 @@ class _DcCell extends StatelessWidget {
       ],
     );
   }
+}
+
+/// Thumbnail of a bill photo attached to a journal; tap opens the
+/// full-screen viewer. Renders nothing when the file is gone (e.g. the
+/// device storage was cleaned), so stale paths never break the detail.
+class _BillThumbnail extends StatelessWidget {
+  final String path;
+
+  const _BillThumbnail({required this.path});
+
+  @override
+  Widget build(BuildContext context) {
+    if (!File(path).existsSync()) return const SizedBox.shrink();
+    return InkWell(
+      onTap: () => _showBillImageViewer(context, path),
+      borderRadius: BorderRadius.circular(12),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(12),
+        child: Image.file(
+          File(path),
+          height: 160,
+          width: double.infinity,
+          fit: BoxFit.cover,
+          errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+        ),
+      ),
+    );
+  }
+}
+
+/// Full-screen bill photo viewer with pinch zoom.
+void _showBillImageViewer(BuildContext context, String path) {
+  showDialog<void>(
+    context: context,
+    builder: (dialogContext) => Dialog(
+      backgroundColor: Colors.black,
+      insetPadding: EdgeInsets.zero,
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: InteractiveViewer(
+              child: Image.file(
+                File(path),
+                fit: BoxFit.contain,
+                errorBuilder: (_, __, ___) => const Center(
+                  child: Icon(
+                    Icons.broken_image_outlined,
+                    color: Colors.white54,
+                    size: 48,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 8,
+            right: 8,
+            child: SafeArea(
+              child: IconButton(
+                icon: const Icon(Icons.close, color: Colors.white),
+                onPressed: () => Navigator.of(dialogContext).pop(),
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 }

@@ -2053,7 +2053,7 @@ class _DocumentViewState extends ConsumerState<_DocumentView> {
       padding: const EdgeInsets.all(16),
       child: Card(
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -2105,63 +2105,106 @@ class _DocumentViewState extends ConsumerState<_DocumentView> {
               // Line items.
               if (data.columns.isNotEmpty) ...[
                 const SizedBox(height: 16),
-                Table(
-                  border: TableBorder.all(
-                    color: theme.colorScheme.outlineVariant,
-                  ),
-                  columnWidths: {
-                    0: const FlexColumnWidth(4),
-                    for (var i = 1; i < data.columns.length; i++)
-                      i: const FlexColumnWidth(2),
-                  },
-                  children: [
-                    TableRow(
-                      decoration: BoxDecoration(
-                        color: theme.colorScheme.primaryContainer
-                            .withValues(alpha: 0.4),
-                      ),
-                      children: [
-                        for (final c in data.columns)
-                          Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: Text(
-                              c,
-                              style: theme.textTheme.bodyMedium
-                                  ?.copyWith(fontWeight: FontWeight.w700),
-                            ),
-                          ),
-                      ],
+                Builder(builder: (context) {
+                  // Column plan (mobile redesign, user report
+                  // 2026-10-25): the old layout gave column 0 flex 4
+                  // and everything else flex 2, so on a statement the
+                  // Description column was ~55px wide — its body text
+                  // was FittedBox-shrunk to microscopic size while the
+                  // Date column rendered full-size, and headers wrapped
+                  // mid-word ("Des cript ion", "Debi t"). Now: amount
+                  // columns (every non-empty cell money-like) are
+                  // narrower and right-aligned; text columns share the
+                  // remaining width, description-like columns widest;
+                  // headers are single-line (scale-down only there);
+                  // body text is one consistent 13px, wrapping
+                  // normally, amounts single-line with scale-down
+                  // purely as a last resort.
+                  final colCount = data.columns.length;
+                  final amountCol = List<bool>.generate(colCount, (i) {
+                    if (data.rows.isEmpty) return false;
+                    var saw = false;
+                    for (final r in data.rows) {
+                      final v = (i < r.length ? r[i] : '').trim();
+                      if (v.isEmpty) continue;
+                      saw = true;
+                      if (!_isPreviewAmountCell(v)) return false;
+                    }
+                    return saw;
+                  });
+                  final textCount = amountCol.where((a) => !a).length;
+                  double flexFor(int i) => amountCol[i]
+                      ? 2.0
+                      : (textCount == 1 ? 4.5 : (i == 0 ? 2.3 : 3.3));
+                  const cellPad =
+                      EdgeInsets.symmetric(horizontal: 6, vertical: 7);
+                  final headerStyle = theme.textTheme.bodyMedium?.copyWith(
+                      fontSize: 12.5, fontWeight: FontWeight.w700);
+                  const bodyStyle = TextStyle(fontSize: 13);
+                  return Table(
+                    border: TableBorder.all(
+                      color: theme.colorScheme.outlineVariant,
                     ),
-                    for (final row in data.rows)
+                    columnWidths: {
+                      for (var i = 0; i < colCount; i++)
+                        i: FlexColumnWidth(flexFor(i)),
+                    },
+                    children: [
                       TableRow(
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.primaryContainer
+                              .withValues(alpha: 0.4),
+                        ),
                         children: [
-                          for (var i = 0; i < data.columns.length; i++)
+                          for (var i = 0; i < colCount; i++)
                             Padding(
-                              padding: const EdgeInsets.all(8),
-                              // Amount columns (i > 0) scale to fit their
-                              // flex width — no mid-number wraps in the
-                              // narrow preview table.
-                              child: i == 0
-                                  ? Text(
-                                      i < row.length ? row[i] : '',
-                                      style: theme.textTheme.bodyMedium,
-                                    )
-                                  : FittedBox(
-                                      fit: BoxFit.scaleDown,
-                                      alignment:
-                                          AlignmentDirectional.centerStart,
-                                      child: Text(
-                                        i < row.length ? row[i] : '',
-                                        style: theme.textTheme.bodyMedium,
-                                        maxLines: 1,
-                                        softWrap: false,
-                                      ),
-                                    ),
+                              padding: cellPad,
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                alignment: amountCol[i]
+                                    ? AlignmentDirectional.centerEnd
+                                    : AlignmentDirectional.centerStart,
+                                child: Text(
+                                  data.columns[i],
+                                  style: headerStyle,
+                                  maxLines: 1,
+                                  softWrap: false,
+                                ),
+                              ),
                             ),
                         ],
                       ),
-                  ],
-                ),
+                      for (final row in data.rows)
+                        TableRow(
+                          children: [
+                            for (var i = 0; i < colCount; i++)
+                              Padding(
+                                padding: cellPad,
+                                child: amountCol[i]
+                                    ? FittedBox(
+                                        fit: BoxFit.scaleDown,
+                                        alignment:
+                                            AlignmentDirectional.centerEnd,
+                                        child: Text(
+                                          i < row.length ? row[i] : '',
+                                          style: bodyStyle,
+                                          textDirection: TextDirection.ltr,
+                                          maxLines: 1,
+                                          softWrap: false,
+                                        ),
+                                      )
+                                    : Text(
+                                        i < row.length ? row[i] : '',
+                                        style: bodyStyle,
+                                        maxLines: i == 0 ? 3 : 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                              ),
+                          ],
+                        ),
+                    ],
+                  );
+                }),
               ],
               // Totals.
               if (data.totals.isNotEmpty) ...[
@@ -2221,6 +2264,17 @@ class _DocumentViewState extends ConsumerState<_DocumentView> {
       ),
     );
   }
+}
+
+/// True when [v] looks like a formatted money cell ("Rs 1,600.00",
+/// "Rs -1,400.00" or the empty-cell dash). The document preview uses
+/// this to give amount columns narrower flex and right alignment
+/// while text columns (date, description, item) get the width.
+bool _isPreviewAmountCell(String v) {
+  final s = v.trim();
+  return s == '-' ||
+      s == '\u2014' ||
+      RegExp(r'^-?Rs\s?-?[\d,]+(\.\d{1,2})?$').hasMatch(s);
 }
 
 /// Amount text inside the preview totals (values are pre-formatted strings).

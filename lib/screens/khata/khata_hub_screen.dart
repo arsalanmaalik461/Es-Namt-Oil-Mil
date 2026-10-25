@@ -36,6 +36,28 @@ class _KhataHubScreenState extends ConsumerState<KhataHubScreen> {
   final _searchController = TextEditingController();
   String _search = '';
 
+  /// Whether this tab was visible at the last dependency change. The hub
+  /// lives in the shell's IndexedStack, which keeps it mounted while other
+  /// tabs are shown and wraps hidden tabs in TickerMode(enabled: false) —
+  /// so a false -> true flip is the "user came back to this tab" signal.
+  bool _wasVisible = true;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Posting flows on OTHER tabs (sales, purchases, payments) do not
+    // invalidate khataSummaryProvider, and this screen is never rebuilt on
+    // a tab switch — without this, the TOTAL BALANCE cards could keep
+    // showing stale figures until a manual pull-to-refresh.
+    final visible = TickerMode.valuesOf(context).enabled;
+    if (visible && !_wasVisible) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) ref.invalidate(khataSummaryProvider);
+      });
+    }
+    _wasVisible = visible;
+  }
+
   @override
   void dispose() {
     _searchController.dispose();
@@ -257,22 +279,24 @@ class _KhataHubScreenState extends ConsumerState<KhataHubScreen> {
     final t = FragmentStrings.of(context);
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
-      child: Row(
+      // Label stacked ABOVE the segmented control: side-by-side, the label
+      // was squeezed into "CUSTOM..." next to the control on 360px phones.
+      // Full-width rows keep both always fully readable.
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Flexible(
-            child: Text(
-              (_showSuppliers ? t.khata_suppliers : t.khata_customers)
-                  .toUpperCase(),
-              style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                    letterSpacing: 1.2,
-                    fontWeight: FontWeight.w600,
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
+          Text(
+            (_showSuppliers ? t.khata_suppliers : t.khata_customers)
+                .toUpperCase(),
+            style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                  letterSpacing: 1.2,
+                  fontWeight: FontWeight.w600,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
-          const SizedBox(width: 8),
+          const SizedBox(height: 8),
           SegmentedButton<bool>(
             style: SegmentedButton.styleFrom(
               visualDensity: VisualDensity.compact,
@@ -326,7 +350,9 @@ class _KhataHubScreenState extends ConsumerState<KhataHubScreen> {
           final dateLabel = updated == null
               ? ''
               : t.khata_lastTransacted(
-                  date: DateFormat.yMMMd(
+                  // Compact date ("Oct 25, 26"): the long form pushed the
+                  // subtitle into "last transacted on Oct ..." truncation.
+                  date: DateFormat('MMM d, yy',
                           Localizations.localeOf(context).toLanguageTag())
                       .format(updated));
           return StaggerEntrance(
@@ -338,11 +364,22 @@ class _KhataHubScreenState extends ConsumerState<KhataHubScreen> {
               subtitle: dateLabel,
               balancePaisa: balance,
               isSupplier: _showSuppliers,
-              onTap: () => Navigator.pushNamed(
-                context,
-                _showSuppliers ? Routes.supplierDetail : Routes.customerDetail,
-                arguments: p.id as int,
-              ),
+              onTap: () async {
+                await Navigator.pushNamed(
+                  context,
+                  _showSuppliers
+                      ? Routes.supplierDetail
+                      : Routes.customerDetail,
+                  arguments: p.id as int,
+                );
+                // Refresh on return: anything posted inside the detail
+                // flow (payments, corrections, buy-from-customer, ...)
+                // must be reflected in the totals and list immediately.
+                if (!mounted) return;
+                ref.invalidate(khataSummaryProvider);
+                ref.invalidate(customerListProvider);
+                ref.invalidate(supplierListProvider);
+              },
             ),
           );
         },
@@ -414,13 +451,17 @@ class _KhataHubScreenState extends ConsumerState<KhataHubScreen> {
                           ),
                         ],
                       ),
-                      onTap: () {
+                      onTap: () async {
                         Navigator.of(dialogContext).pop();
-                        Navigator.pushNamed(
+                        await Navigator.pushNamed(
                           context,
                           Routes.customerDetail,
                           arguments: c.id,
                         );
+                        if (!mounted) return;
+                        ref.invalidate(khataSummaryProvider);
+                        ref.invalidate(customerListProvider);
+                        ref.invalidate(supplierListProvider);
                       },
                     );
                   },
@@ -577,13 +618,20 @@ class _PartyRow extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   if (subtitle.isNotEmpty)
-                    Text(
-                      subtitle,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color:
-                              Theme.of(context).colorScheme.onSurfaceVariant),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                    // Scales down to fit the full line — the "last
+                    // transacted on ..." line must never ellipsize.
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: AlignmentDirectional.centerStart,
+                      child: Text(
+                        subtitle,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSurfaceVariant),
+                        maxLines: 1,
+                        softWrap: false,
+                      ),
                     ),
                 ],
               ),

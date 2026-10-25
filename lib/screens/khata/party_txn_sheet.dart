@@ -4,6 +4,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart' hide TextDirection;
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 
 import 'package:namt_oil_mil/core/app_exception.dart';
 import 'package:namt_oil_mil/l10n/fragment_strings.dart';
@@ -180,10 +182,32 @@ class _PartyTxnSheetState extends ConsumerState<_PartyTxnSheet> {
     );
     final path = picked.isEmpty ? null : picked.first.path;
     if (path != null && mounted) {
-      setState(() => _billImagePath = path);
+      // Copy into the app's private bills dir before keeping the path:
+      // the raw picker path lives in a cache the OS can clean, which
+      // would silently orphan the attachment on the saved entry.
+      final stored = await _persistBillCopy(path);
+      if (!mounted) return;
+      setState(() => _billImagePath = stored);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(t.khata_billAttached)),
       );
+    }
+  }
+
+  /// Copies a picked bill image into the app's private `bills/` folder
+  /// (the durable location BillAttachmentService also uses) and returns
+  /// the stored path. Falls back to the original path when the copy fails.
+  Future<String> _persistBillCopy(String sourcePath) async {
+    try {
+      final docs = await getApplicationDocumentsDirectory();
+      final dir = Directory(p.join(docs.path, 'bills'));
+      if (!await dir.exists()) await dir.create(recursive: true);
+      final name =
+          'bill_${DateTime.now().millisecondsSinceEpoch}${p.extension(sourcePath)}';
+      final dest = await File(sourcePath).copy(p.join(dir.path, name));
+      return dest.path;
+    } catch (_) {
+      return sourcePath;
     }
   }
 
@@ -219,9 +243,9 @@ class _PartyTxnSheetState extends ConsumerState<_PartyTxnSheet> {
     try {
       final accounting = await ref.watch(accountingServiceProvider.future);
       final note = _note.text.trim();
-      // NOTE: the bill image is kept as a local preview in this sheet.
-      // AccountingService has no attachment slot (models are Team-3 owned);
-      // wiring persistence is tracked for the features team.
+      // The attached bill image is persisted on BOTH ledger legs of the
+      // payment journal (ledger_entries.bill_image_path) so the entry's
+      // detail views (Transaction Center, party detail) can show it.
       if (widget.kind == PartyTxnKind.receive) {
         await accounting.postCustomerPayment(
           customerId: widget.partyId,
@@ -231,6 +255,7 @@ class _PartyTxnSheetState extends ConsumerState<_PartyTxnSheet> {
           method: _method,
           notes: note.isEmpty ? null : note,
           idempotencyKey: newIdempotencyKey(),
+          billImagePath: _billImagePath,
         );
       } else {
         await accounting.postSupplierPayment(
@@ -241,6 +266,7 @@ class _PartyTxnSheetState extends ConsumerState<_PartyTxnSheet> {
           method: _method,
           notes: note.isEmpty ? null : note,
           idempotencyKey: newIdempotencyKey(),
+          billImagePath: _billImagePath,
         );
       }
       _invalidate();
@@ -317,18 +343,26 @@ class _PartyTxnSheetState extends ConsumerState<_PartyTxnSheet> {
               const SizedBox(height: 12),
               Row(
                 children: [
+                  // Date chip gets the larger share and its label scales
+                  // down to fit: the full "25 Oct, 26 · 12:56 PM" must
+                  // never ellipsize the AM/PM away (user-reported).
                   Expanded(
+                    flex: 3,
                     child: OutlinedButton.icon(
                       icon: const Icon(Icons.calendar_month_outlined, size: 20),
-                      label: Text(
-                        // Date AND time (user-requested 2026-10-25).
-                        '${DateFormat('d MMM, yy', Localizations.localeOf(context).toLanguageTag()).format(_date)} · ${DateFormat.jm(Localizations.localeOf(context).toLanguageTag()).format(_date)}',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                      label: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          // Date AND time (user-requested 2026-10-25).
+                          '${DateFormat('d MMM, yy', Localizations.localeOf(context).toLanguageTag()).format(_date)} · ${DateFormat.jm(Localizations.localeOf(context).toLanguageTag()).format(_date)}',
+                          maxLines: 1,
+                          softWrap: false,
+                        ),
                       ),
                       onPressed: _pickDate,
                       style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 14),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(24),
                         ),
@@ -337,12 +371,21 @@ class _PartyTxnSheetState extends ConsumerState<_PartyTxnSheet> {
                   ),
                   const SizedBox(width: 12),
                   Expanded(
+                    flex: 2,
                     child: OutlinedButton.icon(
                       icon: const Icon(Icons.camera_alt_outlined, size: 20),
-                      label: Text(t.khata_addBills),
+                      label: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          t.khata_addBills,
+                          maxLines: 1,
+                          softWrap: false,
+                        ),
+                      ),
                       onPressed: _pickBillImage,
                       style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 14),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(24),
                         ),
@@ -425,13 +468,21 @@ class _PartyTxnSheetState extends ConsumerState<_PartyTxnSheet> {
                     }
                     return DropdownButtonFormField<int>(
                       initialValue: _accountId,
+                      isExpanded: true,
                       decoration: InputDecoration(
                         labelText: t.customers_account,
                         border: const OutlineInputBorder(),
                       ),
                       items: [
                         for (final a in options)
-                          DropdownMenuItem(value: a.id, child: Text(a.name)),
+                          DropdownMenuItem(
+                            value: a.id,
+                            child: Text(
+                              a.name,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
                       ],
                       onChanged: (v) => setState(() => _accountId = v),
                     );

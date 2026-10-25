@@ -37,19 +37,72 @@ class KhataSummary {
   });
 }
 
-final khataSummaryProvider = FutureProvider<KhataSummary>((ref) async {
-  final accounting = await ref.watch(accountingServiceProvider.future);
-  final results = await Future.wait([
-    accounting.receivables(),
-    accounting.payables(),
-  ]);
-  final receivables = results[0] as List<Customer>;
-  final payables = results[1] as List<Supplier>;
+/// How many party rows the outstanding-totals scan reads. Party books are
+/// small; this is effectively "all non-archived parties" (repository
+/// search excludes archived rows by default, matching the semantics of
+/// [AccountingService.receivables] / [AccountingService.payables]).
+const int _partyScanLimit = 100000;
+
+/// Splits party balances into outstanding totals by SIGN across BOTH party
+/// types — the only split that matches the ledger's sign conventions
+/// (see [AccountingService.signedEffect]):
+///
+/// * customer balance > 0 → the customer owes the business (receivable);
+///   customer balance < 0 → the business owes the customer (payable);
+/// * supplier balance > 0 → the business owes the supplier (payable);
+///   supplier balance < 0 → advance paid, the supplier owes the business
+///   (receivable).
+///
+/// Summing only customers > 0 as "receivable" and only suppliers > 0 as
+/// "payable" (the old behaviour) dropped every negative-balance customer
+/// and every advance-holding supplier from BOTH totals, so the hub could
+/// show Rs 0.00 / Rs 0.00 while real money was outstanding.
+KhataSummary aggregateOutstandingBalances({
+  required Iterable<int> customerBalancesPaisa,
+  required Iterable<int> supplierBalancesPaisa,
+}) {
+  var receivablePaisa = 0;
+  var payablePaisa = 0;
+  var receivableCount = 0;
+  var payableCount = 0;
+  for (final balance in customerBalancesPaisa) {
+    if (balance > 0) {
+      receivablePaisa += balance;
+      receivableCount++;
+    } else if (balance < 0) {
+      payablePaisa += -balance;
+      payableCount++;
+    }
+  }
+  for (final balance in supplierBalancesPaisa) {
+    if (balance > 0) {
+      payablePaisa += balance;
+      payableCount++;
+    } else if (balance < 0) {
+      receivablePaisa += -balance;
+      receivableCount++;
+    }
+  }
   return KhataSummary(
-    receivablePaisa: receivables.fold(0, (sum, c) => sum + c.balancePaisa),
-    payablePaisa: payables.fold(0, (sum, s) => sum + s.balancePaisa),
-    receivableCount: receivables.length,
-    payableCount: payables.length,
+    receivablePaisa: receivablePaisa,
+    payablePaisa: payablePaisa,
+    receivableCount: receivableCount,
+    payableCount: payableCount,
+  );
+}
+
+final khataSummaryProvider = FutureProvider<KhataSummary>((ref) async {
+  final customerRepo = await ref.watch(customerRepositoryProvider.future);
+  final supplierRepo = await ref.watch(supplierRepositoryProvider.future);
+  final results = await Future.wait([
+    customerRepo.search(limit: _partyScanLimit),
+    supplierRepo.search(limit: _partyScanLimit),
+  ]);
+  final customers = results[0] as List<Customer>;
+  final suppliers = results[1] as List<Supplier>;
+  return aggregateOutstandingBalances(
+    customerBalancesPaisa: customers.map((c) => c.balancePaisa),
+    supplierBalancesPaisa: suppliers.map((s) => s.balancePaisa),
   );
 });
 
@@ -302,8 +355,8 @@ final dashboardDataProvider = FutureProvider<DashboardData>((ref) async {
 
   final now = DateTime.now();
   final results = await Future.wait([
-    accounting.receivables(),
-    accounting.payables(),
+    customerRepo.search(limit: _partyScanLimit),
+    supplierRepo.search(limit: _partyScanLimit),
     accounting.dailySummary(now),
     accounting.monthlySummary(now.year, now.month),
     cashRepo.getAll(),
@@ -316,8 +369,14 @@ final dashboardDataProvider = FutureProvider<DashboardData>((ref) async {
     incomeRepo.list(limit: 8),
   ]);
 
-  final receivables = results[0] as List<Customer>;
-  final payables = results[1] as List<Supplier>;
+  final customers = results[0] as List<Customer>;
+  final suppliers = results[1] as List<Supplier>;
+  // Same sign-split as the khata hub: money outstanding on either side of
+  // either party type must land in the receivable / payable totals.
+  final outstanding = aggregateOutstandingBalances(
+    customerBalancesPaisa: customers.map((c) => c.balancePaisa),
+    supplierBalancesPaisa: suppliers.map((s) => s.balancePaisa),
+  );
   final accounts = results[4] as List<CashAccount>;
   final units = results[6] as List<Unit>;
   final unitSymbols = {for (final u in units) u.id!: u.symbol};
@@ -403,8 +462,8 @@ final dashboardDataProvider = FutureProvider<DashboardData>((ref) async {
   items.sort((a, b) => b.date.compareTo(a.date));
 
   return DashboardData(
-    totalReceivablePaisa: receivables.fold(0, (sum, c) => sum + c.balancePaisa),
-    totalPayablePaisa: payables.fold(0, (sum, s) => sum + s.balancePaisa),
+    totalReceivablePaisa: outstanding.receivablePaisa,
+    totalPayablePaisa: outstanding.payablePaisa,
     today: results[2] as DailySummary,
     month: results[3] as MonthlySummary,
     accounts: accountBalances,

@@ -409,6 +409,7 @@ class AccountingService {
           referenceType: line.referenceType,
           referenceId: line.referenceId,
           description: line.description,
+          billImagePath: line.billImagePath,
         ),
       );
     }
@@ -1306,6 +1307,7 @@ class AccountingService {
     String? reference,
     String? notes,
     String? idempotencyKey,
+    String? billImagePath,
   }) async {
     final payments = PaymentRepository(txn);
     final accounts = CashAccountRepository(txn);
@@ -1461,6 +1463,7 @@ class AccountingService {
                 referenceType: ReferenceTypes.payment,
                 referenceId: payment.id,
                 description: description,
+                billImagePath: billImagePath,
               ),
               _JournalLine(
                 accountType: cashType,
@@ -1470,6 +1473,7 @@ class AccountingService {
                 referenceType: ReferenceTypes.payment,
                 referenceId: payment.id,
                 description: description,
+                billImagePath: billImagePath,
               ),
             ]
           : [
@@ -1481,6 +1485,7 @@ class AccountingService {
                 referenceType: ReferenceTypes.payment,
                 referenceId: payment.id,
                 description: description,
+                billImagePath: billImagePath,
               ),
               _JournalLine(
                 accountType: cashType,
@@ -1490,6 +1495,7 @@ class AccountingService {
                 referenceType: ReferenceTypes.payment,
                 referenceId: payment.id,
                 description: description,
+                billImagePath: billImagePath,
               ),
             ],
     );
@@ -1515,6 +1521,7 @@ class AccountingService {
     String? reference,
     String? notes,
     String? idempotencyKey,
+    String? billImagePath,
   }) {
     return repo.guard('payments', () async {
       if (idempotencyKey != null) {
@@ -1542,6 +1549,7 @@ class AccountingService {
           reference: reference,
           notes: notes,
           idempotencyKey: idempotencyKey,
+          billImagePath: billImagePath,
         );
       });
     });
@@ -1560,6 +1568,7 @@ class AccountingService {
     String? reference,
     String? notes,
     String? idempotencyKey,
+    String? billImagePath,
   }) {
     return repo.guard('payments', () async {
       if (idempotencyKey != null) {
@@ -1587,6 +1596,7 @@ class AccountingService {
           reference: reference,
           notes: notes,
           idempotencyKey: idempotencyKey,
+          billImagePath: billImagePath,
         );
       });
     });
@@ -1609,6 +1619,7 @@ class AccountingService {
     required DateTime date,
     String? note,
     String? idempotencyKey,
+    String? billImagePath,
   }) {
     return repo.guard('ledger_entries', () async {
       if (amountPaisa <= 0) throw ValidationException('error.invalidAmount');
@@ -1655,6 +1666,7 @@ class AccountingService {
               category: 'udhaar',
               referenceType: ReferenceTypes.udhaar,
               description: description,
+              billImagePath: billImagePath,
             ),
             _JournalLine(
               accountType: cashType,
@@ -1663,6 +1675,7 @@ class AccountingService {
               category: 'udhaar',
               referenceType: ReferenceTypes.udhaar,
               description: description,
+              billImagePath: billImagePath,
             ),
           ],
         );
@@ -3044,6 +3057,10 @@ class _JournalLine {
   final String? referenceType;
   final int? referenceId;
   final String? description;
+
+  /// Optional local path of an attached bill/receipt photo, persisted to
+  /// `ledger_entries.bill_image_path` so entry detail views can show it.
+  final String? billImagePath;
   const _JournalLine({
     required this.accountType,
     required this.accountId,
@@ -3053,6 +3070,7 @@ class _JournalLine {
     this.referenceType,
     this.referenceId,
     this.description,
+    this.billImagePath,
   });
 }
 
