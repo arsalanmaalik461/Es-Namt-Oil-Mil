@@ -59,6 +59,12 @@ class BackupService {
   ///
   /// `ledger_entries` is self-referencing (`reversed_by_id`); it is
   /// special-cased at restore time (NULL-references first).
+  ///
+  /// NOTE: `reminder_auto_log` (schema v5) is deliberately NOT listed —
+  /// it is device-local auto-reminder send history, not business data.
+  /// Restore validates that every listed table exists in the backup
+  /// file, so listing it would break restoring older (pre-v5) backups;
+  /// leaving it out means restores never touch the send log.
   static const List<String> tableNames = [
     'units',
     'unit_conversions',

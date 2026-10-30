@@ -151,6 +151,76 @@ class AppLocalizationsSd extends AppLocalizations {
   String get nav_transactions => 'ليڻ ڏيڻ';
 
   @override
+  String get reminders_autoHistoryTitle => 'Auto reminder history';
+
+  @override
+  String get reminders_autoHowItWorks =>
+      'WhatsApp does not let apps send messages on their own, so each WhatsApp reminder is prepared with its PDF — tap Send on the Reminders screen to share it. SMS reminders are sent automatically.';
+
+  @override
+  String reminders_autoLastSms(String date) {
+    return 'Last automatic SMS: $date';
+  }
+
+  @override
+  String get reminders_autoLastSmsNever =>
+      'No automatic SMS has been sent yet.';
+
+  @override
+  String get reminders_autoOffMessage =>
+      'Turn on daily WhatsApp reminders or weekly SMS reminders in Settings.';
+
+  @override
+  String get reminders_autoOffTitle => 'Auto reminders are off';
+
+  @override
+  String get reminders_autoOpenSettings => 'Open settings';
+
+  @override
+  String get reminders_autoQueueEmpty => 'No WhatsApp reminders are due today.';
+
+  @override
+  String get reminders_autoQueueTitle => 'WhatsApp reminders for today';
+
+  @override
+  String reminders_autoSmsDue(int count) {
+    return '$count SMS reminders due — sent automatically.';
+  }
+
+  @override
+  String get reminders_autoSmsNoneDue => 'No SMS reminders are due right now.';
+
+  @override
+  String get reminders_autoSmsPermissionNeeded =>
+      'SMS permission is needed — this device cannot send automatic SMS yet.';
+
+  @override
+  String get reminders_autoSmsReady => 'This device can send automatic SMS.';
+
+  @override
+  String get reminders_autoSmsWeekly => 'SMS reminders (every 7 days)';
+
+  @override
+  String get reminders_autoSmsWeeklyHint =>
+      'Sent automatically from your SIM every 7 days to customers with a balance due.';
+
+  @override
+  String get reminders_autoStatusFailed => 'Failed';
+
+  @override
+  String get reminders_autoTime => 'Daily reminder time';
+
+  @override
+  String get reminders_autoTitle => 'Auto Reminders';
+
+  @override
+  String get reminders_autoWhatsappDaily => 'WhatsApp reminders (daily)';
+
+  @override
+  String get reminders_autoWhatsappDailyHint =>
+      'Every day, a reminder with the full ledger PDF is prepared for each customer with a balance due.';
+
+  @override
   String get settings_about => 'ايپ بابت';
 
   @override

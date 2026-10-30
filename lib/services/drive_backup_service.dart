@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:workmanager/workmanager.dart';
 
 import 'package:namt_oil_mil/db/database.dart';
+import 'package:namt_oil_mil/services/auto_reminder_service.dart';
 import 'package:namt_oil_mil/services/backup_service.dart';
 import 'package:namt_oil_mil/services/google_drive_service.dart';
 
@@ -236,13 +237,28 @@ final driveBackupServiceProvider = Provider<DriveBackupService>(
 // Background worker (WorkManager). Must stay top-level.
 // ---------------------------------------------------------------------------
 
-/// WorkManager entry point. Runs in a background isolate: re-opens the
-/// database directly, exports the full backup JSON, and uploads it to the
-/// user's Drive using silent Google auth. Any failure simply ends the task —
-/// the next 24h tick (or the foreground check) retries.
+/// WorkManager entry point — the app's ONE callback dispatcher (the
+/// plugin supports exactly one). It serves two periodic tasks:
+///
+/// * [DriveBackupService.periodicTaskName] — re-opens the database
+///   directly, exports the full backup JSON, and uploads it to the
+///   user's Drive using silent Google auth.
+/// * [AutoReminderService.taskName] — the automatic-reminder daily
+///   check (see [AutoReminderService.runBackgroundCheck]).
+///
+/// Any failure simply ends the task — the next 24h tick (or the
+/// foreground check) retries.
 @pragma('vm:entry-point')
 void driveBackupCallbackDispatcher() {
   Workmanager().executeTask((task, inputData) async {
+    if (task == AutoReminderService.taskName) {
+      try {
+        await AutoReminderService.runBackgroundCheck();
+        return true;
+      } catch (_) {
+        return false;
+      }
+    }
     if (task != DriveBackupService.periodicTaskName) return true;
     try {
       final driveService = GoogleDriveService();

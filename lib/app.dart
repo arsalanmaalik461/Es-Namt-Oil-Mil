@@ -6,6 +6,7 @@ import 'package:namt_oil_mil/navigation/routes.dart';
 import 'package:namt_oil_mil/providers/settings_provider.dart';
 import 'package:namt_oil_mil/screens/security/app_lock_screen.dart';
 import 'package:namt_oil_mil/services/app_lock_service.dart';
+import 'package:namt_oil_mil/services/auto_reminder_service.dart';
 import 'package:namt_oil_mil/theme/app_theme.dart';
 
 /// Root widget of the Namt Oil Mil app.
@@ -27,6 +28,15 @@ class _NamtOilMilAppState extends ConsumerState<NamtOilMilApp>
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     _checkLockOnLaunch();
+    // Automatic reminders (2026-10-30): re-assert the daily WorkManager
+    // schedule, then run the foreground catch-up shortly after the first
+    // frame — real SMS sends are only possible in this (foreground)
+    // engine, so any weekly SMS that came due while the app was closed
+    // goes out now. Both calls are fail-safe and fire-and-forget.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      AutoReminderService.syncSchedule();
+      AutoReminderService.runForegroundCatchUp();
+    });
   }
 
   @override

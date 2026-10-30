@@ -464,6 +464,26 @@ const Map<String, String> _fragmentEn = {
   'purchases_supplier': 'Supplier',
   'purchases_title': 'Purchases',
   'purchases_voucherPdf': 'Purchase voucher PDF',
+  'reminders_autoHistoryTitle': 'Auto reminder history',
+  'reminders_autoHowItWorks': 'WhatsApp does not let apps send messages on their own, so each WhatsApp reminder is prepared with its PDF — tap Send on the Reminders screen to share it. SMS reminders are sent automatically.',
+  'reminders_autoLastSms': 'Last automatic SMS: {date}',
+  'reminders_autoLastSmsNever': 'No automatic SMS has been sent yet.',
+  'reminders_autoOffMessage': 'Turn on daily WhatsApp reminders or weekly SMS reminders in Settings.',
+  'reminders_autoOffTitle': 'Auto reminders are off',
+  'reminders_autoOpenSettings': 'Open settings',
+  'reminders_autoQueueEmpty': 'No WhatsApp reminders are due today.',
+  'reminders_autoQueueTitle': 'WhatsApp reminders for today',
+  'reminders_autoSmsDue': '{count} SMS reminders due — sent automatically.',
+  'reminders_autoSmsNoneDue': 'No SMS reminders are due right now.',
+  'reminders_autoSmsPermissionNeeded': 'SMS permission is needed — this device cannot send automatic SMS yet.',
+  'reminders_autoSmsReady': 'This device can send automatic SMS.',
+  'reminders_autoSmsWeekly': 'SMS reminders (every 7 days)',
+  'reminders_autoSmsWeeklyHint': 'Sent automatically from your SIM every 7 days to customers with a balance due.',
+  'reminders_autoStatusFailed': 'Failed',
+  'reminders_autoTime': 'Daily reminder time',
+  'reminders_autoTitle': 'Auto Reminders',
+  'reminders_autoWhatsappDaily': 'WhatsApp reminders (daily)',
+  'reminders_autoWhatsappDailyHint': 'Every day, a reminder with the full ledger PDF is prepared for each customer with a balance due.',
   'reminders_daysOverdue': '{days} days overdue',
   'reminders_dueOn': 'Due {date}',
   'reminders_editMessage': 'Edit message',
@@ -1183,6 +1203,26 @@ const Map<String, String> _fragmentUr = {
   'purchases_supplier': 'سپلائر',
   'purchases_title': 'خریداری',
   'purchases_voucherPdf': 'خریداری واؤچر PDF',
+  'reminders_autoHistoryTitle': 'خودکار یاددہانی کا ریکارڈ',
+  'reminders_autoHowItWorks': 'واٹس ایپ ایپس کو خود پیغام بھیجنے کی اجازت نہیں دیتا، اس لیے ہر واٹس ایپ یاددہانی اس کی PDF کے ساتھ تیار کر دی جاتی ہے — شیئر کرنے کے لیے یاددہانی اسکرین پر بھیجیں دبا کر بھیجیں۔ SMS یاددہانیاں خودکار طور پر بھیجی جاتی ہیں۔',
+  'reminders_autoLastSms': 'آخری خودکار SMS: {date}',
+  'reminders_autoLastSmsNever': 'ابھی تک کوئی خودکار SMS نہیں بھیجی گئی۔',
+  'reminders_autoOffMessage': 'ترتیبات میں روزانہ واٹس ایپ یاددہانیاں یا ہفتہ وار SMS یاددہانیاں آن کریں۔',
+  'reminders_autoOffTitle': 'خودکار یاددہانیاں بند ہیں',
+  'reminders_autoOpenSettings': 'ترتیبات کھولیں',
+  'reminders_autoQueueEmpty': 'آج کوئی واٹس ایپ یاددہانی واجب نہیں ہے۔',
+  'reminders_autoQueueTitle': 'آج کی واٹس ایپ یاددہانیاں',
+  'reminders_autoSmsDue': '{count} SMS یاددہانیاں واجب ہیں — خودکار طور پر بھیجی جاتی ہیں۔',
+  'reminders_autoSmsNoneDue': 'اس وقت کوئی SMS یاددہانی واجب نہیں ہے۔',
+  'reminders_autoSmsPermissionNeeded': 'SMS کی اجازت درکار ہے — اس ڈیوائس پر خودکار SMS ابھی نہیں بھیجی جا سکتی۔',
+  'reminders_autoSmsReady': 'یہ ڈیوائس خودکار طور پر SMS بھیج سکتی ہے۔',
+  'reminders_autoSmsWeekly': 'SMS یاددہانیاں (ہر 7 دن بعد)',
+  'reminders_autoSmsWeeklyHint': 'واجب الادا بیلنس والے گاہکوں کو ہر 7 دن بعد آپ کی SIM سے خودکار طور پر بھیجی جاتی ہیں۔',
+  'reminders_autoStatusFailed': 'ناکام',
+  'reminders_autoTime': 'روزانہ یاددہانی کا وقت',
+  'reminders_autoTitle': 'خودکار یاددہانیاں',
+  'reminders_autoWhatsappDaily': 'واٹس ایپ یاددہانیاں (روزانہ)',
+  'reminders_autoWhatsappDailyHint': 'ہر روز، ہر اس گاہک کے لیے مکمل کھاتے کی PDF کے ساتھ یاددہانی تیار ہوتی ہے جس کا بیلنس واجب الادا ہو۔',
   'reminders_daysOverdue': '{days} دن سے واجب الادا',
   'reminders_dueOn': 'واجب الادا {date}',
   'reminders_editMessage': 'پیغام میں ترمیم کریں',
@@ -1923,6 +1963,26 @@ class FragmentStrings {
   String get purchases_supplier => _t('purchases_supplier');
   String get purchases_title => _t('purchases_title');
   String get purchases_voucherPdf => _t('purchases_voucherPdf');
+  String get reminders_autoHistoryTitle => _t('reminders_autoHistoryTitle');
+  String get reminders_autoHowItWorks => _t('reminders_autoHowItWorks');
+  String reminders_autoLastSms({required Object date}) => _f('reminders_autoLastSms', {'date': date});
+  String get reminders_autoLastSmsNever => _t('reminders_autoLastSmsNever');
+  String get reminders_autoOffMessage => _t('reminders_autoOffMessage');
+  String get reminders_autoOffTitle => _t('reminders_autoOffTitle');
+  String get reminders_autoOpenSettings => _t('reminders_autoOpenSettings');
+  String get reminders_autoQueueEmpty => _t('reminders_autoQueueEmpty');
+  String get reminders_autoQueueTitle => _t('reminders_autoQueueTitle');
+  String reminders_autoSmsDue({required Object count}) => _f('reminders_autoSmsDue', {'count': count});
+  String get reminders_autoSmsNoneDue => _t('reminders_autoSmsNoneDue');
+  String get reminders_autoSmsPermissionNeeded => _t('reminders_autoSmsPermissionNeeded');
+  String get reminders_autoSmsReady => _t('reminders_autoSmsReady');
+  String get reminders_autoSmsWeekly => _t('reminders_autoSmsWeekly');
+  String get reminders_autoSmsWeeklyHint => _t('reminders_autoSmsWeeklyHint');
+  String get reminders_autoStatusFailed => _t('reminders_autoStatusFailed');
+  String get reminders_autoTime => _t('reminders_autoTime');
+  String get reminders_autoTitle => _t('reminders_autoTitle');
+  String get reminders_autoWhatsappDaily => _t('reminders_autoWhatsappDaily');
+  String get reminders_autoWhatsappDailyHint => _t('reminders_autoWhatsappDailyHint');
   String reminders_daysOverdue({required Object days}) => _f('reminders_daysOverdue', {'days': days});
   String reminders_dueOn({required Object date}) => _f('reminders_dueOn', {'date': date});
   String get reminders_editMessage => _t('reminders_editMessage');

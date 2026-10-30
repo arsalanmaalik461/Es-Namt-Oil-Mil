@@ -8,11 +8,13 @@ import 'package:share_plus/share_plus.dart';
 import 'package:namt_oil_mil/core/app_exception.dart';
 import 'package:namt_oil_mil/l10n/fragment_strings.dart';
 import 'package:namt_oil_mil/l10n/gen/app_localizations.dart';
+import 'package:namt_oil_mil/navigation/routes.dart';
 import 'package:namt_oil_mil/providers/db_providers.dart';
 import 'package:namt_oil_mil/providers/settings_provider.dart';
 import 'package:namt_oil_mil/repositories/customer_repository.dart';
 import 'package:namt_oil_mil/screens/reports/document_data.dart';
 import 'package:namt_oil_mil/screens/reports/report_definitions.dart';
+import 'package:namt_oil_mil/services/auto_reminder_service.dart';
 import 'package:namt_oil_mil/services/pdf/pdf_service.dart';
 import 'package:namt_oil_mil/services/reminder_service.dart';
 import 'package:namt_oil_mil/services/reminder_texts.dart';
@@ -20,6 +22,7 @@ import 'package:namt_oil_mil/services/sms_service.dart';
 import 'package:namt_oil_mil/services/whatsapp_service.dart';
 import 'package:namt_oil_mil/utils/error_text.dart';
 import 'package:namt_oil_mil/utils/money.dart';
+import 'package:namt_oil_mil/widgets/amount_text.dart';
 import 'package:namt_oil_mil/widgets/empty_state.dart';
 
 /// Payment reminders (route: /reminders).
@@ -45,6 +48,7 @@ class _RemindersScreenState extends ConsumerState<RemindersScreen> {
   bool _loading = true;
   String? _error;
   int _filter = 0; // 0 = overdue, 1 = upcoming
+  int _panelEpoch = 0; // bumped on pull-to-refresh to reload the auto panel
 
   @override
   void initState() {
@@ -157,23 +161,36 @@ class _RemindersScreenState extends ConsumerState<RemindersScreen> {
       return Center(child: Text(_error!));
     }
     final rows = _rows ?? const <_ReminderRow>[];
-    if (rows.isEmpty) {
-      return EmptyState(
-        icon: Icons.notifications_none,
-        title: t.reminders_emptyTitle,
-        message: t.reminders_emptyMessage,
-      );
-    }
     return RefreshIndicator(
-      onRefresh: _load,
-      child: ListView.separated(
-        itemCount: rows.length,
-        separatorBuilder: (_, __) => const Divider(height: 1),
-        itemBuilder: (context, i) => _ReminderTile(
-          row: rows[i],
-          isOverdue: _filter == 0,
-          onSent: _load,
-        ),
+      onRefresh: () async {
+        setState(() => _panelEpoch++);
+        await _load();
+      },
+      child: ListView(
+        children: [
+          // Automatic reminders (user-requested 2026-10-30): today's
+          // prepared WhatsApp queue, automatic SMS status, and history.
+          _AutoReminderPanel(key: ValueKey(_panelEpoch)),
+          const Divider(height: 1),
+          if (rows.isEmpty)
+            SizedBox(
+              height: 300,
+              child: EmptyState(
+                icon: Icons.notifications_none,
+                title: t.reminders_emptyTitle,
+                message: t.reminders_emptyMessage,
+              ),
+            )
+          else
+            for (var i = 0; i < rows.length; i++) ...[
+              if (i > 0) const Divider(height: 1),
+              _ReminderTile(
+                row: rows[i],
+                isOverdue: _filter == 0,
+                onSent: _load,
+              ),
+            ],
+        ],
       ),
     );
   }
@@ -490,6 +507,355 @@ class _ReminderTile extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+/// One row of the `reminder_auto_log` history, with the customer name
+/// resolved for display.
+class _AutoLogRow {
+  final String customerName;
+  final String channel;
+  final DateTime? sentAt;
+  final int balancePaisa;
+  final String status;
+
+  const _AutoLogRow({
+    required this.customerName,
+    required this.channel,
+    required this.sentAt,
+    required this.balancePaisa,
+    required this.status,
+  });
+}
+
+/// "Auto reminders" area at the top of the Reminders screen
+/// (user-requested 2026-10-30).
+///
+/// * WhatsApp queue for today ([AutoReminderService.dueWhatsApp]): one
+///   Send tap per customer runs the same flow as the manual tiles below —
+///   the FULL ledger statement PDF plus the reminder text through the
+///   share sheet — and a successful share is recorded with
+///   [AutoReminderService.markSent].
+/// * SMS status: how many automatic SMS are due, and when the last one
+///   went (from `reminder_auto_log`).
+/// * History: the newest `reminder_auto_log` entries.
+///
+/// Opening the screen first runs the engine's foreground catch-up so due
+/// automatic SMS go out while the app is open. If both auto channels are
+/// off in Settings, a short pointer to Settings is shown instead.
+class _AutoReminderPanel extends ConsumerStatefulWidget {
+  const _AutoReminderPanel({super.key});
+
+  @override
+  ConsumerState<_AutoReminderPanel> createState() =>
+      _AutoReminderPanelState();
+}
+
+class _AutoReminderPanelState extends ConsumerState<_AutoReminderPanel> {
+  bool _loading = true;
+  bool _failed = false;
+  AutoReminderSettings? _settings;
+  List<DueReminder> _waQueue = const [];
+  int _smsDueCount = 0;
+  DateTime? _lastSmsAt;
+  List<_AutoLogRow> _history = const [];
+  final Set<int> _sending = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+
+  Future<void> _load() async {
+    try {
+      final settings = await AutoReminderSettings.load();
+      // Foreground catch-up: due automatic SMS go out now that the app
+      // is open; the lists below then reflect the fresh state.
+      try {
+        await AutoReminderService.runForegroundCatchUp();
+      } catch (_) {
+        // Best-effort only; the queue/status loads below still run.
+      }
+      var wa = const <DueReminder>[];
+      var smsDue = 0;
+      if (settings.whatsappDaily) {
+        wa = await AutoReminderService.dueWhatsApp();
+      }
+      if (settings.smsWeekly) {
+        smsDue = (await AutoReminderService.dueSms()).length;
+      }
+      DateTime? lastSmsAt;
+      var history = const <_AutoLogRow>[];
+      try {
+        final db = await ref.read(databaseProvider.future);
+        final lastRows = await db.query(
+          'reminder_auto_log',
+          where: 'channel = ?',
+          whereArgs: ['sms'],
+          orderBy: 'sent_at DESC',
+          limit: 1,
+        );
+        if (lastRows.isNotEmpty) {
+          lastSmsAt = _parseSentAt(lastRows.first['sent_at']);
+        }
+        final logRows = await db.query(
+          'reminder_auto_log',
+          orderBy: 'sent_at DESC',
+          limit: 30,
+        );
+        final repo = CustomerRepository(db);
+        final names = <int, String>{};
+        final parsed = <_AutoLogRow>[];
+        for (final r in logRows) {
+          final cid = (r['customer_id'] as num?)?.toInt();
+          var name = '';
+          if (cid != null) {
+            var cached = names[cid];
+            if (cached == null) {
+              cached = (await repo.getById(cid))?.name ?? '';
+              names[cid] = cached;
+            }
+            name = cached.isEmpty ? '#$cid' : cached;
+          }
+          parsed.add(_AutoLogRow(
+            customerName: name,
+            channel: r['channel'] as String? ?? '',
+            sentAt: _parseSentAt(r['sent_at']),
+            balancePaisa: (r['balance_paisa'] as num?)?.toInt() ?? 0,
+            status: r['status'] as String? ?? '',
+          ));
+        }
+        history = parsed;
+      } catch (_) {
+        // The log table arrives with the auto-reminder engine; until
+        // then the panel simply shows no history.
+      }
+      if (!mounted) return;
+      setState(() {
+        _settings = settings;
+        _waQueue = wa;
+        _smsDueCount = smsDue;
+        _lastSmsAt = lastSmsAt;
+        _history = history;
+        _loading = false;
+      });
+    } catch (_) {
+      if (mounted) {
+        setState(() {
+          _failed = true;
+          _loading = false;
+        });
+      }
+    }
+  }
+
+  /// `sent_at` is stored as epoch milliseconds; ISO text is accepted
+  /// too so the history renders whichever the engine writes.
+  static DateTime? _parseSentAt(Object? value) {
+    if (value is num) {
+      return DateTime.fromMillisecondsSinceEpoch(value.toInt());
+    }
+    if (value is String) return DateTime.tryParse(value);
+    return null;
+  }
+
+  Future<void> _sendWhatsApp(DueReminder due) async {
+    final customer = due.customer;
+    final customerId = customer.id;
+    if (customerId == null || _sending.contains(customerId)) return;
+    final t = FragmentStrings.of(context);
+    setState(() => _sending.add(customerId));
+    try {
+      // Same statement + share flow as the manual reminder tiles: the
+      // reminder goes WITH the customer's FULL ledger PDF, and the text
+      // follows the current UI language (English / Urdu script only).
+      final localeCode = Localizations.localeOf(context).languageCode;
+      final message = localeCode == 'en'
+          ? buildReminderEn(
+              partyName: customer.name, balancePaisa: due.balancePaisa)
+          : buildReminderUr(
+              partyName: customer.name, balancePaisa: due.balancePaisa);
+      final bytes = await _fullStatementPdfBytes(ref, context,
+          customerId: customerId, t: t);
+      if (!mounted) return;
+      final status =
+          await ref.read(whatsAppServiceProvider).shareReminderWithStatement(
+                pdfBytes: bytes,
+                customerName: customer.name,
+                message: message,
+              );
+      if (!mounted) return;
+      if (status == ShareResultStatus.success) {
+        await AutoReminderService.markSent(
+            customerId, 'whatsapp', due.balancePaisa);
+        if (!mounted) return;
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(t.reminders_sent)));
+        await _load();
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(e is AppException
+                ? errorText(context, e)
+                : AppLocalizations.of(context).error_generic)));
+      }
+    } finally {
+      if (mounted) setState(() => _sending.remove(customerId));
+    }
+  }
+
+  Widget _panelTitle(BuildContext context, String title) {
+    return Padding(
+      padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 4),
+      child: Text(
+        title,
+        style: Theme.of(context)
+            .textTheme
+            .titleSmall
+            ?.copyWith(fontWeight: FontWeight.w700),
+      ),
+    );
+  }
+
+  Widget _queueTile(BuildContext context, FragmentStrings t, DueReminder due) {
+    final customer = due.customer;
+    final sending = customer.id != null && _sending.contains(customer.id);
+    return ListTile(
+      leading: CircleAvatar(
+        child: Text(
+          customer.name.isNotEmpty ? customer.name[0].toUpperCase() : '?',
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ),
+      title: Text(customer.name,
+          style: const TextStyle(fontWeight: FontWeight.w600)),
+      subtitle: AmountText(
+        paisa: due.balancePaisa,
+        style: Theme.of(context).textTheme.bodyMedium,
+      ),
+      trailing: FilledButton(
+        onPressed: sending ? null : () => _sendWhatsApp(due),
+        child: sending
+            ? const SizedBox(
+                width: 16,
+                height: 16,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              )
+            : Text(t.reminders_send),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_loading) {
+      return const Padding(
+        padding: EdgeInsets.all(24),
+        child: Center(child: CircularProgressIndicator()),
+      );
+    }
+    if (_failed) return const SizedBox.shrink();
+    final settings = _settings;
+    if (settings == null) return const SizedBox.shrink();
+    final t = FragmentStrings.of(context);
+    if (!settings.whatsappDaily && !settings.smsWeekly) {
+      return ListTile(
+        leading: const Icon(Icons.notifications_off_outlined),
+        title: Text(t.reminders_autoOffTitle,
+            style: const TextStyle(fontWeight: FontWeight.w600)),
+        subtitle: Text(t.reminders_autoOffMessage),
+        trailing: TextButton(
+          onPressed: () => Navigator.pushNamed(context, Routes.settings),
+          child: Text(t.reminders_autoOpenSettings),
+        ),
+      );
+    }
+    final localeCode = Localizations.localeOf(context).languageCode;
+    String fmtDateTime(DateTime d) =>
+        '${DateFormat.yMMMd(localeCode).format(d)} · '
+        '${DateFormat.jm(localeCode).format(d)}';
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        if (settings.whatsappDaily) ...[
+          _panelTitle(context, t.reminders_autoQueueTitle),
+          if (_waQueue.isEmpty)
+            Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 4),
+              child: Text(
+                t.reminders_autoQueueEmpty,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+              ),
+            )
+          else
+            for (final due in _waQueue) _queueTile(context, t, due),
+        ],
+        if (settings.smsWeekly) ...[
+          _panelTitle(context, t.reminders_autoSmsWeekly),
+          Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 4),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  _smsDueCount > 0
+                      ? t.reminders_autoSmsDue(count: _smsDueCount)
+                      : t.reminders_autoSmsNoneDue,
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  _lastSmsAt != null
+                      ? t.reminders_autoLastSms(
+                          date: fmtDateTime(_lastSmsAt!))
+                      : t.reminders_autoLastSmsNever,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color:
+                            Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                ),
+              ],
+            ),
+          ),
+        ],
+        if (_history.isNotEmpty) ...[
+          _panelTitle(context, t.reminders_autoHistoryTitle),
+          for (final h in _history)
+            ListTile(
+              dense: true,
+              leading: Icon(
+                h.channel == 'sms'
+                    ? Icons.sms_outlined
+                    : Icons.send_outlined,
+                size: 20,
+              ),
+              title: Text(h.customerName),
+              subtitle: Text(h.sentAt == null ? '' : fmtDateTime(h.sentAt!)),
+              trailing: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  AmountText(
+                    paisa: h.balancePaisa,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  if (h.status == 'failed')
+                    Text(
+                      t.reminders_autoStatusFailed,
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                            color: Theme.of(context).colorScheme.error,
+                          ),
+                    ),
+                ],
+              ),
+            ),
+        ],
+        const SizedBox(height: 8),
+      ],
     );
   }
 }

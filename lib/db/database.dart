@@ -25,7 +25,7 @@ class DatabaseHelper {
   static const String dbFileName = 'namt_oil_mil.db';
 
   /// Current schema version. Bump when adding entries to [migrations].
-  static const int dbVersion = 4;
+  static const int dbVersion = 5;
 
   /// Additive migration scripts keyed by TARGET version.
   ///
@@ -55,6 +55,24 @@ class DatabaseHelper {
       'ALTER TABLE ledger_entries ADD COLUMN corrects_journal TEXT',
       'CREATE INDEX IF NOT EXISTS idx_ledger_voided ON ledger_entries(voided)',
       'CREATE INDEX IF NOT EXISTS idx_ledger_due ON ledger_entries(due_date)',
+    ],
+    // v5: Automatic payment reminders (user-requested 2026-10-30) — send
+    // log for the daily WhatsApp queue and the 7-day SMS cadence. One row
+    // per confirmed send; the due computation reads MAX(sent_at) per
+    // (customer, channel). Device-local history only: deliberately NOT in
+    // BackupService.tableNames, so older backups (which lack this table)
+    // still validate and restore, and a restore never rewrites send
+    // history.
+    5: [
+      'CREATE TABLE reminder_auto_log ('
+          'id INTEGER PRIMARY KEY AUTOINCREMENT, '
+          'customer_id INTEGER NOT NULL, '
+          'channel TEXT NOT NULL, '
+          'sent_at INTEGER NOT NULL, '
+          'balance_paisa INTEGER NOT NULL DEFAULT 0, '
+          "status TEXT NOT NULL DEFAULT 'sent')",
+      'CREATE INDEX idx_reminder_auto_log_lookup '
+          'ON reminder_auto_log(customer_id, channel, sent_at)',
     ],
   };
 

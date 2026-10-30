@@ -6,6 +6,7 @@ import 'package:intl/intl.dart' hide TextDirection;
 import 'package:namt_oil_mil/l10n/fragment_strings.dart';
 import 'package:namt_oil_mil/l10n/gen/app_localizations.dart';
 import 'package:namt_oil_mil/navigation/routes.dart';
+import 'package:namt_oil_mil/services/auto_reminder_service.dart';
 import 'package:namt_oil_mil/services/reminder_texts.dart';
 import 'package:namt_oil_mil/theme/app_theme.dart';
 import 'package:namt_oil_mil/utils/money.dart';
@@ -36,6 +37,32 @@ class _KhataHubScreenState extends ConsumerState<KhataHubScreen> {
   final _searchController = TextEditingController();
   String _search = '';
 
+  /// Prepared WhatsApp auto-reminders waiting in today's queue
+  /// (user-requested 2026-10-30). Shown as a small count badge on the
+  /// reminders row; 0 (or the daily toggle off) means no badge.
+  int _autoWaPending = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAutoWaPending();
+  }
+
+  Future<void> _loadAutoWaPending() async {
+    try {
+      final settings = await AutoReminderSettings.load();
+      var count = 0;
+      if (settings.whatsappDaily) {
+        count = (await AutoReminderService.dueWhatsApp()).length;
+      }
+      if (mounted && count != _autoWaPending) {
+        setState(() => _autoWaPending = count);
+      }
+    } catch (_) {
+      // Auto-reminder engine unavailable: simply no badge.
+    }
+  }
+
   /// Whether this tab was visible at the last dependency change. The hub
   /// lives in the shell's IndexedStack, which keeps it mounted while other
   /// tabs are shown and wraps hidden tabs in TickerMode(enabled: false) —
@@ -54,6 +81,7 @@ class _KhataHubScreenState extends ConsumerState<KhataHubScreen> {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) ref.invalidate(khataSummaryProvider);
       });
+      _loadAutoWaPending();
     }
     _wasVisible = visible;
   }
@@ -79,6 +107,7 @@ class _KhataHubScreenState extends ConsumerState<KhataHubScreen> {
         child: RefreshIndicator(
           onRefresh: () async {
             ref.invalidate(khataSummaryProvider);
+            _loadAutoWaPending();
             setState(() {});
           },
           child: CustomScrollView(
@@ -256,6 +285,24 @@ class _KhataHubScreenState extends ConsumerState<KhataHubScreen> {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
+              if (_autoWaPending > 0) ...[
+                const SizedBox(width: 8),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.error,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    '$_autoWaPending',
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                          color: Theme.of(context).colorScheme.onError,
+                          fontWeight: FontWeight.w700,
+                        ),
+                  ),
+                ),
+              ],
             ],
           ),
         ),

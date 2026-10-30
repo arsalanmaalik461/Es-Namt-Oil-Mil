@@ -151,6 +151,79 @@ class AppLocalizationsUr extends AppLocalizations {
   String get nav_transactions => 'لین دین';
 
   @override
+  String get reminders_autoHistoryTitle => 'خودکار یاددہانی کا ریکارڈ';
+
+  @override
+  String get reminders_autoHowItWorks =>
+      'واٹس ایپ ایپس کو خود پیغام بھیجنے کی اجازت نہیں دیتا، اس لیے ہر واٹس ایپ یاددہانی اس کی PDF کے ساتھ تیار کر دی جاتی ہے — شیئر کرنے کے لیے یاددہانی اسکرین پر بھیجیں دبا کر بھیجیں۔ SMS یاددہانیاں خودکار طور پر بھیجی جاتی ہیں۔';
+
+  @override
+  String reminders_autoLastSms(String date) {
+    return 'آخری خودکار SMS: $date';
+  }
+
+  @override
+  String get reminders_autoLastSmsNever =>
+      'ابھی تک کوئی خودکار SMS نہیں بھیجی گئی۔';
+
+  @override
+  String get reminders_autoOffMessage =>
+      'ترتیبات میں روزانہ واٹس ایپ یاددہانیاں یا ہفتہ وار SMS یاددہانیاں آن کریں۔';
+
+  @override
+  String get reminders_autoOffTitle => 'خودکار یاددہانیاں بند ہیں';
+
+  @override
+  String get reminders_autoOpenSettings => 'ترتیبات کھولیں';
+
+  @override
+  String get reminders_autoQueueEmpty =>
+      'آج کوئی واٹس ایپ یاددہانی واجب نہیں ہے۔';
+
+  @override
+  String get reminders_autoQueueTitle => 'آج کی واٹس ایپ یاددہانیاں';
+
+  @override
+  String reminders_autoSmsDue(int count) {
+    return '$count SMS یاددہانیاں واجب ہیں — خودکار طور پر بھیجی جاتی ہیں۔';
+  }
+
+  @override
+  String get reminders_autoSmsNoneDue =>
+      'اس وقت کوئی SMS یاددہانی واجب نہیں ہے۔';
+
+  @override
+  String get reminders_autoSmsPermissionNeeded =>
+      'SMS کی اجازت درکار ہے — اس ڈیوائس پر خودکار SMS ابھی نہیں بھیجی جا سکتی۔';
+
+  @override
+  String get reminders_autoSmsReady =>
+      'یہ ڈیوائس خودکار طور پر SMS بھیج سکتی ہے۔';
+
+  @override
+  String get reminders_autoSmsWeekly => 'SMS یاددہانیاں (ہر 7 دن بعد)';
+
+  @override
+  String get reminders_autoSmsWeeklyHint =>
+      'واجب الادا بیلنس والے گاہکوں کو ہر 7 دن بعد آپ کی SIM سے خودکار طور پر بھیجی جاتی ہیں۔';
+
+  @override
+  String get reminders_autoStatusFailed => 'ناکام';
+
+  @override
+  String get reminders_autoTime => 'روزانہ یاددہانی کا وقت';
+
+  @override
+  String get reminders_autoTitle => 'خودکار یاددہانیاں';
+
+  @override
+  String get reminders_autoWhatsappDaily => 'واٹس ایپ یاددہانیاں (روزانہ)';
+
+  @override
+  String get reminders_autoWhatsappDailyHint =>
+      'ہر روز، ہر اس گاہک کے لیے مکمل کھاتے کی PDF کے ساتھ یاددہانی تیار ہوتی ہے جس کا بیلنس واجب الادا ہو۔';
+
+  @override
   String get settings_about => 'ایپ کے بارے میں';
 
   @override

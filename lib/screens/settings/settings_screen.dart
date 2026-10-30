@@ -7,6 +7,7 @@ import 'package:namt_oil_mil/widgets/app_button.dart';
 import 'package:namt_oil_mil/widgets/app_text_field.dart';
 import 'package:namt_oil_mil/widgets/section_header.dart';
 
+import 'auto_reminder_section.dart';
 import 'google_drive_section.dart';
 import 'package:namt_oil_mil/screens/security/security_settings_screen.dart';
 
@@ -190,6 +191,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           const Divider(),
           // Google Drive backup (opt-in, user-requested 2026-10-18).
           const GoogleDriveSection(),
+          const Divider(),
+          // Automatic payment reminders (user-requested 2026-10-30).
+          const AutoReminderSection(),
           const SizedBox(height: 24),
         ],
       ),

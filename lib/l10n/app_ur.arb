@@ -1,5 +1,19 @@
 {
   "@@locale": "ur",
+  "@reminders_autoLastSms": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@reminders_autoSmsDue": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "about_appName": "نعمت آئل مل",
   "about_offline": "100% آف لائن — آپ کا تمام ڈیٹا صرف اسی ڈیوائس پر محفوظ رہتا ہے۔",
   "about_version": "ورژن {version}",
@@ -46,6 +60,26 @@
   "nav_more": "مزید",
   "nav_reports": "رپورٹس",
   "nav_transactions": "لین دین",
+  "reminders_autoHistoryTitle": "خودکار یاددہانی کا ریکارڈ",
+  "reminders_autoHowItWorks": "واٹس ایپ ایپس کو خود پیغام بھیجنے کی اجازت نہیں دیتا، اس لیے ہر واٹس ایپ یاددہانی اس کی PDF کے ساتھ تیار کر دی جاتی ہے — شیئر کرنے کے لیے یاددہانی اسکرین پر بھیجیں دبا کر بھیجیں۔ SMS یاددہانیاں خودکار طور پر بھیجی جاتی ہیں۔",
+  "reminders_autoLastSms": "آخری خودکار SMS: {date}",
+  "reminders_autoLastSmsNever": "ابھی تک کوئی خودکار SMS نہیں بھیجی گئی۔",
+  "reminders_autoOffMessage": "ترتیبات میں روزانہ واٹس ایپ یاددہانیاں یا ہفتہ وار SMS یاددہانیاں آن کریں۔",
+  "reminders_autoOffTitle": "خودکار یاددہانیاں بند ہیں",
+  "reminders_autoOpenSettings": "ترتیبات کھولیں",
+  "reminders_autoQueueEmpty": "آج کوئی واٹس ایپ یاددہانی واجب نہیں ہے۔",
+  "reminders_autoQueueTitle": "آج کی واٹس ایپ یاددہانیاں",
+  "reminders_autoSmsDue": "{count} SMS یاددہانیاں واجب ہیں — خودکار طور پر بھیجی جاتی ہیں۔",
+  "reminders_autoSmsNoneDue": "اس وقت کوئی SMS یاددہانی واجب نہیں ہے۔",
+  "reminders_autoSmsPermissionNeeded": "SMS کی اجازت درکار ہے — اس ڈیوائس پر خودکار SMS ابھی نہیں بھیجی جا سکتی۔",
+  "reminders_autoSmsReady": "یہ ڈیوائس خودکار طور پر SMS بھیج سکتی ہے۔",
+  "reminders_autoSmsWeekly": "SMS یاددہانیاں (ہر 7 دن بعد)",
+  "reminders_autoSmsWeeklyHint": "واجب الادا بیلنس والے گاہکوں کو ہر 7 دن بعد آپ کی SIM سے خودکار طور پر بھیجی جاتی ہیں۔",
+  "reminders_autoStatusFailed": "ناکام",
+  "reminders_autoTime": "روزانہ یاددہانی کا وقت",
+  "reminders_autoTitle": "خودکار یاددہانیاں",
+  "reminders_autoWhatsappDaily": "واٹس ایپ یاددہانیاں (روزانہ)",
+  "reminders_autoWhatsappDailyHint": "ہر روز، ہر اس گاہک کے لیے مکمل کھاتے کی PDF کے ساتھ یاددہانی تیار ہوتی ہے جس کا بیلنس واجب الادا ہو۔",
   "settings_about": "ایپ کے بارے میں",
   "settings_address": "پتہ",
   "settings_businessName": "کاروبار کا نام",

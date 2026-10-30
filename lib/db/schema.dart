@@ -393,6 +393,17 @@ CREATE TABLE audit_log(
   entity_id TEXT,
   details TEXT
 )''',
+    // v5: automatic-reminder send log (daily WhatsApp queue / 7-day SMS
+    // cadence). Mirrors migration 5 in database.dart — keep both in sync.
+    '''
+CREATE TABLE reminder_auto_log(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  customer_id INTEGER NOT NULL,
+  channel TEXT NOT NULL,
+  sent_at INTEGER NOT NULL,
+  balance_paisa INTEGER NOT NULL DEFAULT 0,
+  status TEXT NOT NULL DEFAULT 'sent'
+)''',
   ];
 
   /// One index per FK column and per date column, plus lookup helpers.
@@ -467,6 +478,8 @@ CREATE TABLE audit_log(
     // audit
     'CREATE INDEX idx_audit_entity ON audit_log(entity, entity_id)',
     'CREATE INDEX idx_audit_timestamp ON audit_log(timestamp)',
+    // auto reminders (v5)
+    'CREATE INDEX idx_reminder_auto_log_lookup ON reminder_auto_log(customer_id, channel, sent_at)',
   ];
 
   /// All DDL in creation order (tables first, then indexes).

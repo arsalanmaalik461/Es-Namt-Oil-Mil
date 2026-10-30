@@ -144,6 +144,20 @@
   "@nav_transactions": {
     "description": "Bottom nav: transactions tab"
   },
+  "@reminders_autoLastSms": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@reminders_autoSmsDue": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@settings_about": {
     "description": "Settings: about section"
   },
@@ -235,6 +249,26 @@
   "nav_more": "More",
   "nav_reports": "Reports",
   "nav_transactions": "Transactions",
+  "reminders_autoHistoryTitle": "Auto reminder history",
+  "reminders_autoHowItWorks": "WhatsApp does not let apps send messages on their own, so each WhatsApp reminder is prepared with its PDF — tap Send on the Reminders screen to share it. SMS reminders are sent automatically.",
+  "reminders_autoLastSms": "Last automatic SMS: {date}",
+  "reminders_autoLastSmsNever": "No automatic SMS has been sent yet.",
+  "reminders_autoOffMessage": "Turn on daily WhatsApp reminders or weekly SMS reminders in Settings.",
+  "reminders_autoOffTitle": "Auto reminders are off",
+  "reminders_autoOpenSettings": "Open settings",
+  "reminders_autoQueueEmpty": "No WhatsApp reminders are due today.",
+  "reminders_autoQueueTitle": "WhatsApp reminders for today",
+  "reminders_autoSmsDue": "{count} SMS reminders due — sent automatically.",
+  "reminders_autoSmsNoneDue": "No SMS reminders are due right now.",
+  "reminders_autoSmsPermissionNeeded": "SMS permission is needed — this device cannot send automatic SMS yet.",
+  "reminders_autoSmsReady": "This device can send automatic SMS.",
+  "reminders_autoSmsWeekly": "SMS reminders (every 7 days)",
+  "reminders_autoSmsWeeklyHint": "Sent automatically from your SIM every 7 days to customers with a balance due.",
+  "reminders_autoStatusFailed": "Failed",
+  "reminders_autoTime": "Daily reminder time",
+  "reminders_autoTitle": "Auto Reminders",
+  "reminders_autoWhatsappDaily": "WhatsApp reminders (daily)",
+  "reminders_autoWhatsappDailyHint": "Every day, a reminder with the full ledger PDF is prepared for each customer with a balance due.",
   "settings_about": "About the app",
   "settings_address": "Address",
   "settings_businessName": "Business name",

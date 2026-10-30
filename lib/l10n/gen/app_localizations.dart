@@ -376,6 +376,126 @@ abstract class AppLocalizations {
   /// **'Transactions'**
   String get nav_transactions;
 
+  /// No description provided for @reminders_autoHistoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto reminder history'**
+  String get reminders_autoHistoryTitle;
+
+  /// No description provided for @reminders_autoHowItWorks.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp does not let apps send messages on their own, so each WhatsApp reminder is prepared with its PDF — tap Send on the Reminders screen to share it. SMS reminders are sent automatically.'**
+  String get reminders_autoHowItWorks;
+
+  /// No description provided for @reminders_autoLastSms.
+  ///
+  /// In en, this message translates to:
+  /// **'Last automatic SMS: {date}'**
+  String reminders_autoLastSms(String date);
+
+  /// No description provided for @reminders_autoLastSmsNever.
+  ///
+  /// In en, this message translates to:
+  /// **'No automatic SMS has been sent yet.'**
+  String get reminders_autoLastSmsNever;
+
+  /// No description provided for @reminders_autoOffMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on daily WhatsApp reminders or weekly SMS reminders in Settings.'**
+  String get reminders_autoOffMessage;
+
+  /// No description provided for @reminders_autoOffTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto reminders are off'**
+  String get reminders_autoOffTitle;
+
+  /// No description provided for @reminders_autoOpenSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open settings'**
+  String get reminders_autoOpenSettings;
+
+  /// No description provided for @reminders_autoQueueEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No WhatsApp reminders are due today.'**
+  String get reminders_autoQueueEmpty;
+
+  /// No description provided for @reminders_autoQueueTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp reminders for today'**
+  String get reminders_autoQueueTitle;
+
+  /// No description provided for @reminders_autoSmsDue.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} SMS reminders due — sent automatically.'**
+  String reminders_autoSmsDue(int count);
+
+  /// No description provided for @reminders_autoSmsNoneDue.
+  ///
+  /// In en, this message translates to:
+  /// **'No SMS reminders are due right now.'**
+  String get reminders_autoSmsNoneDue;
+
+  /// No description provided for @reminders_autoSmsPermissionNeeded.
+  ///
+  /// In en, this message translates to:
+  /// **'SMS permission is needed — this device cannot send automatic SMS yet.'**
+  String get reminders_autoSmsPermissionNeeded;
+
+  /// No description provided for @reminders_autoSmsReady.
+  ///
+  /// In en, this message translates to:
+  /// **'This device can send automatic SMS.'**
+  String get reminders_autoSmsReady;
+
+  /// No description provided for @reminders_autoSmsWeekly.
+  ///
+  /// In en, this message translates to:
+  /// **'SMS reminders (every 7 days)'**
+  String get reminders_autoSmsWeekly;
+
+  /// No description provided for @reminders_autoSmsWeeklyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent automatically from your SIM every 7 days to customers with a balance due.'**
+  String get reminders_autoSmsWeeklyHint;
+
+  /// No description provided for @reminders_autoStatusFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed'**
+  String get reminders_autoStatusFailed;
+
+  /// No description provided for @reminders_autoTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily reminder time'**
+  String get reminders_autoTime;
+
+  /// No description provided for @reminders_autoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto Reminders'**
+  String get reminders_autoTitle;
+
+  /// No description provided for @reminders_autoWhatsappDaily.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp reminders (daily)'**
+  String get reminders_autoWhatsappDaily;
+
+  /// No description provided for @reminders_autoWhatsappDailyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Every day, a reminder with the full ledger PDF is prepared for each customer with a balance due.'**
+  String get reminders_autoWhatsappDailyHint;
+
   /// Settings: about section
   ///
   /// In en, this message translates to:
